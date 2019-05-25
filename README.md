@@ -1,4 +1,4 @@
-# A Million Dollar Project $$$
+# A Million Dollar Project
 
 A web application that makes bullet journaling flexible and easy to use.
 
@@ -40,7 +40,7 @@ journals, etc.
 
 ## Task Breakdown
 
-1. Able to add, edit, and delete a message
+**1. Able to add, edit, and delete a message**
    * HomePage
      * This would be the first page the user sees once logged into the app
      * Add welcome text with the user’s first name (or stick with “Hi, Gorgeous!” until the backend is set up properly)
@@ -57,7 +57,7 @@ Add actions for sending a PUT request to the backend to save the updated message
        * Handle onClick action for the list items (i.e. status icon + task) when erase mode is on
        * Add actions for sending a DELETE request to the backend to remove the item
 
-2. Drawer as toolbar
+**2. Drawer as toolbar**
    * Add a drawer that can be controlled to open and close
    * Add buttons to control different parts of the page (Need to finalize design first)
    * Add logout button
