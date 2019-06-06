@@ -1,13 +1,17 @@
 import React from 'react';
-import Hello from './components/Hello.jsx';
-import Info from './components/Info.jsx';
+import Login from './components/Login/LoginPage.jsx';
+import Spread from './components/Journal/Spread.jsx';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const App = () => (
-  <div>
-    <h1>Welcome to Meteor!</h1>
-    <Hello />
-    <Info />
-  </div>
+  <BrowserRouter>
+    <div className="App" >
+      <Switch>
+        <Route exact path="/login" name="login" render={() => <Login />} />
+        <Route exact path="/spread" name="spread" render={() => <Spread />} />
+      </Switch>
+    </div>
+  </BrowserRouter>
 );
 
 export default App;
