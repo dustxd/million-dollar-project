@@ -1,6 +1,6 @@
 import React from 'react';
-import Login from './components/Login/LoginPage.jsx';
-import Spread from './components/Journal/Spread.jsx';
+import Login from './components/authentication/LoginPage.jsx';
+import Spread from './components/journalPage/Spread.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const App = () => (
