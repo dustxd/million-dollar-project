@@ -1,12 +1,7 @@
 import React from 'react';
-<<<<<<< HEAD
-import Login from './components/Login/LoginPage.jsx';
-import Overview from './components/Overview/Overview.jsx';
-import Spread from './components/Journal/Spread.jsx';
-=======
 import Login from './components/authentication/LoginPage.jsx';
+import Overview from './components/Overview/Overview.jsx'
 import Spread from './components/journalPage/Spread.jsx';
->>>>>>> master
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const App = () => (
