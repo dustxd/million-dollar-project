@@ -35,21 +35,21 @@ const styles = {
   textFieldTitle: {
     color: '#a7a9ac',
     fontFamily: 'Open Sans, sans-serif',
+    fontSize: '14px',
+    marginBottom: '5px',
   },
   textFieldStyle: {
     width: '400px',
     maxWidth: '400px',
     color: '#000000',
   },
-  inputProps: {
-    height: '50px',
-    borderRadius: '2px',
-    border: 'solid 1px #000000',
-    textAlign: 'center',
-  },
   button: {
     width: '400px',
+    padding: '10px',
     margin: '30px',
+    border: 'solid 2px #000000',
+    fontSize: '14px',
+    fontWeight: 'bold',
   },
 };
 
