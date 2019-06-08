@@ -22,9 +22,6 @@ const styles = {
     left: 0,
   },
   titleText: {
-    fontFamily: 'Great Vibes, cursive',
-    fontSize: '70px',
-    fontWeight: 'bold',
     marginBottom: '50px',
   },
   textFieldContainer: {
@@ -34,7 +31,6 @@ const styles = {
   },
   textFieldTitle: {
     color: '#a7a9ac',
-    fontFamily: 'Open Sans, sans-serif',
     fontSize: '14px',
     marginBottom: '5px',
   },
@@ -47,7 +43,6 @@ const styles = {
     width: '400px',
     padding: '10px',
     margin: '30px',
-    border: 'solid 2px #000000',
     fontSize: '14px',
     fontWeight: 'bold',
   },
@@ -76,7 +71,12 @@ class LoginPage extends Component {
 
     return (
       <div className={classes.pageContainer}>
-        <Typography className={classes.titleText}>BULLET JOURNALING</Typography>
+        <Typography
+          variant="h1"
+          className={classes.titleText}
+        >
+          BULLET JOURNALING
+        </Typography>
         {
           textFields.map(textField => (
             <div key={textField.key} className={classes.textFieldContainer}>
