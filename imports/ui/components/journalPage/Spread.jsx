@@ -7,8 +7,8 @@ class Spread extends Component {
         return (
             <div className="spread-container">
                 <div className="spread grid-container">
-                    <Page isRightPage="false" />
-                    <Page isRightPage="true" />
+                    <Page page="left" />
+                    <Page page="right" /> 
                 </div>
             </div>
         )
