@@ -1,6 +1,6 @@
 import React from 'react';
 import Login from './components/authentication/LoginPage.jsx';
-import Overview from './components/Overview/Overview.jsx'
+import Overview from './components/overviewPage/Overview.jsx'
 import Spread from './components/journalPage/Spread.jsx';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 

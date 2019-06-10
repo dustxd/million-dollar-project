@@ -23,6 +23,7 @@ class OverviewActions extends React.Component {
         {
           overviewActionButtons.map(button => (
             <Button
+              key={button.key}
               variant="contained"
               className={buttonStyles.button}
             >
