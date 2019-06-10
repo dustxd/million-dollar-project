@@ -11,7 +11,7 @@ const searchStyle = makeStyles(theme => ({
 }));
 
 class SearchBar extends React.Component {
-	render(){
+	render() {
 		return (
 			<div>
 				<h1>Hi, gorgeous!</h1>
