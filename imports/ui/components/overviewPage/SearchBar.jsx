@@ -1,7 +1,7 @@
 import React from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import '../../css/overview/Overview.css';
+import '../../css/overviewPage/Overview.css';
 
 const searchStyle = makeStyles(theme => ({
 	textField: {
