@@ -9,28 +9,51 @@ import {
   Typography,
 } from '@material-ui/core';
 
+// Component constants
+const NAVIGATION_OPTIONS = [
+  {
+    key: 'overview', title: 'Overview', path: '/overview', icon: 'dashboard',
+  },
+  {
+    key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
+  },
+];
+
+// Styles
 const APPBAR_HEIGHT = 50;
 
 const styles = {
   appBar: {
     position: 'fixed',
     height: `${APPBAR_HEIGHT}px`,
-    padding: '0px 32px',
+    padding: '0px 15px',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: '#ffffff',
   },
-  signoutContainer: {
+  navOptionsContainer: {
     display: 'flex',
     flexDirection: 'row',
-    cursor: 'pointer',
+  },
+  navOptionButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  navOptionText: {
+    marginLeft: '10px',
+  },
+  signoutButton: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   signoutIcon: {
-
+    color: '#37aab1',
   },
   signoutText: {
-    marginLeft: '30px',
+    marginLeft: '10px',
     textDecoration: 'underline',
     color: '#37aab1',
   },
@@ -52,22 +75,34 @@ class CoreView extends React.Component {
   }
 
   renderAppBar = () => {
-    const { classes } = this.props;
+    const { classes, history } = this.props;
 
     return (
       <AppBar
         color="default"
         className={classes.appBar}
-      // className={classNames(classes.appBar, open && classes.appBarShift)}
       >
+        <div className={classes.navOptionsContainer}>
+          {
+            NAVIGATION_OPTIONS.map(option => (
+              <Button
+                className={classes.navOptionButton}
+                onClick={() => history.push(option.path)}
+              >
+                <Icon>{option.icon}</Icon>
+                <Typography className={classes.navOptionText} noWrap>
+                  {option.title}
+                </Typography>
+              </Button>
+            ))
+          }
+        </div>
         <Button
-          className={classes.signoutContainer}
+          className={classes.signoutButton}
           onClick={() => this.onClickSignout()}
         >
-          <Icon>exit_to_app</Icon>
-          <Typography
-            className={classes.signoutText}
-          >
+          <Icon className={classes.signoutIcon}>exit_to_app</Icon>
+          <Typography className={classes.signoutText} noWrap>
             Sign Out
           </Typography>
         </Button>
@@ -94,10 +129,6 @@ class CoreView extends React.Component {
 
   render() {
     const { classes, render, ...routeProps } = this.props;
-    const user = {
-      firstName: 'John',
-      lastName: 'Doe',
-    };
 
     return (
       <Route
