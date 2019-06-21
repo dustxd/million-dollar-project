@@ -59,6 +59,8 @@ class LoginPage extends Component {
 
   onClickLogin = () => {
     // TODO
+    const { history } = this.props;
+    history.push('/overview');
   }
 
   handleTextFieldChange = (event, field) => {
