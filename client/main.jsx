@@ -5,10 +5,10 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
-import App from '/imports/ui/App';
+import App from '../imports/ui/App';
 import reducers from '../imports/ui/reducers';
 import './main.css';
-import customizedThemes from '../imports/ui/css/customMuiStyles.js';
+import customizedThemes from '../imports/ui/css/customMuiStyles';
 
 const theme = createMuiTheme(customizedThemes);
 
