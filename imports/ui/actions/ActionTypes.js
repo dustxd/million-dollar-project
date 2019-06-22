@@ -1,3 +1,6 @@
+// non api calls
+export const LOGOUT_USER = 'LOGOUT_USER';
+
 // api calls - request
 export const LOGIN_USER_REQUEST = 'LOGIN_USER_REQUEST';
 
