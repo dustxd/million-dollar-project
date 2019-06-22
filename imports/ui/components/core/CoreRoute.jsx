@@ -86,6 +86,7 @@ class CoreView extends React.Component {
           {
             NAVIGATION_OPTIONS.map(option => (
               <Button
+                key={option.key}
                 className={classes.navOptionButton}
                 onClick={() => history.push(option.path)}
               >
