@@ -4,14 +4,22 @@ import SearchBar from './SearchBar.jsx';
 import '../../css/overviewPage/Overview.css';
 
 class Overview extends React.Component {
-	render(){
-		return (
-			<div className="overview-container">
-				<SearchBar />
-				<OverviewActions />
-			</div>
-		);
-	}
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  render() {
+    const { user } = this.props;
+    return (
+      <div className="overview-container">
+        <SearchBar user={user} />
+        <OverviewActions />
+      </div>
+    );
+  }
 }
 
 export default Overview;

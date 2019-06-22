@@ -58,9 +58,11 @@ class LoginPage extends Component {
   }
 
   onClickLogin = () => {
-    // TODO
-    const { history } = this.props;
-    history.push('/overview');
+    const { actions, history } = this.props;
+    // TODO: This needs to be converted to an async/await call when API is connected
+    const { ...user } = this.state;
+    actions.loginUser(user);
+    history.push('/');
   }
 
   handleTextFieldChange = (event, field) => {
