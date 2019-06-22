@@ -17,6 +17,9 @@ const NAVIGATION_OPTIONS = [
   {
     key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
   },
+  {
+    key: 'search', title: 'Search', path: '/search', icon: 'search',
+  },
 ];
 
 // Styles
