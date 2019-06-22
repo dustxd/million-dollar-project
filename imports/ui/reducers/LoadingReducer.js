@@ -7,6 +7,8 @@ const LoadingReducer = (loading = 0, action) => {
     case types.LOGIN_USER_SUCCESS:
     case types.LOGIN_USER_FAILURE:
       return loading - 1;
+    case types.LOGOUT_USER:
+      return 0;
     default:
       return loading;
   }
