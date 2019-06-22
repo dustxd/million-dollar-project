@@ -1,18 +1,20 @@
 import React from 'react';
-import Login from './components/authentication/LoginPage.jsx';
-import Overview from './components/overviewPage/Overview.jsx'
-import Spread from './components/journalPage/Spread.jsx';
-import SearchPage from './components/searchPage/SearchPage';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import CoreRoute from './components/core/CoreRoute';
+import Login from './components/authentication/LoginPage';
+import Overview from './components/overviewPage/Overview';
+import SearchPage from './components/searchPage/SearchPage';
+import Spread from './components/journalPage/Spread';
 
 const App = () => (
   <BrowserRouter>
-    <div className="App" >
+    <div className="App">
       <Switch>
         <Route exact path="/login" name="login" render={() => <Login />} />
-        <Route exact path="/overview" name="overview" render={()=><Overview />} />
-        <Route exact path="/spread" name="spread" render={() => <Spread />} />
-        {/* <Route exact path="/search" name="search" render={() => <SearchPage />} /> */}
+        <CoreRoute exact path="/overview" name="overview" render={() => <Overview />} />
+        <CoreRoute exact path="/search" name="search" render={() => <SearchPage />} />
+        <CoreRoute exact path="/spread" name="spread" render={() => <Spread />} />
       </Switch>
     </div>
   </BrowserRouter>
