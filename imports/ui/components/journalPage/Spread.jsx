@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { LinearProgress } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 import Page from './Page';
 import '../../css/journalPage/Spread.css';
+
+const styles = {
+  spreadContainer: {
+    paddingTop: '20px',
+  },
+};
 
 class Spread extends Component {
   constructor(props) {
@@ -13,13 +20,13 @@ class Spread extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, classes } = this.props;
 
     return (
       loading
         ? <LinearProgress />
         : (
-          <div className="spread-container">
+          <div className={classes.spreadContainer}>
             <div className="spread grid-container">
               <Page page="left" />
               <Page page="right" />
@@ -30,4 +37,4 @@ class Spread extends Component {
   }
 }
 
-export default Spread;
+export default withStyles(styles)(Spread);
