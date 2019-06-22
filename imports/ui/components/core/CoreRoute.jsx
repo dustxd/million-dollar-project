@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import { withRouter } from 'react-router';
+import { Redirect, withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -12,7 +12,7 @@ import {
 // Component constants
 const NAVIGATION_OPTIONS = [
   {
-    key: 'overview', title: 'Overview', path: '/overview', icon: 'dashboard',
+    key: 'overview', title: 'Overview', path: '/', icon: 'dashboard',
   },
   {
     key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
@@ -129,7 +129,13 @@ class CoreView extends React.Component {
   )
 
   render() {
-    const { classes, render, ...routeProps } = this.props;
+    const { classes, render, coreProps, ...routeProps } = this.props;
+
+    if (coreProps.user === null) {
+      return (
+        <Redirect to="/login" />
+      );
+    }
 
     return (
       <Route

@@ -14,8 +14,8 @@ const App = props => (
     <div className="App">
       <Switch>
         <Route exact path="/login" name="login" render={() => <Login {...props} />} />
-        <CoreRoute exact path="/overview" name="overview" render={() => <Overview {...props} />} />
-        <CoreRoute exact path="/spread" name="spread" render={() => <Spread {...props} />} />
+        <CoreRoute exact path="/" name="overview" coreProps={props} render={() => <Overview {...props} />} />
+        <CoreRoute exact path="/spread" name="spread" coreProps={props} render={() => <Spread {...props} />} />
       </Switch>
     </div>
   </BrowserRouter>
