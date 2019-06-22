@@ -58,7 +58,7 @@ const styles = {
     color: '#37aab1',
   },
   pageContent: {
-    marginTop: `${APPBAR_HEIGHT + 20}px`,
+    marginTop: `${APPBAR_HEIGHT}px`,
   },
 };
 
