@@ -69,6 +69,16 @@ class LoginPage extends Component {
     this.setState({ [field]: event.target.value });
   }
 
+  handleOnKeyPress = (event) => {
+    const { email, password } = this.state;
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (!email || !password) return;
+      this.onClickLogin();
+    }
+  }
+
   render() {
     const { classes } = this.props;
     const { email, password } = this.state;
@@ -89,8 +99,9 @@ class LoginPage extends Component {
               </Typography>
               <TextField
                 className={classes.textFieldStyle}
-                onChange={event => this.handleTextFieldChange(event, textField.key)}
                 type={textField.type}
+                onChange={event => this.handleTextFieldChange(event, textField.key)}
+                onKeyPress={event => this.handleOnKeyPress(event)}
               />
             </div>
           ))
