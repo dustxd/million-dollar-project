@@ -23,6 +23,7 @@ const App = props => (
 
 const mapStateToProps = state => ({
   user: state.user,
+  loading: state.loading,
 });
 
 const mapDispatchToProps = dispatch => ({
