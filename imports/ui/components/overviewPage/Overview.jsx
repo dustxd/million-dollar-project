@@ -1,6 +1,8 @@
 import React from 'react';
-import OverviewActions from './OverviewActions.jsx';
-import SearchBar from './SearchBar.jsx';
+import { LinearProgress } from '@material-ui/core';
+
+import OverviewActions from './OverviewActions';
+import SearchBar from './SearchBar';
 import '../../css/overviewPage/Overview.css';
 
 class Overview extends React.Component {
@@ -12,12 +14,17 @@ class Overview extends React.Component {
   }
 
   render() {
-    const { user } = this.props;
+    const { loading, user } = this.props;
+
     return (
-      <div className="overview-container">
-        <SearchBar user={user} />
-        <OverviewActions />
-      </div>
+      loading
+        ? <LinearProgress />
+        : (
+          <div className="overview-container">
+            <SearchBar user={user} />
+            <OverviewActions />
+          </div>
+        )
     );
   }
 }
