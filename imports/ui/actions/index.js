@@ -51,3 +51,34 @@ export function logout() {
     type: types.LOGOUT_USER,
   };
 }
+
+function addResourceSuccess(resourcePath, resource, resourceId) {
+  const response = {
+    _id: resourceId,
+    ...resource,
+  };
+  return {
+    type: types.ADD_RESOURCE_SUCCESS,
+    response,
+    resourcePath,
+  };
+}
+
+function addResourceFailure(error) {
+  return {
+    type: types.ADD_RESOURCE_FAILURE, error,
+  };
+}
+
+export function addResource(collection, resource) {
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.ADD_RESOURCE_REQUEST));
+    collection.insert(resource, (error, result) => {
+      if (error) {
+        dispatch(addResourceFailure(error));
+      } else {
+        dispatch(addResourceSuccess(collection._name, resource, result));
+      }
+    });
+  };
+}
