@@ -6,8 +6,6 @@ import AddEntry from '@material-ui/icons/AddBox';
 import AddCollection from '@material-ui/icons/PlaylistAdd';
 import LastEntry from '@material-ui/icons/AccessTime';
 
-import { Entries } from '../../../api/entries';
-
 const buttonStyles = makeStyles(theme => ({
   rightIcon: {
     margin: theme.spacing(5),
@@ -25,11 +23,11 @@ class OverviewActions extends React.Component {
     const { actions } = this.props;
     if (key === 'dated') {
       const newEntry = {
-        header: 'Test Note',
+        header: 'Moved to Database Test Note',
         type: 'collection',
         createdAt: new Date(),
       };
-      actions.addResource(Entries, newEntry);
+      actions.addResource(newEntry, 'entries');
     }
   }
 
