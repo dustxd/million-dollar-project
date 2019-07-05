@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import * as types from './ActionTypes';
 
 function updateLoadingState(type) {
@@ -52,7 +54,7 @@ export function logout() {
   };
 }
 
-function addResourceSuccess(resourcePath, resource, resourceId) {
+function addResourceSuccess(resource, resourceId, resourcePath) {
   const response = {
     _id: resourceId,
     ...resource,
@@ -70,14 +72,14 @@ function addResourceFailure(error) {
   };
 }
 
-export function addResource(collection, resource) {
+export function addResource(resource, resourcePath) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.ADD_RESOURCE_REQUEST));
-    collection.insert(resource, (error, result) => {
+    Meteor.call('entries.insert', resource, (error, result) => {
       if (error) {
         dispatch(addResourceFailure(error));
       } else {
-        dispatch(addResourceSuccess(collection._name, resource, result));
+        dispatch(addResourceSuccess(resource, result, resourcePath));
       }
     });
   };
