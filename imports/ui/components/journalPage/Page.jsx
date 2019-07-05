@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+
+import { Entries } from '../../../api/entries';
 import Entry from './Entry';
 import ButtonNewPage from './ButtonNewPage';
 
@@ -11,24 +14,28 @@ class Page extends Component {
   }
 
   render() {
-    const { page } = this.props;
+    const { page, entries } = this.props;
 
     if (page === 'left') {
       return (
         <div className="grid-item left-page">
-          <Entry header="Grocery list" />
-          <Entry header="Snack list" />
+          <Entry header={entries[0].header} />
+          <Entry header={entries[1].header} />
         </div>
       );
     }
 
     return (
       <div className="grid-item right-page">
-        <Entry header="Jun 8 | Sat" />
+        <Entry header={entries[2].header} />
         <ButtonNewPage />
       </div>
     );
   }
 }
 
-export default Page;
+export default PageContainer = withTracker(() => {
+  return {
+    entries: Entries.find().fetch(),
+  };
+})(Page);
