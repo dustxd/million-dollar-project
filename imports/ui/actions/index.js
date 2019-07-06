@@ -109,3 +109,7 @@ export function deleteResource(resourceId, resourcePath) {
     });
   };
 }
+
+export function signUp() {
+
+}
