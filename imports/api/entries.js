@@ -36,15 +36,15 @@ Meteor.methods({
       // username: Meteor.user().username,
     });
   },
-  // 'entries.remove'(entryId) {
-  //   check(entryId, String);
+  'entries.remove'(entryId) {
+    check(entryId, String);
 
-  //   Entries.remove(entryId);
-  // },
-  // 'entries.setHeader'(entryId, setHeader) {
+    Entries.remove(entryId);
+  },
+  // 'entries.setHeader'(entryId, newHeader) {
   //   check(entryId, String);
-  //   check(setHeader, String);
+  //   check(newHeader, String);
 
-  //   Entries.update(entryId, { $set: { header: setHeader } });
+  //   Entries.update(entryId, { $set: { header: newHeader } });
   // },
 });
