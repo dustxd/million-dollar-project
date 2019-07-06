@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
-import { Icon } from '@material-ui/core';
+import { Icon, IconButton, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+};
 
 class Entry extends Component {
   onClickDeleteEntry = (entryId) => {
@@ -8,12 +17,16 @@ class Entry extends Component {
   }
 
   render() {
-    const { header, entryId } = this.props;
+    const { classes, header, entryId } = this.props;
 
     return (
       <div>
-        <span className="header">{header}</span>
-        <Icon onClick={() => this.onClickDeleteEntry(entryId)}>delete</Icon>
+        <div className={classes.header}>
+          <Typography variant="h5">{header}</Typography>
+          <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+            <Icon>delete</Icon>
+          </IconButton>
+        </div>
         <div className="entry">
           <li>List Item 1</li>
           <li>List Item 2</li>
@@ -24,4 +37,4 @@ class Entry extends Component {
   }
 }
 
-export default Entry;
+export default withStyles(styles)(Entry);
