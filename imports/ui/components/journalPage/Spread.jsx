@@ -20,7 +20,7 @@ class Spread extends Component {
   }
 
   render() {
-    const { loading, classes } = this.props;
+    const { loading, classes, actions } = this.props;
 
     return (
       loading
@@ -28,8 +28,8 @@ class Spread extends Component {
         : (
           <div className={classes.spreadContainer}>
             <div className="spread grid-container">
-              <Page page="left" />
-              <Page page="right" />
+              <Page actions={actions} page="left" />
+              <Page actions={actions} page="right" />
             </div>
           </div>
         )
