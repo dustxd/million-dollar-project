@@ -51,3 +51,7 @@ export function logout() {
     type: types.LOGOUT_USER,
   };
 }
+
+export function signUp() {
+  
+}

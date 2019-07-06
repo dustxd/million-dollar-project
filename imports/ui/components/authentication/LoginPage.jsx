@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import SignUpDialog from './SignUpDialog'
 
 const textFields = [
   { key: 'email', title: 'EMAIL', type: 'string' },
@@ -54,7 +55,9 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
+      openSignUp: false
     };
+
   }
 
   onClickLogin = () => {
@@ -63,6 +66,10 @@ class LoginPage extends Component {
     const { ...user } = this.state;
     actions.loginUser(user);
     history.push('/');
+  }
+
+  toggleSignUp = () => {
+    this.setState({openSignUp: !this.state.openSignUp});
   }
 
   handleTextFieldChange = (event, field) => {
@@ -114,6 +121,21 @@ class LoginPage extends Component {
         >
           LOGIN
         </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          onClick={() => this.toggleSignUp()}
+        >
+          SIGN UP
+        </Button>
+        {this.state.openSignUp?
+        <SignUpDialog 
+          state = {this.state.openSignUp}
+          closeDialog = {this.toggleSignUp.bind(this)}
+        /> : null
+        }
+
+        
       </div>
     );
   }

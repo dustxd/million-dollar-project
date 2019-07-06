@@ -1,5 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import Links from '/imports/api/links';
+// import {Template} from 'meteor/templating';
+import {Entries} from '/imports/api/entries.js';
+import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 function insertLink(title, url) {
   Links.insert({ title, url, createdAt: new Date() });
@@ -29,3 +32,13 @@ Meteor.startup(() => {
     );
   }
 });
+
+// Entries.schema = new SimpleSchema({
+//   entryId: {type: String},
+//   header: {type: String},
+//   type: {type: String},
+//   listItems: []
+// })
+
+
+// console.log(Entries.find({}));
