@@ -1,20 +1,8 @@
 import { Meteor } from 'meteor/meteor';
 import Links from '/imports/api/links';
-// import {Template} from 'meteor/templating';
-import {Entries} from '/imports/api/entries.js';
-import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 function insertLink(title, url) {
   Links.insert({ title, url, createdAt: new Date() });
-}
-
-function insertEntry(header, type, listItems){
-  Entries.insert(
-    {header: header,
-      type: type,
-      listItems: listItems
-  }
-  )
 }
 
 
@@ -42,20 +30,5 @@ Meteor.startup(() => {
     );
   }
 
-  // insertEntry(
-  //   '07/05/2019',
-  //   'entry',
-  //   [{status: 'ongoing', content: 'Test Item 1'},
-  //    {status: 'ongoing', content: 'Test Item 2'}
-  // ]
-  // )
 });
 
-Entries.schema = new SimpleSchema({
-  header: {type: String},
-  type: {type: String},
-  // listItems: {type: []}
-})
-
-
-console.log(Entries.find());
