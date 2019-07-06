@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 
 export const Entries = new Mongo.Collection('entries');
 
+/* Restrict what info (rows/documents in a table/collection) the user can see */
 if (Meteor.isServer) {
   Meteor.publish('entries', function entriesPublication() {
     // Entries.find() returns the cursors, NOT the entries
@@ -12,6 +13,7 @@ if (Meteor.isServer) {
   });
 }
 
+/* Restrict user's actions (i.e. write permission to database and business logic in api) */
 Meteor.methods({
   'entries.insert'(newEntry) {
     check(newEntry, Object);

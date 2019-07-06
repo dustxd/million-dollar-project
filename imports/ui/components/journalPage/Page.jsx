@@ -10,8 +10,6 @@ class Page extends Component {
   constructor(props) {
     super(props);
 
-    Meteor.subscribe('entries');
-
     this.state = {
 
     };
@@ -42,6 +40,8 @@ class Page extends Component {
 }
 
 export default PageContainer = withTracker(() => {
+  Meteor.subscribe('entries');
+
   return {
     entries: Entries.find().fetch(),
   };
