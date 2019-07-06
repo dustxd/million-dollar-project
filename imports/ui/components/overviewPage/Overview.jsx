@@ -14,7 +14,7 @@ class Overview extends React.Component {
   }
 
   render() {
-    const { loading, user } = this.props;
+    const { loading, user, actions } = this.props;
 
     return (
       loading
@@ -22,7 +22,7 @@ class Overview extends React.Component {
         : (
           <div className="overview-container">
             <SearchBar user={user} />
-            <OverviewActions />
+            <OverviewActions actions={actions} />
           </div>
         )
     );

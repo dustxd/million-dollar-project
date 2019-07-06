@@ -1,3 +1,5 @@
+import { Meteor } from 'meteor/meteor';
+
 import * as types from './ActionTypes';
 
 function updateLoadingState(type) {
@@ -49,5 +51,61 @@ export function loginUser(user) {
 export function logout() {
   return {
     type: types.LOGOUT_USER,
+  };
+}
+
+function addResourceSuccess(resource, resourceId, resourcePath) {
+  const response = {
+    _id: resourceId,
+    ...resource,
+  };
+  return {
+    type: types.ADD_RESOURCE_SUCCESS,
+    response,
+    resourcePath,
+  };
+}
+
+function addResourceFailure(error) {
+  return {
+    type: types.ADD_RESOURCE_FAILURE, error,
+  };
+}
+
+export function addResource(resource, resourcePath) {
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.ADD_RESOURCE_REQUEST));
+    Meteor.call('entries.insert', resource, (error, result) => {
+      if (error) {
+        dispatch(addResourceFailure(error));
+      } else {
+        dispatch(addResourceSuccess(resource, result, resourcePath));
+      }
+    });
+  };
+}
+
+function deleteResourceSuccess(response, resourcePath) {
+  return {
+    type: types.DELETE_RESOURCE_SUCCESS, response, resourcePath,
+  };
+}
+
+function deleteResourceFailure(error) {
+  return {
+    type: types.DELETE_RESOURCE_FAILURE, error,
+  };
+}
+
+export function deleteResource(resourceId, resourcePath) {
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.DELETE_RESOURCE_REQUEST));
+    Meteor.call('entries.remove', resourceId, (error, result) => {
+      if (error) {
+        dispatch(deleteResourceFailure(error));
+      } else {
+        dispatch(deleteResourceSuccess(result, resourcePath));
+      }
+    });
   };
 }

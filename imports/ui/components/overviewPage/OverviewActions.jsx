@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles} from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import '../../css/overviewPage/Overview.css';
 import AddEntry from '@material-ui/icons/AddBox';
@@ -8,8 +8,8 @@ import LastEntry from '@material-ui/icons/AccessTime';
 
 const buttonStyles = makeStyles(theme => ({
   rightIcon: {
-    margin: theme.spacing(5)
-  }
+    margin: theme.spacing(5),
+  },
 }));
 
 const overviewActionButtons = [
@@ -18,12 +18,20 @@ const overviewActionButtons = [
   { key: 'recent', title: 'Last entry', icon: <LastEntry className={buttonStyles.rightIcon} /> },
 ];
 
-
-
-
 class OverviewActions extends React.Component {
-  
-  render(){
+  onClickActionButton = (key) => {
+    const { actions } = this.props;
+    if (key === 'dated') {
+      const newEntry = {
+        header: 'Moved to Database Test Note',
+        type: 'collection',
+        createdAt: new Date(),
+      };
+      actions.addResource(newEntry, 'entries');
+    }
+  }
+
+  render() {
     return (
       <div className="button-container">
         {
@@ -31,6 +39,7 @@ class OverviewActions extends React.Component {
             <Button
               key={button.key}
               variant="contained"
+              onClick={() => this.onClickActionButton(button.key)}
             >
               {button.title}
               {button.icon}
