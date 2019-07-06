@@ -6,13 +6,35 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 
 export default class FormDialog extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      password: '',
+      showPassword: false
+    };
+
+    this.handleChange = this.handleChange.bind(this)
+  }
 
   handleClose = () => {
     this.props.closeDialog;
   }
 
+  handleChange(event) {
+    this.setState({password: event.target.password});
+  }
+
+  handleClickShowPassword = () => {
+    this.setState({showPassword: !this.state.showPassword});
+  }
 
   render() {
     return (
@@ -21,27 +43,47 @@ export default class FormDialog extends Component {
         onClose={this.handleClose()}
         area-labelledby="sign-up-dialog"
      >
-        <DialogTitle id="sign-up-title">Sign Up</DialogTitle>
+        <DialogTitle id="sign-up-title">SIGN UP</DialogTitle>
         <DialogContent>
           <DialogContentText>
           Almost ready to go!
           </DialogContentText>
           <TextField
-            autoFocus
             margin="dense"
             id="username"
-            label="Username"
+            label="USERNAME"
             type="username"
             fullWidth
         />
           <TextField
-            autoFocus
             margin="dense"
             id="email"
-            label="Email"
-            type="email"
+            label="EMAIL"
+            type="username"
             fullWidth
         />
+          <TextField
+            margin="dense"
+            id="password"
+            label="PASSWORD"
+            type={this.state.showPassword ? 'text' : 'password'}
+            fullWidth
+            value={this.state.password}
+            onChange={this.handleChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                  aria-label="Toggle password visibility"
+                  onClick={this.handleClickShowPassword}
+                  >
+                    {this.state.showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+        />
+
         </DialogContent>
         <DialogActions>
           <Button onClick={this.props.closeDialog}>
@@ -54,43 +96,4 @@ export default class FormDialog extends Component {
       </Dialog>
     );
   }
-
-
-
-
-
 }
-
-
-// export default function FormDialog() {
-//   // const [open, setOpen] = React.useState(false);
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//       open: this.props.state
-//     };
-//   }
-
-//   function handleOpen(){
-//     this.setState({open: true});
-//   }
-
-//   function handleClose(){
-//     this.setState({open: false});
-//     // setOpen(false);
-//   }
-
-//   return(
-//     <Dialog
-//       open={open}
-//       onClose={handleClose}
-//       area-labelledby="sign-up-dialog"
-//     >
-//       <DialogContent>
-//         <DialogContentText>
-//           Testing 1 2 3
-//         </DialogContentText>
-//       </DialogContent>
-//     </Dialog>
-//   )
-// }
