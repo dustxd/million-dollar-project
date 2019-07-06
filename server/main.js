@@ -8,6 +8,16 @@ function insertLink(title, url) {
   Links.insert({ title, url, createdAt: new Date() });
 }
 
+function insertEntry(header, type, listItems){
+  Entries.insert(
+    {header: header,
+      type: type,
+      listItems: listItems
+  }
+  )
+}
+
+
 Meteor.startup(() => {
   // If the Links collection is empty, add some data.
   if (Links.find().count() === 0) {
@@ -31,14 +41,21 @@ Meteor.startup(() => {
       'https://forums.meteor.com'
     );
   }
+
+  // insertEntry(
+  //   '07/05/2019',
+  //   'entry',
+  //   [{status: 'ongoing', content: 'Test Item 1'},
+  //    {status: 'ongoing', content: 'Test Item 2'}
+  // ]
+  // )
 });
 
-// Entries.schema = new SimpleSchema({
-//   entryId: {type: String},
-//   header: {type: String},
-//   type: {type: String},
-//   listItems: []
-// })
+Entries.schema = new SimpleSchema({
+  header: {type: String},
+  type: {type: String},
+  // listItems: {type: []}
+})
 
 
-// console.log(Entries.find({}));
+console.log(Entries.find());
