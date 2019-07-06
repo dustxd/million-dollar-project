@@ -8,8 +8,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import IconButton from '@material-ui/core/IconButton';
 import InputAdornment from '@material-ui/core/InputAdornment';
+import Typography from '@material-ui/core/Typography';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
+
 
 
 export default class FormDialog extends Component {
@@ -24,6 +26,7 @@ export default class FormDialog extends Component {
     this.handleChange = this.handleChange.bind(this)
   }
 
+
   handleClose = () => {
     this.props.closeDialog;
   }
@@ -37,6 +40,8 @@ export default class FormDialog extends Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     return (
       <Dialog
         open
@@ -48,27 +53,33 @@ export default class FormDialog extends Component {
           <DialogContentText>
           Almost ready to go!
           </DialogContentText>
+          <Typography>
+            USERNAME
+          </Typography>
           <TextField
             margin="dense"
             id="username"
-            label="USERNAME"
             type="username"
             fullWidth
         />
+        <Typography>
+            EMAIL
+          </Typography>
           <TextField
             margin="dense"
             id="email"
-            label="EMAIL"
             type="username"
             fullWidth
         />
+          <Typography>
+            PASSWORD
+          </Typography>
           <TextField
             margin="dense"
             id="password"
-            label="PASSWORD"
             type={this.state.showPassword ? 'text' : 'password'}
             fullWidth
-            value={this.state.password}
+ 
             onChange={this.handleChange}
             InputProps={{
               endAdornment: (
@@ -97,3 +108,4 @@ export default class FormDialog extends Component {
     );
   }
 }
+
