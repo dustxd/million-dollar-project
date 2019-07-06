@@ -16,7 +16,7 @@ class Page extends Component {
   }
 
   render() {
-    const { page, entries } = this.props;
+    const { page, entries, actions } = this.props;
 
     if (page === 'left') {
       return (
@@ -24,7 +24,14 @@ class Page extends Component {
           {/* <Entry header={entries[0].header} />
           <Entry header={entries[1].header} /> */}
           {
-            entries.map(entry => <Entry header={entry && entry.header} />)
+            entries.map(entry => (
+              <Entry
+                key={entry._id}
+                header={entry && entry.header}
+                actions={actions}
+                entryId={entry._id}
+              />
+            ))
           }
         </div>
       );
