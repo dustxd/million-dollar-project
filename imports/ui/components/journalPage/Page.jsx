@@ -32,7 +32,7 @@ class Page extends Component {
 
     return (
       <div className="grid-item right-page">
-        <Entry header={entries.length > 0 && entries[2].header} />
+        {/* <Entry header={entries.length > 0 && entries[2].header} /> */}
         <ButtonNewPage />
       </div>
     );
