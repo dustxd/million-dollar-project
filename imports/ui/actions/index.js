@@ -84,3 +84,28 @@ export function addResource(resource, resourcePath) {
     });
   };
 }
+
+function deleteResourceSuccess(response, resourcePath) {
+  return {
+    type: types.DELETE_RESOURCE_SUCCESS, response, resourcePath,
+  };
+}
+
+function deleteResourceFailure(error) {
+  return {
+    type: types.DELETE_RESOURCE_FAILURE, error,
+  };
+}
+
+export function deleteResource(resourceId, resourcePath) {
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.DELETE_RESOURCE_REQUEST));
+    Meteor.call('entries.remove', resourceId, (error, result) => {
+      if (error) {
+        dispatch(deleteResourceFailure(error));
+      } else {
+        dispatch(deleteResourceSuccess(result, resourcePath));
+      }
+    });
+  };
+}
