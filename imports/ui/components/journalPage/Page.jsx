@@ -5,6 +5,19 @@ import { Meteor } from 'meteor/meteor';
 import { Entries } from '../../../api/entries';
 import Entry from './Entry';
 import ButtonNewPage from './ButtonNewPage';
+import { withStyles } from '@material-ui/core/styles';
+import { Paper } from '@material-ui/core';
+  
+const styles = {
+  leftPage: {
+    padding: '1em',
+    paddingRight: '3em',
+  },
+  rightPage: {
+    padding: '1em',
+    paddingLeft: '3em',
+  }
+};
 
 class Page extends Component {
   constructor(props) {
@@ -14,13 +27,13 @@ class Page extends Component {
 
     };
   }
-
+  
   render() {
-    const { page, entries, actions } = this.props;
+    const { classes, page, entries, actions } = this.props;
 
     if (page === 'left') {
       return (
-        <div className="grid-item left-page">
+        <div className={classes.rightPage}>
           {/* <Entry header={entries[0].header} />
           <Entry header={entries[1].header} /> */}
           {
@@ -36,11 +49,10 @@ class Page extends Component {
         </div>
       );
     }
-
+    
     return (
-      <div className="grid-item right-page">
+      <div className={classes.rightPage}>
         {/* <Entry header={entries.length > 0 && entries[2].header} /> */}
-        <ButtonNewPage />
       </div>
     );
   }
@@ -52,4 +64,4 @@ export default PageContainer = withTracker(() => {
   return {
     entries: Entries.find().fetch(),
   };
-})(Page);
+})(withStyles(styles)(Page));
