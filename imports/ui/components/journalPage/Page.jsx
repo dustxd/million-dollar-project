@@ -14,7 +14,7 @@ const styles = {
   rightPage: {
     padding: '1em',
     paddingLeft: '3em',
-  }
+  },
 };
 
 class Page extends Component {
