@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
+import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import Entry from './Entry';
-import ButtonNewPage from './ButtonNewPage';
-import { withStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
-  
+
 const styles = {
   leftPage: {
     padding: '1em',
@@ -27,7 +25,7 @@ class Page extends Component {
 
     };
   }
-  
+
   render() {
     const { classes, page, entries, actions } = this.props;
 
@@ -49,7 +47,7 @@ class Page extends Component {
         </div>
       );
     }
-    
+
     return (
       <div className={classes.rightPage}>
         {/* <Entry header={entries.length > 0 && entries[2].header} /> */}
