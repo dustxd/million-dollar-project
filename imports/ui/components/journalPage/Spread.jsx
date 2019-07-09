@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { LinearProgress, Grid } from '@material-ui/core';
+import { Grid, LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { Paper } from '@material-ui/core';
+
 import Page from './Page';
 
 const styles = {
@@ -31,8 +31,16 @@ class Spread extends Component {
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
               <Grid container spacing={0}>
-                <Grid item xs={12} sm={6}><Paper><Page actions={actions} page="left" /></Paper></Grid>
-                <Grid item xs={12} sm={6}><Paper><Page actions={actions} page="right" /></Paper></Grid>
+                <Grid item xs={12} sm={6}>
+                  <Paper>
+                    <Page actions={actions} page="left" />
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Paper>
+                    <Page actions={actions} page="right" />
+                  </Paper>
+                </Grid>
               </Grid>
             </div>
           </div>
