@@ -45,6 +45,16 @@ class AddDialog extends Component {
     handleCloseDialog();
   }
 
+  onKeyPress = (event) => {
+    const { header } = this.state;
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (!header) return;
+      this.onClickAdd();
+    }
+  }
+
   renderInputComponent = (infoField) => {
     const { type, key } = infoField;
 
@@ -52,6 +62,7 @@ class AddDialog extends Component {
       return (
         <TextField
           onChange={e => this.onChangeTextField(key, e)}
+          onKeyPress={e => this.onKeyPress(e)}
         />
       );
     }
@@ -85,10 +96,10 @@ class AddDialog extends Component {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>
-            Cancel
+            CANCEL
           </Button>
           <Button onClick={() => this.onClickAdd()}>
-            Enter
+            ADD
           </Button>
         </DialogActions>
       </Dialog>

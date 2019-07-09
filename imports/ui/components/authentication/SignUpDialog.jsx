@@ -22,13 +22,17 @@ class SignUpDialog extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      email: '',
       password: '',
       showPassword: false,
     };
   }
 
-  handleSignUp = () => {
+  onClickSignUp = () => {
     const { onClickCloseDialog } = this.props;
+
+    // TODO: Add sign up logic
+
     onClickCloseDialog();
   }
 
@@ -41,6 +45,17 @@ class SignUpDialog extends Component {
     this.setState({ showPassword: !showPassword });
   }
 
+  onKeyPress = (event) => {
+    const { email, password } = this.state;
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (!email || !password) return;
+      this.onClickSignUp();
+    }
+  }
+
+
   renderInputComponent = (infoField) => {
     const { showPassword } = this.state;
     const { key, type } = infoField;
@@ -50,6 +65,7 @@ class SignUpDialog extends Component {
         <TextField
           type={type}
           onChange={e => this.onChangeTextField(key, e)}
+          onKeyPress={e => this.onKeyPress(e)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -67,6 +83,7 @@ class SignUpDialog extends Component {
       <TextField
         type={type}
         onChange={e => this.onChangeTextField(key, e)}
+        onKeyPress={e => this.onKeyPress(e)}
       />
     );
   }
@@ -98,7 +115,7 @@ class SignUpDialog extends Component {
           <Button onClick={onClickCloseDialog}>
             Cancel
           </Button>
-          <Button onClick={() => this.handleSignUp()}>
+          <Button onClick={() => this.onClickSignUp()}>
             Enter
           </Button>
         </DialogActions>
