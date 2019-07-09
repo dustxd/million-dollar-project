@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import SignUpDialog from './SignUpDialog'
+import SignUpDialog from './SignUpDialog';
 
 const textFields = [
   { key: 'email', title: 'EMAIL', type: 'string' },
@@ -55,9 +55,8 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
-      openSignUp: false
+      openSignUpDialog: false,
     };
-
   }
 
   onClickLogin = () => {
@@ -68,8 +67,12 @@ class LoginPage extends Component {
     history.push('/');
   }
 
-  toggleSignUp = () => {
-    this.setState({openSignUp: !this.state.openSignUp});
+  onClickSignUp = () => {
+    this.setState({ openSignUpDialog: true });
+  }
+
+  onClickCloseDialog = () => {
+    this.setState({ openSignUpDialog: false });
   }
 
   handleTextFieldChange = (event, field) => {
@@ -88,7 +91,7 @@ class LoginPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { email, password } = this.state;
+    const { email, password, openSignUpDialog } = this.state;
 
     return (
       <div className={classes.pageContainer}>
@@ -124,18 +127,20 @@ class LoginPage extends Component {
         <Button
           className={classes.button}
           variant="outlined"
-          onClick={() => this.toggleSignUp()}
+          onClick={() => this.onClickSignUp()}
         >
           SIGN UP
         </Button>
-        {this.state.openSignUp?
-        <SignUpDialog 
-          state = {this.state.openSignUp}
-          closeDialog = {this.toggleSignUp.bind(this)}
-        /> : null
+        {
+          openSignUpDialog
+            ? (
+              <SignUpDialog
+                open={openSignUpDialog}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
+              />
+            )
+            : null
         }
-
-        
       </div>
     );
   }

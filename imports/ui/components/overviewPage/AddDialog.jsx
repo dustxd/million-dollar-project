@@ -45,7 +45,7 @@ class AddDialog extends Component {
     handleCloseDialog();
   }
 
-  getInputComponent = (infoField) => {
+  renderInputComponent = (infoField) => {
     const { type, key } = infoField;
 
     if (type === 'textField') {
@@ -78,7 +78,7 @@ class AddDialog extends Component {
                 <Typography>
                   {infoField.title}
                 </Typography>
-                { this.getInputComponent(infoField) }
+                { this.renderInputComponent(infoField) }
               </div>
             ))
           }
