@@ -35,12 +35,12 @@ class Entry extends Component {
           </IconButton>
         </div>
         <List component="nav">
-          <LineItem bulletType='toDo' content='Need to do this'/>
-          <LineItem bulletType='toDoCompleted' content='Done with this'/>
-          <LineItem bulletType='toDoScheduled' content='Scheduled'/>
-          <LineItem bulletType='toDoMigrated' content='Migrated this'/>
-          <LineItem bulletType='event' content='An event'/>
-          <LineItem bulletType='note' content='A memorable note'/>
+          <LineItem item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
+          <LineItem item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
+          <LineItem item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
+          <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
+          <LineItem item={{ type: 'EVENT', content: 'An event' }} />
+          <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
         </List>
       </div>
     );
