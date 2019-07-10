@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { Icon, IconButton, Typography } from '@material-ui/core';
+import {
+  Icon,
+  IconButton,
+  List,
+  Typography,
+} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+
+import LineItem from './LineItem';
 
 const styles = {
   header: {
@@ -27,11 +34,14 @@ class Entry extends Component {
             <Icon>delete</Icon>
           </IconButton>
         </div>
-        <div className="entry">
-          <li>List Item 1</li>
-          <li>List Item 2</li>
-          <li>List Item 3</li>
-        </div>
+        <List component="nav">
+          <LineItem item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
+          <LineItem item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
+          <LineItem item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
+          <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
+          <LineItem item={{ type: 'EVENT', content: 'An event' }} />
+          <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
+        </List>
       </div>
     );
   }
