@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { LinearProgress } from '@material-ui/core';
+import { Grid, LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import Page from './Page';
-import '../../css/journalPage/Spread.css';
 
 const styles = {
   spreadContainer: {
-    paddingTop: '20px',
+    padding: '20px',
+  },
+  root: {
+    flexGrow: 1,
   },
 };
 
@@ -27,9 +29,19 @@ class Spread extends Component {
         ? <LinearProgress />
         : (
           <div className={classes.spreadContainer}>
-            <div className="spread grid-container">
-              <Page actions={actions} page="left" />
-              <Page actions={actions} page="right" />
+            <div className={classes.root}>
+              <Grid container spacing={0}>
+                <Grid item xs={12} sm={6}>
+                  <Paper>
+                    <Page actions={actions} page="left" />
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Paper>
+                    <Page actions={actions} page="right" />
+                  </Paper>
+                </Grid>
+              </Grid>
             </div>
           </div>
         )

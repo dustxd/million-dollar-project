@@ -5,6 +5,7 @@ import '../../css/overviewPage/Overview.css';
 import AddEntry from '@material-ui/icons/AddBox';
 import AddCollection from '@material-ui/icons/PlaylistAdd';
 import LastEntry from '@material-ui/icons/AccessTime';
+import AddDialog from './AddDialog';
 
 const buttonStyles = makeStyles(theme => ({
   rightIcon: {
@@ -19,32 +20,52 @@ const overviewActionButtons = [
 ];
 
 class OverviewActions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openAddDialog: false,
+    };
+  }
+
   onClickActionButton = (key) => {
-    const { actions } = this.props;
     if (key === 'dated') {
-      const newEntry = {
-        header: 'Moved to Database Test Note',
-        type: 'collection',
-        createdAt: new Date(),
-      };
-      actions.addResource(newEntry, 'entries');
+      this.setState({ openAddDialog: true });
     }
   }
 
+  onClickCloseDialog = () => {
+    this.setState({ openAddDialog: false });
+  }
+
   render() {
+    const { actions } = this.props;
+    const { openAddDialog } = this.state;
+
     return (
-      <div className="button-container">
+      <div>
+        <div className="button-container">
+          {
+            overviewActionButtons.map(button => (
+              <Button
+                key={button.key}
+                variant="contained"
+                onClick={() => this.onClickActionButton(button.key)}
+              >
+                {button.title}
+                {button.icon}
+              </Button>
+            ))
+          }
+        </div>
         {
-          overviewActionButtons.map(button => (
-            <Button
-              key={button.key}
-              variant="contained"
-              onClick={() => this.onClickActionButton(button.key)}
-            >
-              {button.title}
-              {button.icon}
-            </Button>
-          ))
+          openAddDialog
+            && (
+              <AddDialog
+                open={openAddDialog}
+                actions={actions}
+                handleCloseDialog={() => this.onClickCloseDialog()}
+              />
+            )
         }
       </div>
     );

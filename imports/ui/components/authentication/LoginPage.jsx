@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import SignUpDialog from './SignUpDialog';
 
 const textFields = [
   { key: 'email', title: 'EMAIL', type: 'string' },
@@ -54,6 +55,7 @@ class LoginPage extends Component {
     this.state = {
       email: '',
       password: '',
+      openSignUpDialog: false,
     };
   }
 
@@ -63,6 +65,14 @@ class LoginPage extends Component {
     const { ...user } = this.state;
     actions.loginUser(user);
     history.push('/');
+  }
+
+  onClickSignUp = () => {
+    this.setState({ openSignUpDialog: true });
+  }
+
+  onClickCloseDialog = () => {
+    this.setState({ openSignUpDialog: false });
   }
 
   handleTextFieldChange = (event, field) => {
@@ -81,7 +91,7 @@ class LoginPage extends Component {
 
   render() {
     const { classes } = this.props;
-    const { email, password } = this.state;
+    const { email, password, openSignUpDialog } = this.state;
 
     return (
       <div className={classes.pageContainer}>
@@ -114,6 +124,23 @@ class LoginPage extends Component {
         >
           LOGIN
         </Button>
+        <Button
+          className={classes.button}
+          variant="outlined"
+          onClick={() => this.onClickSignUp()}
+        >
+          SIGN UP
+        </Button>
+        {
+          openSignUpDialog
+            ? (
+              <SignUpDialog
+                open={openSignUpDialog}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
+              />
+            )
+            : null
+        }
       </div>
     );
   }

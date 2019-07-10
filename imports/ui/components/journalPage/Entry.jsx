@@ -1,5 +1,21 @@
 import React, { Component } from 'react';
-import { Icon } from '@material-ui/core';
+import {
+  Icon,
+  IconButton,
+  List,
+  Typography,
+} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+import LineItem from './LineItem';
+
+const styles = {
+  header: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+};
 
 class Entry extends Component {
   onClickDeleteEntry = (entryId) => {
@@ -8,20 +24,27 @@ class Entry extends Component {
   }
 
   render() {
-    const { header, entryId } = this.props;
+    const { classes, header, entryId } = this.props;
 
     return (
       <div>
-        <span className="header">{header}</span>
-        <Icon onClick={() => this.onClickDeleteEntry(entryId)}>delete</Icon>
-        <div className="entry">
-          <li>List Item 1</li>
-          <li>List Item 2</li>
-          <li>List Item 3</li>
+        <div className={classes.header}>
+          <Typography variant="h5">{header}</Typography>
+          <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+            <Icon>delete</Icon>
+          </IconButton>
         </div>
+        <List component="nav">
+          <LineItem item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
+          <LineItem item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
+          <LineItem item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
+          <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
+          <LineItem item={{ type: 'EVENT', content: 'An event' }} />
+          <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
+        </List>
       </div>
     );
   }
 }
 
-export default Entry;
+export default withStyles(styles)(Entry);

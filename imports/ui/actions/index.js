@@ -75,7 +75,7 @@ function addResourceFailure(error) {
 export function addResource(resource, resourcePath) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.ADD_RESOURCE_REQUEST));
-    Meteor.call('entries.insert', resource, (error, result) => {
+    Meteor.call(`${resourcePath}.insert`, resource, (error, result) => {
       if (error) {
         dispatch(addResourceFailure(error));
       } else {
@@ -100,7 +100,7 @@ function deleteResourceFailure(error) {
 export function deleteResource(resourceId, resourcePath) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.DELETE_RESOURCE_REQUEST));
-    Meteor.call('entries.remove', resourceId, (error, result) => {
+    Meteor.call(`${resourcePath}.remove`, resourceId, (error, result) => {
       if (error) {
         dispatch(deleteResourceFailure(error));
       } else {
@@ -108,4 +108,8 @@ export function deleteResource(resourceId, resourcePath) {
       }
     });
   };
+}
+
+export function signUp() {
+
 }
