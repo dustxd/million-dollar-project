@@ -1,28 +1,16 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { flexbox } from '@material-ui/system';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import TextField from '@material-ui/core/TextField';
-import InputBase from '@material-ui/core/InputBase';
-import Bullet from './Bullet';
+import {
+  Icon,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  TextField,
+} from '@material-ui/core';
 
 const styles = {
-  line: {
-    border: 'none',
-    background: 'none',
-    // margin: 'auto',
-    // flex: 1,
-  },
-  bullet: {
-    // margin: 'auto',
-    // marginRight: '1em',
-  },
-  form: {
-    // display: 'flex',
-    // alignItems: 'center',
-    // minHeight: '1.5em',
+  itemTextField: {
+
   },
 };
 class LineItem extends Component {
@@ -33,7 +21,11 @@ class LineItem extends Component {
     };
   }
 
-  handleFormChange =(e) => {
+  onClickBullet = () => {
+    console.log('clicked');
+  }
+
+  onChangeContent = (e) => {
     this.setState({
       content: e.target.value,
     });
@@ -43,19 +35,51 @@ class LineItem extends Component {
     e.preventDefault();
   }
 
+  getBulletIcon = (type, status) => {
+    if (type === 'TASK') {
+      switch (status) {
+        case 'TODO':
+          return 'lens';
+        case 'COMPLETED':
+          return 'done';
+        case 'SCHEDULED':
+          return 'chevron_left';
+        case 'MIGRATED':
+          return 'chevron_right';
+        default:
+          return null;
+      }
+    }
+
+    if (type === 'EVENT') {
+      return 'panorama_fish_eye';
+    }
+
+    if (type === 'NOTE') {
+      return 'remove';
+    }
+
+    return null;
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, item } = this.props;
+    const { type, status, content } = item;
+
     return (
       <div>
         <ListItem button>
-          <ListItemIcon>
-            <Bullet type={this.props.bulletType} />
+          <ListItemIcon onClick={() => this.onClickBullet()}>
+            <Icon>{this.getBulletIcon(type, status)}</Icon>
           </ListItemIcon>
           <ListItemText>
-            <InputBase
-              className={classes.line}
-              defaultValue={this.props.content}
-              inputProps={{ 'aria-label': 'naked' }}
+            <TextField
+              className={classes.itemTextField}
+              defaultValue={content}
+              InputProps={{
+                disableUnderline: true,
+              }}
+              onChange={e => this.onChangeContent(e)}
             />
           </ListItemText>
         </ListItem>
