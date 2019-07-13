@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+
 import SignUpDialog from './SignUpDialog';
 
 const textFields = [
@@ -22,8 +23,9 @@ const styles = {
     top: 0,
     left: 0,
   },
-  titleText: {
-    marginBottom: '50px',
+  logo: {
+    width: '300px',
+    marginTop: '50px',
   },
   textFieldContainer: {
     display: 'flex',
@@ -95,12 +97,7 @@ class LoginPage extends Component {
 
     return (
       <div className={classes.pageContainer}>
-        <Typography
-          variant="h1"
-          className={classes.titleText}
-        >
-          BULLET JOURNALING
-        </Typography>
+        <img src="/images/million-dollar-logo.png" alt="logo" className={classes.logo} />
         {
           textFields.map(textField => (
             <div key={textField.key} className={classes.textFieldContainer}>
