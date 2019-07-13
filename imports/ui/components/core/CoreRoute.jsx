@@ -72,9 +72,11 @@ class CoreView extends React.Component {
     };
   }
 
-  onClickSignout = () => {
-    // TODO: Clear user state in Redux
-    this.props.history.push('/login');
+  onClickSignout = async () => {
+    const { coreProps, history } = this.props;
+    const { actions } = coreProps;
+    await actions.logout();
+    history.push('/login');
   }
 
   renderAppBar = () => {
