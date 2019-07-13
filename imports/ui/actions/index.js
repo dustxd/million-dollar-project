@@ -8,10 +8,10 @@ function updateLoadingState(type) {
   };
 }
 
-function loginUserSuccess(response) {
+function loginUserSuccess(currentUser) {
   return {
     type: types.LOGIN_USER_SUCCESS,
-    user: response.data,
+    user: currentUser,
   };
 }
 
@@ -24,27 +24,13 @@ function loginUserFailure(error) {
 export function loginUser(user) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.LOGIN_USER_REQUEST));
-    // TODO: Remove dummy data when API is set up
-    const response = {
-      data: {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'test@test.com',
-      },
-    };
-    dispatch(loginUserSuccess(response));
-    // fetch('http://localhost:9000/users', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ user }),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then(res => res.json()) // Returns a promise
-    //   .then(
-    //     response => dispatch(loginUserSuccess(response)),
-    //     error => dispatch(loginUserFailure(error)),
-    //   );
+    Meteor.loginWithPassword(user.email, user.password, (error) => {
+      if (error) {
+        dispatch(loginUserFailure(error));
+      } else {
+        dispatch(loginUserSuccess(Meteor.user()));
+      }
+    });
   };
 }
 
