@@ -62,8 +62,8 @@ class LoginPage extends Component {
   onClickLogin = () => {
     const { actions, history } = this.props;
     // TODO: This needs to be converted to an async/await call when API is connected
-    const { ...user } = this.state;
-    actions.loginUser(user);
+    const { email, password } = this.state;
+    actions.loginUser({ email, password });
     history.push('/');
   }
 
