@@ -14,8 +14,10 @@ import {
 import { Visibility, VisibilityOff } from '@material-ui/icons';
 
 const signUpInfoFields = [
-  { key: 'email', title: 'EMAIL', type: 'textField' },
-  { key: 'password', title: 'PASSWORD', type: 'string' },
+  { key: 'firstName', title: 'FIRST NAME', type: 'string' },
+  { key: 'lastName', title: 'LAST NAME', type: 'string' },
+  { key: 'email', title: 'EMAIL', type: 'string' },
+  { key: 'password', title: 'PASSWORD', type: 'password' },
 ];
 
 class SignUpDialog extends Component {
@@ -63,7 +65,7 @@ class SignUpDialog extends Component {
     if (type === 'password') {
       return (
         <TextField
-          type={type}
+          type={showPassword ? 'string' : 'password'}
           onChange={e => this.onChangeTextField(key, e)}
           onKeyPress={e => this.onKeyPress(e)}
           InputProps={{
