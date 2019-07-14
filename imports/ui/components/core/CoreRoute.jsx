@@ -72,10 +72,10 @@ class CoreView extends React.Component {
     };
   }
 
-  onClickSignout = async () => {
+  onClickSignout = () => {
     const { coreProps, history } = this.props;
     const { actions } = coreProps;
-    await actions.logout();
+    actions.logoutUser();
     history.push('/login');
   }
 

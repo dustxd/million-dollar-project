@@ -34,7 +34,7 @@ export function loginUser(user) {
   };
 }
 
-export function logout() {
+export function logoutUser() {
   Meteor.logout((error) => {
     if (error) {
       console.log(error);
