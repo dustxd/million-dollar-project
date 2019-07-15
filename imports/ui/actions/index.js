@@ -9,6 +9,46 @@ function updateLoadingState(type) {
   };
 }
 
+function signUpUserSuccess(currentUser) {
+  return {
+    type: types.SIGNUP_USER_SUCCESS,
+    user: currentUser,
+  };
+}
+
+function signUpUserFailure(error) {
+  return {
+    type: types.SIGNUP_USER_FAILURE, error,
+  };
+}
+
+export function signUpUser(user) {
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+  } = user;
+
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.SIGNUP_USER_REQUEST));
+    Accounts.createUser({
+      email,
+      password,
+      profile: {
+        firstName,
+        lastName,
+      },
+    }, (error) => {
+      if (error) {
+        dispatch(signUpUserFailure(error));
+      } else {
+        dispatch(signUpUserSuccess(Meteor.user()));
+      }
+    });
+  };
+}
+
 function loginUserSuccess(currentUser) {
   return {
     type: types.LOGIN_USER_SUCCESS,
@@ -101,26 +141,4 @@ export function deleteResource(resourceId, resourcePath) {
       }
     });
   };
-}
-
-export function signUpUser(user) {
-  const {
-    email,
-    password,
-    firstName,
-    lastName,
-  } = user;
-
-  Accounts.createUser({
-    email,
-    password,
-    profile: {
-      firstName,
-      lastName,
-    },
-  }, (error) => {
-    if (error) {
-      console.log(error);
-    }
-  });
 }
