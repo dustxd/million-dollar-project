@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
-import { Accounts } from 'meteor/accounts-base';
+import { Redirect } from 'react-router';
 
 import SignUpDialog from './SignUpDialog';
 
@@ -63,13 +63,8 @@ class LoginPage extends Component {
   }
 
   onClickLogin = () => {
-    const { actions, history } = this.props;
+    const { actions } = this.props;
     const { email, password } = this.state;
-
-    // Set up client side on successful login hook
-    Accounts.onLogin(() => {
-      history.push('/');
-    });
 
     // Fire login action
     actions.loginUser({ email, password });
@@ -98,8 +93,12 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { classes, actions } = this.props;
+    const { user, classes, actions } = this.props;
     const { email, password, openSignUpDialog } = this.state;
+
+    if (user) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className={classes.pageContainer}>
