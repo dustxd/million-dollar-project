@@ -26,7 +26,6 @@ const styles = {
   },
   logo: {
     width: '300px',
-    marginTop: '50px',
   },
   textFieldContainer: {
     display: 'flex',
@@ -43,12 +42,25 @@ const styles = {
     maxWidth: '400px',
     color: '#000000',
   },
-  button: {
+  loginButton: {
     width: '400px',
     padding: '10px',
     margin: '30px',
     fontSize: '14px',
-    fontWeight: 'bold',
+  },
+  signUpContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  signUpText: {
+    fontSize: '12px',
+  },
+  signUpButton: {
+    color: '#bec358',
+    fontSize: '12px',
+    marginLeft: '10px',
+    cursor: 'pointer',
   },
 };
 
@@ -119,20 +131,26 @@ class LoginPage extends Component {
           ))
         }
         <Button
-          className={classes.button}
+          className={classes.loginButton}
           variant="outlined"
           disabled={!(email && password)}
           onClick={() => this.onClickLogin()}
         >
           LOGIN
         </Button>
-        <Button
-          className={classes.button}
-          variant="outlined"
-          onClick={() => this.onClickSignUp()}
-        >
-          SIGN UP
-        </Button>
+        <div className={classes.signUpContainer}>
+          <Typography
+            className={classes.signUpText}
+          >
+            DON&apos;T HAVE AN ACCOUNT YET?
+          </Typography>
+          <Typography
+            className={classes.signUpButton}
+            onClick={() => this.onClickSignUp()}
+          >
+            SIGN UP
+          </Typography>
+        </div>
         {
           openSignUpDialog
             ? (
