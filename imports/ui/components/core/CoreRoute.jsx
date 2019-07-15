@@ -53,12 +53,12 @@ const styles = {
     alignItems: 'center',
   },
   signoutIcon: {
-    color: '#37aab1',
+    color: '#bec358',
   },
   signoutText: {
     marginLeft: '10px',
     textDecoration: 'underline',
-    color: '#37aab1',
+    color: '#bec358',
   },
   pageContent: {
     marginTop: `${APPBAR_HEIGHT}px`,
