@@ -9,7 +9,7 @@ if (Meteor.isServer) {
   Meteor.publish('entries', function entriesPublication() {
     // Entries.find() returns the cursors, NOT the entries
     // themselves, i.e. Entries.find().fetch()
-    return Entries.find();
+    return Entries.find({ owner: this.userId });
   });
 }
 
@@ -24,17 +24,17 @@ Meteor.methods({
       createdAt,
     } = newEntry;
 
-    // // Make sure the user is logged in before inserting a task
-    // if (!Meteor.userId()) {
-    //   throw new Meteor.Error('not-authorized');
-    // }
+    // Make sure the user is logged in before inserting a task
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
 
     Entries.insert({
       header,
       type,
       createdAt,
-      // owner: Meteor.userId(),
-      // username: Meteor.user().username,
+      owner: Meteor.userId(),
+      username: Meteor.user().username,
     });
   },
   'entries.remove'(entryId) {
