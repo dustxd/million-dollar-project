@@ -23,17 +23,36 @@ const signUpInfoFields = [
 class SignUpDialog extends Component {
   constructor(props) {
     super(props);
+    const signUpFields = this.initializeSignUpInfoFields();
     this.state = {
-      email: '',
-      password: '',
+      ...signUpFields,
       showPassword: false,
     };
   }
 
-  onClickSignUp = () => {
-    const { onClickCloseDialog } = this.props;
+  initializeSignUpInfoFields = () => {
+    const state = {};
+    signUpInfoFields.forEach((field) => {
+      state[field.key] = '';
+    });
+    return state;
+  }
 
-    // TODO: Add sign up logic
+  onClickSignUp = () => {
+    const { actions, onClickCloseDialog } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+    } = this.state;
+
+    actions.signUpUser({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
     onClickCloseDialog();
   }

@@ -98,7 +98,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, actions } = this.props;
     const { email, password, openSignUpDialog } = this.state;
 
     return (
@@ -139,6 +139,7 @@ class LoginPage extends Component {
             ? (
               <SignUpDialog
                 open={openSignUpDialog}
+                actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}
               />
             )

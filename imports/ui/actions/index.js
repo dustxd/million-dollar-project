@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 
 import * as types from './ActionTypes';
 
@@ -102,6 +103,24 @@ export function deleteResource(resourceId, resourcePath) {
   };
 }
 
-export function signUp() {
+export function signUpUser(user) {
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+  } = user;
 
+  Accounts.createUser({
+    email,
+    password,
+    profile: {
+      firstName,
+      lastName,
+    },
+  }, (error) => {
+    if (error) {
+      console.log(error);
+    }
+  });
 }
