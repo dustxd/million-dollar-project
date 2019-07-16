@@ -23,7 +23,7 @@ const customizedThemes = {
       outlined: {
         border: 'solid 2px #000000',
       },
-    }
+    },
   },
 };
 
