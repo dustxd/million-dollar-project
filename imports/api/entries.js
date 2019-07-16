@@ -34,7 +34,6 @@ Meteor.methods({
       type,
       createdAt,
       owner: Meteor.userId(),
-      username: Meteor.user().username,
     });
   },
   'entries.remove'(entryId) {
