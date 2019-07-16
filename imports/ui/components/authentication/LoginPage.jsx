@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
-import { Redirect } from 'react-router';
+import { Redirect, withRouter } from 'react-router';
 
 import SignUpDialog from './SignUpDialog';
 
