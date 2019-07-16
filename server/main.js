@@ -1,5 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import '../imports/api/entries';
+import '../imports/api/lineItems';
 
 // function insertLink(title, url) {
 //   Links.insert({ title, url, createdAt: new Date() });
