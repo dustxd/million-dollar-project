@@ -2,7 +2,8 @@ import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
 
-const LineItems = new Mongo.Collection('lineItems');
+export const LineItems = new Mongo.Collection('lineItems');
+export default LineItems;
 
 /* Restrict what info (rows/documents in a table/collection) the user can see */
 if (Meteor.isServer) {
@@ -44,5 +45,3 @@ Meteor.methods({
     LineItems.remove(lineItemId);
   },
 });
-
-export default LineItems;
