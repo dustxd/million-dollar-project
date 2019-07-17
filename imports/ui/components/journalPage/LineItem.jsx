@@ -8,6 +8,8 @@ import {
   TextField,
 } from '@material-ui/core';
 
+import { BULLET_DEFINITION } from '../../constants/ResourceConstants';
+
 const styles = {
   itemTextField: {
 
@@ -16,18 +18,26 @@ const styles = {
 class LineItem extends Component {
   constructor(props) {
     super(props);
+    const { item } = props;
+    const { status, type, content } = item;
     this.state = {
-      content: '',
+      bullet: status || type || BULLET_DEFINITION[0].type,
+      text: content || '',
     };
   }
 
   onClickBullet = () => {
-    console.log('clicked');
+    const { bullet } = this.state;
+    const numberOfTypes = BULLET_DEFINITION.length;
+    const currentIndex = BULLET_DEFINITION.findIndex(def => def.type === bullet);
+    const newIndex = (currentIndex + 1) % numberOfTypes;
+    const newBullet = BULLET_DEFINITION[newIndex].type;
+    this.setState({ bullet: newBullet });
   }
 
   onChangeContent = (e) => {
     this.setState({
-      content: e.target.value,
+      text: e.target.value,
     });
   }
 
@@ -35,47 +45,28 @@ class LineItem extends Component {
     e.preventDefault();
   }
 
-  getBulletIcon = (type, status) => {
-    if (type === 'TASK') {
-      switch (status) {
-        case 'TODO':
-          return 'lens';
-        case 'COMPLETED':
-          return 'done';
-        case 'SCHEDULED':
-          return 'chevron_left';
-        case 'MIGRATED':
-          return 'chevron_right';
-        default:
-          return null;
-      }
+  getBulletIcon = (currentType) => {
+    const currentBullet = BULLET_DEFINITION.find(bullet => bullet.type === currentType);
+    if (!currentBullet) {
+      return null;
     }
-
-    if (type === 'EVENT') {
-      return 'panorama_fish_eye';
-    }
-
-    if (type === 'NOTE') {
-      return 'remove';
-    }
-
-    return null;
+    return currentBullet.icon;
   }
 
   render() {
-    const { classes, item } = this.props;
-    const { type, status, content } = item;
+    const { classes } = this.props;
+    const { bullet, text } = this.state;
 
     return (
       <div>
         <ListItem button>
           <ListItemIcon onClick={() => this.onClickBullet()}>
-            <Icon>{this.getBulletIcon(type, status)}</Icon>
+            <Icon>{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
           <ListItemText>
             <TextField
               className={classes.itemTextField}
-              defaultValue={content}
+              defaultValue={text}
               InputProps={{
                 disableUnderline: true,
               }}

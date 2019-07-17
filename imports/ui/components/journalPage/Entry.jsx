@@ -18,13 +18,25 @@ const styles = {
 };
 
 class Entry extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openNewLineItem: false,
+    };
+  }
+
   onClickDeleteEntry = (entryId) => {
     const { actions } = this.props;
     actions.deleteResource(entryId, 'entries');
   }
 
+  onClickOpenNewLineItem = () => {
+    this.setState({ openNewLineItem: true });
+  }
+
   render() {
     const { classes, header, entryId } = this.props;
+    const { openNewLineItem } = this.state;
 
     return (
       <div>
@@ -32,6 +44,9 @@ class Entry extends Component {
           <Typography variant="h5">{header}</Typography>
           <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
             <Icon>delete</Icon>
+          </IconButton>
+          <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+            <Icon>add</Icon>
           </IconButton>
         </div>
         <List component="nav">
@@ -41,6 +56,9 @@ class Entry extends Component {
           <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
           <LineItem item={{ type: 'EVENT', content: 'An event' }} />
           <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
+          {
+            openNewLineItem ? <LineItem item={{}} /> : <div />
+          }
         </List>
       </div>
     );
