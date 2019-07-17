@@ -2,36 +2,109 @@ import React, { Component } from 'react';
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  Icon,
   IconButton,
   InputAdornment,
   TextField,
-  Typography,
 } from '@material-ui/core';
 import { Visibility, VisibilityOff } from '@material-ui/icons';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = {
+  dialogTitleRoot: {
+    padding: '24px',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: '5px',
+    top: '5px',
+  },
+  dialogContentRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  logo: {
+    width: '200px',
+  },
+  textField: {
+    width: '400px',
+    margin: '10px',
+    '& label.Mui-focused': {
+      color: '#868735',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#bec358',
+      },
+      '&:hover fieldset': {
+        borderColor: '#868735',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#868735',
+      },
+    },
+  },
+  textFieldInput: {
+    height: '15px',
+  },
+  inputLabelRoot: {
+    color: '#bec358',
+  },
+  createButton: {
+    boxShadow: 'none',
+    width: '400px',
+    height: '50px',
+    backgroundColor: '#868735',
+    color: '#ffffff',
+    padding: '14px',
+    marginTop: '20px',
+    marginBottom: '30px',
+  },
+};
 
 const signUpInfoFields = [
-  { key: 'email', title: 'EMAIL', type: 'textField' },
-  { key: 'password', title: 'PASSWORD', type: 'string' },
+  { key: 'firstName', title: 'First Name', type: 'string' },
+  { key: 'lastName', title: 'Last Name', type: 'string' },
+  { key: 'email', title: 'Email', type: 'string' },
+  { key: 'password', title: 'Password', type: 'password' },
 ];
 
 class SignUpDialog extends Component {
   constructor(props) {
     super(props);
+    const signUpFields = this.initializeSignUpInfoFields();
     this.state = {
-      email: '',
-      password: '',
+      ...signUpFields,
       showPassword: false,
     };
   }
 
-  onClickSignUp = () => {
-    const { onClickCloseDialog } = this.props;
+  initializeSignUpInfoFields = () => {
+    const state = {};
+    signUpInfoFields.forEach((field) => {
+      state[field.key] = '';
+    });
+    return state;
+  }
 
-    // TODO: Add sign up logic
+  onClickSignUp = () => {
+    const { actions, onClickCloseDialog } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+    } = this.state;
+
+    actions.signUpUser({
+      firstName,
+      lastName,
+      email,
+      password,
+    });
 
     onClickCloseDialog();
   }
@@ -57,33 +130,46 @@ class SignUpDialog extends Component {
 
 
   renderInputComponent = (infoField) => {
+    const { classes } = this.props;
     const { showPassword } = this.state;
-    const { key, type } = infoField;
+    const { key, title, type } = infoField;
 
-    if (type === 'password') {
-      return (
-        <TextField
-          type={type}
-          onChange={e => this.onChangeTextField(key, e)}
-          onKeyPress={e => this.onKeyPress(e)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={() => this.onClickPasswordVisibility()}>
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
-      );
+    // Handle password related UI
+    let fieldType = type;
+    if (type === 'password' && showPassword) {
+      fieldType = 'string';
     }
+
+    const endAdornment = type === 'password'
+      ? (
+        <InputAdornment position="end">
+          <IconButton onClick={() => this.onClickPasswordVisibility()}>
+            {showPassword ? <VisibilityOff /> : <Visibility />}
+          </IconButton>
+        </InputAdornment>
+      )
+      : null;
 
     return (
       <TextField
-        type={type}
+        key={key}
+        variant="outlined"
+        className={classes.textField}
+        label={title}
+        type={fieldType}
         onChange={e => this.onChangeTextField(key, e)}
         onKeyPress={e => this.onKeyPress(e)}
+        InputProps={{
+          endAdornment,
+          classes: {
+            input: classes.textFieldInput,
+          },
+        }}
+        InputLabelProps={{
+          classes: {
+            root: classes.inputLabelRoot,
+          },
+        }}
       />
     );
   }
@@ -95,33 +181,30 @@ class SignUpDialog extends Component {
       <Dialog
         open={open}
         onClose={onClickCloseDialog}
-        area-labelledby="sign-up-dialog"
       >
-        <DialogTitle id="sign-up-title">SIGN UP</DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-          Almost ready to go!
-          </DialogContentText>
+        <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
+          <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
+            <Icon>close</Icon>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent classes={{ root: classes.dialogContentRoot }}>
+          <img src="/images/million-dollar-logo.png" alt="logo" className={classes.logo} />
           {
             signUpInfoFields.map(infoField => (
-              <div key={infoField.key}>
-                <Typography>{infoField.title}</Typography>
-                { this.renderInputComponent(infoField) }
-              </div>
+              this.renderInputComponent(infoField)
             ))
           }
+          <Button
+            variant="contained"
+            className={classes.createButton}
+            onClick={() => this.onClickSignUp()}
+          >
+            CREATE ACCOUNT
+          </Button>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={onClickCloseDialog}>
-            Cancel
-          </Button>
-          <Button onClick={() => this.onClickSignUp()}>
-            Enter
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   }
 }
 
-export default SignUpDialog;
+export default withStyles(styles)(SignUpDialog);

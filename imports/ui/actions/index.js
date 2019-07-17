@@ -1,4 +1,5 @@
 import { Meteor } from 'meteor/meteor';
+import { Accounts } from 'meteor/accounts-base';
 
 import * as types from './ActionTypes';
 
@@ -8,10 +9,50 @@ function updateLoadingState(type) {
   };
 }
 
-function loginUserSuccess(response) {
+function signUpUserSuccess(currentUser) {
+  return {
+    type: types.SIGNUP_USER_SUCCESS,
+    user: currentUser,
+  };
+}
+
+function signUpUserFailure(error) {
+  return {
+    type: types.SIGNUP_USER_FAILURE, error,
+  };
+}
+
+export function signUpUser(user) {
+  const {
+    email,
+    password,
+    firstName,
+    lastName,
+  } = user;
+
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.SIGNUP_USER_REQUEST));
+    Accounts.createUser({
+      email,
+      password,
+      profile: {
+        firstName,
+        lastName,
+      },
+    }, (error) => {
+      if (error) {
+        dispatch(signUpUserFailure(error));
+      } else {
+        dispatch(signUpUserSuccess(Meteor.user()));
+      }
+    });
+  };
+}
+
+function loginUserSuccess(currentUser) {
   return {
     type: types.LOGIN_USER_SUCCESS,
-    user: response.data,
+    user: currentUser,
   };
 }
 
@@ -24,31 +65,23 @@ function loginUserFailure(error) {
 export function loginUser(user) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.LOGIN_USER_REQUEST));
-    // TODO: Remove dummy data when API is set up
-    const response = {
-      data: {
-        firstName: 'John',
-        lastName: 'Doe',
-        email: 'test@test.com',
-      },
-    };
-    dispatch(loginUserSuccess(response));
-    // fetch('http://localhost:9000/users', {
-    //   method: 'POST',
-    //   body: JSON.stringify({ user }),
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    //   .then(res => res.json()) // Returns a promise
-    //   .then(
-    //     response => dispatch(loginUserSuccess(response)),
-    //     error => dispatch(loginUserFailure(error)),
-    //   );
+    Meteor.loginWithPassword(user.email, user.password, (error) => {
+      if (error) {
+        dispatch(loginUserFailure(error));
+      } else {
+        dispatch(loginUserSuccess(Meteor.user()));
+      }
+    });
   };
 }
 
-export function logout() {
+export function logoutUser() {
+  Meteor.logout((error) => {
+    if (error) {
+      console.log(error);
+    }
+  });
+
   return {
     type: types.LOGOUT_USER,
   };
@@ -108,8 +141,4 @@ export function deleteResource(resourceId, resourcePath) {
       }
     });
   };
-}
-
-export function signUp() {
-
 }

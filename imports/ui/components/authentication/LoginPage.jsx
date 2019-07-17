@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router';
+
 import SignUpDialog from './SignUpDialog';
 
 const textFields = [
@@ -22,8 +23,8 @@ const styles = {
     top: 0,
     left: 0,
   },
-  titleText: {
-    marginBottom: '50px',
+  logo: {
+    width: '300px',
   },
   textFieldContainer: {
     display: 'flex',
@@ -40,12 +41,25 @@ const styles = {
     maxWidth: '400px',
     color: '#000000',
   },
-  button: {
+  loginButton: {
     width: '400px',
     padding: '10px',
     margin: '30px',
     fontSize: '14px',
-    fontWeight: 'bold',
+  },
+  signUpContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  signUpText: {
+    fontSize: '12px',
+  },
+  signUpButton: {
+    color: '#bec358',
+    fontSize: '12px',
+    marginLeft: '10px',
+    cursor: 'pointer',
   },
 };
 
@@ -60,11 +74,11 @@ class LoginPage extends Component {
   }
 
   onClickLogin = () => {
-    const { actions, history } = this.props;
-    // TODO: This needs to be converted to an async/await call when API is connected
-    const { ...user } = this.state;
-    actions.loginUser(user);
-    history.push('/');
+    const { actions } = this.props;
+    const { email, password } = this.state;
+
+    // Fire login action
+    actions.loginUser({ email, password });
   }
 
   onClickSignUp = () => {
@@ -90,17 +104,16 @@ class LoginPage extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { user, classes, actions } = this.props;
     const { email, password, openSignUpDialog } = this.state;
+
+    if (user) {
+      return <Redirect to="/" />;
+    }
 
     return (
       <div className={classes.pageContainer}>
-        <Typography
-          variant="h1"
-          className={classes.titleText}
-        >
-          BULLET JOURNALING
-        </Typography>
+        <img src="/images/million-dollar-logo.png" alt="logo" className={classes.logo} />
         {
           textFields.map(textField => (
             <div key={textField.key} className={classes.textFieldContainer}>
@@ -117,25 +130,32 @@ class LoginPage extends Component {
           ))
         }
         <Button
-          className={classes.button}
+          className={classes.loginButton}
           variant="outlined"
           disabled={!(email && password)}
           onClick={() => this.onClickLogin()}
         >
           LOGIN
         </Button>
-        <Button
-          className={classes.button}
-          variant="outlined"
-          onClick={() => this.onClickSignUp()}
-        >
-          SIGN UP
-        </Button>
+        <div className={classes.signUpContainer}>
+          <Typography
+            className={classes.signUpText}
+          >
+            DON&apos;T HAVE AN ACCOUNT YET?
+          </Typography>
+          <Typography
+            className={classes.signUpButton}
+            onClick={() => this.onClickSignUp()}
+          >
+            SIGN UP
+          </Typography>
+        </div>
         {
           openSignUpDialog
             ? (
               <SignUpDialog
                 open={openSignUpDialog}
+                actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}
               />
             )
