@@ -7,11 +7,7 @@ import { Entries } from '../../../api/entries';
 import Entry from './Entry';
 
 const styles = {
-  leftPage: {
-    padding: '1em',
-    paddingRight: '3em',
-  },
-  rightPage: {
+  centerPage: {
     padding: '1em',
     paddingLeft: '3em',
   },
@@ -27,14 +23,16 @@ class Page extends Component {
   }
 
   render() {
-    const { classes, page, entries, actions } = this.props;
+    const {
+ classes, page, entries, actions 
+} = this.props;
 
-    if (page === 'left') {
-      return (
-        <div className={classes.rightPage}>
-          {/* <Entry header={entries[0].header} />
+
+    return (
+      <div className={classes.centerPage}>
+        {/* <Entry header={entries[0].header} />
           <Entry header={entries[1].header} /> */}
-          {
+        {
             entries.map(entry => (
               <Entry
                 key={entry._id}
@@ -44,15 +42,12 @@ class Page extends Component {
               />
             ))
           }
-        </div>
-      );
-    }
-
-    return (
-      <div className={classes.rightPage}>
-        {/* <Entry header={entries.length > 0 && entries[2].header} /> */}
       </div>
     );
+
+
+
+
   }
 }
 

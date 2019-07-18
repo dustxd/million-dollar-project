@@ -6,10 +6,10 @@ import Page from './Page';
 
 const styles = {
   spreadContainer: {
-    padding: '20px',
+		padding: '20px',
   },
   root: {
-    flexGrow: 1,
+		flexGrow: 1,
   },
 };
 
@@ -30,7 +30,7 @@ class SinglePage extends Component {
         : (
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
-              <Grid container spacing={0}>
+              <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={6}>
                   <Paper>
                     <Page actions={actions} page="left" />
