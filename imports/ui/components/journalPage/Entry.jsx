@@ -39,6 +39,17 @@ class Entry extends Component {
     });
   }
 
+  onClickAddLineItem = (lineItemInfo) => {
+    const { entryId, actions } = this.props;
+
+    const newLineItem = {
+      ...lineItemInfo,
+      entryId,
+    };
+
+    actions.addResource(newLineItem, 'lineItems');
+  }
+
   onClickLineItem = (lineItemId) => {
     this.setState({ selectedLineItem: lineItemId });
   }
@@ -79,6 +90,7 @@ class Entry extends Component {
                   <LineItem
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
+                    onClickAddLineItem={lineItemInfo => this.onClickAddLineItem(lineItemInfo)}
                     id="NEW"
                     item={{}}
                   />

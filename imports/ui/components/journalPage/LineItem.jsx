@@ -6,11 +6,14 @@ import {
   ListItem,
   ListItemIcon,
   ListItemSecondaryAction,
-  ListItemText,
   TextField,
 } from '@material-ui/core';
 
-import { BULLET_DEFINITION } from '../../constants/ResourceConstants';
+import {
+  BULLET_DEFINITION,
+  TASK_STATUS,
+  TASK,
+} from '../../constants/ResourceConstants';
 
 const styles = {
   itemTextField: {
@@ -49,8 +52,17 @@ class LineItem extends Component {
     onClickLineItem(id);
   }
 
-  handleSubmit =(e) => {
-    e.preventDefault();
+  handleAddLineItem = () => {
+    const { onClickAddLineItem } = this.props;
+    const { bullet, text } = this.state;
+
+    const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
+
+    onClickAddLineItem({
+      type: isTask ? TASK : bullet,
+      status: isTask ? bullet : undefined,
+      content: text,
+    });
   }
 
   getBulletIcon = (currentType) => {
@@ -88,7 +100,12 @@ class LineItem extends Component {
             isSelected
               ? (
                 <ListItemSecondaryAction>
-                  <Button disabled={!text}>SAVE</Button>
+                  <Button
+                    disabled={!text}
+                    onClick={() => this.handleAddLineItem()}
+                  >
+                    SAVE
+                  </Button>
                 </ListItemSecondaryAction>
               )
               : null
