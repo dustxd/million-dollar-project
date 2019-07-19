@@ -7,9 +7,7 @@ export default LineItems;
 
 /* Restrict what info (rows/documents in a table/collection) the user can see */
 if (Meteor.isServer) {
-  Meteor.publish('lineItems', function lineItemsPublication(entryId) {
-    return LineItems.find({ entryId });
-  });
+  Meteor.publish('lineItems', entryId => LineItems.find({ entryId }));
 }
 
 /* Restrict user's actions (i.e. write permission to database and business logic in api) */

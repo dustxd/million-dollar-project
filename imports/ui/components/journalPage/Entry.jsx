@@ -123,7 +123,7 @@ const dataSource = (props) => {
   Meteor.subscribe('lineItems', entryId);
 
   return {
-    lineItems: LineItems.find().fetch(),
+    lineItems: LineItems.find({ entryId }).fetch(),
   };
 };
 
