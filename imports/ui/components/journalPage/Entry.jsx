@@ -87,7 +87,8 @@ class Entry extends Component {
 
                 return (
                   <LineItem
-                    key={lineItem._id}
+                    key={_id}
+                    id={_id}
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     item={item}
@@ -99,10 +100,11 @@ class Entry extends Component {
               openNewLineItem
                 ? (
                   <LineItem
+                    key="NEW"
+                    id="NEW"
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddLineItem={lineItemInfo => this.onClickAddLineItem(lineItemInfo)}
-                    id="NEW"
                     item={{}}
                   />
                 )

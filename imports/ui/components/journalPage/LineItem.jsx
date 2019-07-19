@@ -47,9 +47,9 @@ class LineItem extends Component {
   }
 
   handleClickLineItem = () => {
-    const { onClickLineItem, key } = this.props;
+    const { onClickLineItem, id } = this.props;
 
-    onClickLineItem(key);
+    onClickLineItem(id);
   }
 
   handleAddLineItem = () => {
@@ -74,9 +74,9 @@ class LineItem extends Component {
   }
 
   render() {
-    const { classes, key, selectedLineItem } = this.props;
+    const { classes, id, selectedLineItem } = this.props;
     const { bullet, text } = this.state;
-    const isSelected = key === selectedLineItem;
+    const isSelected = id === selectedLineItem;
 
     return (
       <div>
