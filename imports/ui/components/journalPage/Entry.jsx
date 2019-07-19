@@ -6,8 +6,11 @@ import {
   List,
   Typography,
 } from '@material-ui/core';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 
+import { LineItems } from '../../../api/lineItems';
 import LineItem from './LineItem';
 
 const styles = {
@@ -62,7 +65,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { classes, header, entryId } = this.props;
+    const { classes, header, entryId, lineItems } = this.props;
     const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
@@ -77,13 +80,21 @@ class Entry extends Component {
               <Icon>add</Icon>
             </IconButton>
           </div>
-          <List component="nav">
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={0} item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={1} item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={2} item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={3} item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={4} item={{ type: 'EVENT', content: 'An event' }} />
-            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={5} item={{ type: 'NOTE', content: 'A memorable note' }} />
+          <List>
+            {
+              lineItems.map((lineItem) => {
+                const { _id, owner, ...item } = lineItem;
+
+                return (
+                  <LineItem
+                    key={lineItem._id}
+                    selectedLineItem={selectedLineItem}
+                    onClickLineItem={id => this.onClickLineItem(id)}
+                    item={item}
+                  />
+                );
+              })
+            }
             {
               openNewLineItem
                 ? (
@@ -104,4 +115,14 @@ class Entry extends Component {
   }
 }
 
-export default withStyles(styles)(Entry);
+const dataSource = (props) => {
+  const { entryId } = props;
+
+  Meteor.subscribe('lineItems', entryId);
+
+  return {
+    lineItems: LineItems.find().fetch(),
+  };
+};
+
+export default withTracker(dataSource)(withStyles(styles)(Entry));

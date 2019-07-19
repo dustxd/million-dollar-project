@@ -7,10 +7,8 @@ export default LineItems;
 
 /* Restrict what info (rows/documents in a table/collection) the user can see */
 if (Meteor.isServer) {
-  Meteor.publish('lineItems', () => {
-    // Entries.find() returns the cursors, NOT the entries
-    // themselves, i.e. Entries.find().fetch()
-    return LineItems.find();
+  Meteor.publish('lineItems', function lineItemsPublication(entryId) {
+    return LineItems.find({ entryId });
   });
 }
 
