@@ -30,7 +30,7 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    LineItems.insert({
+    return LineItems.insert({
       type,
       status,
       content,
@@ -47,6 +47,6 @@ Meteor.methods({
     check(lineItemId, String);
     check(updatedLineItem, Object);
 
-    LineItems.update(lineItemId, updatedLineItem);
+    return LineItems.update(lineItemId, updatedLineItem);
   },
 });
