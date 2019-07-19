@@ -43,4 +43,10 @@ Meteor.methods({
 
     LineItems.remove(lineItemId);
   },
+  'lineItems.update': (lineItemId, updatedLineItem) => {
+    check(lineItemId, String);
+    check(updatedLineItem, Object);
+
+    LineItems.update(lineItemId, updatedLineItem);
+  },
 });
