@@ -7,6 +7,9 @@ export default LineItems;
 
 /* Restrict what info (rows/documents in a table/collection) the user can see */
 if (Meteor.isServer) {
+  // Meteor combines the results of different queries on the same collection,
+  // but we don't want to return all the documents to the client side because
+  // it is a security breach. Hence, we are duplicating the queries for now.
   Meteor.publish('lineItems', entryId => LineItems.find({ entryId }));
 }
 
