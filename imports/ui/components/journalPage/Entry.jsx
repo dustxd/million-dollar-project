@@ -44,7 +44,10 @@ class Entry extends Component {
   }
 
   onBlurLineItem = () => {
-    this.setState({ selectedLineItem: '' });
+    this.setState({
+      openNewLineItem: false,
+      selectedLineItem: '',
+    });
   }
 
   render() {

@@ -76,6 +76,7 @@ class LineItem extends Component {
             <Icon>{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
           <TextField
+            autoFocus={isSelected}
             className={classes.itemTextField}
             defaultValue={text}
             InputProps={{
