@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
+  Button,
   Icon,
   ListItem,
   ListItemIcon,
+  ListItemSecondaryAction,
   ListItemText,
   TextField,
 } from '@material-ui/core';
@@ -41,6 +43,12 @@ class LineItem extends Component {
     });
   }
 
+  handleClickLineItem = () => {
+    const { onClickLineItem, id } = this.props;
+
+    onClickLineItem(id);
+  }
+
   handleSubmit =(e) => {
     e.preventDefault();
   }
@@ -54,25 +62,36 @@ class LineItem extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, id, selectedLineItem } = this.props;
     const { bullet, text } = this.state;
+    const isSelected = id === selectedLineItem;
 
     return (
       <div>
-        <ListItem button>
+        <ListItem
+          selected={isSelected}
+          onClick={() => this.handleClickLineItem()}
+        >
           <ListItemIcon onClick={() => this.onClickBullet()}>
             <Icon>{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
-          <ListItemText>
-            <TextField
-              className={classes.itemTextField}
-              defaultValue={text}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              onChange={e => this.onChangeContent(e)}
-            />
-          </ListItemText>
+          <TextField
+            className={classes.itemTextField}
+            defaultValue={text}
+            InputProps={{
+              disableUnderline: true,
+            }}
+            onChange={e => this.onChangeContent(e)}
+          />
+          {
+            isSelected
+              ? (
+                <ListItemSecondaryAction>
+                  <Button>SAVE</Button>
+                </ListItemSecondaryAction>
+              )
+              : null
+          }
         </ListItem>
       </div>
     );

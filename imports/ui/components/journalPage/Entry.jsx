@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  ClickAwayListener,
   Icon,
   IconButton,
   List,
@@ -22,6 +23,7 @@ class Entry extends Component {
     super(props);
     this.state = {
       openNewLineItem: false,
+      selectedLineItem: '',
     };
   }
 
@@ -31,36 +33,58 @@ class Entry extends Component {
   }
 
   onClickOpenNewLineItem = () => {
-    this.setState({ openNewLineItem: true });
+    this.setState({
+      openNewLineItem: true,
+      selectedLineItem: 'NEW',
+    });
+  }
+
+  onClickLineItem = (lineItemId) => {
+    this.setState({ selectedLineItem: lineItemId });
+  }
+
+  onBlurLineItem = () => {
+    this.setState({ selectedLineItem: '' });
   }
 
   render() {
     const { classes, header, entryId } = this.props;
-    const { openNewLineItem } = this.state;
+    const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
-      <div>
-        <div className={classes.header}>
-          <Typography variant="h5">{header}</Typography>
-          <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
-            <Icon>delete</Icon>
-          </IconButton>
-          <IconButton onClick={() => this.onClickOpenNewLineItem()}>
-            <Icon>add</Icon>
-          </IconButton>
+      <ClickAwayListener onClickAway={() => this.onBlurLineItem()}>
+        <div>
+          <div className={classes.header}>
+            <Typography variant="h5">{header}</Typography>
+            <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+              <Icon>delete</Icon>
+            </IconButton>
+            <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+              <Icon>add</Icon>
+            </IconButton>
+          </div>
+          <List component="nav">
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={0} item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={1} item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={2} item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={3} item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={4} item={{ type: 'EVENT', content: 'An event' }} />
+            <LineItem selectedLineItem={selectedLineItem} onClickLineItem={id => this.onClickLineItem(id)} id={5} item={{ type: 'NOTE', content: 'A memorable note' }} />
+            {
+              openNewLineItem
+                ? (
+                  <LineItem
+                    selectedLineItem={selectedLineItem}
+                    onClickLineItem={id => this.onClickLineItem(id)}
+                    id="NEW"
+                    item={{}}
+                  />
+                )
+                : null
+            }
+          </List>
         </div>
-        <List component="nav">
-          <LineItem item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
-          <LineItem item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
-          <LineItem item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
-          <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
-          <LineItem item={{ type: 'EVENT', content: 'An event' }} />
-          <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
-          {
-            openNewLineItem ? <LineItem item={{}} /> : <div />
-          }
-        </List>
-      </div>
+      </ClickAwayListener>
     );
   }
 }
