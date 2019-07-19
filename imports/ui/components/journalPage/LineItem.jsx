@@ -88,7 +88,7 @@ class LineItem extends Component {
             isSelected
               ? (
                 <ListItemSecondaryAction>
-                  <Button>SAVE</Button>
+                  <Button disabled={!text}>SAVE</Button>
                 </ListItemSecondaryAction>
               )
               : null
