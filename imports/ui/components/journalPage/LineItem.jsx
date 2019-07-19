@@ -53,16 +53,17 @@ class LineItem extends Component {
   }
 
   handleAddLineItem = () => {
-    const { onClickAddLineItem } = this.props;
+    const { onClickAddOrUpdateLineItem, id } = this.props;
     const { bullet, text } = this.state;
 
     const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
-
-    onClickAddLineItem({
+    const newLineItem = {
       type: isTask ? TASK : bullet,
       status: isTask ? bullet : undefined,
       content: text,
-    });
+    };
+
+    onClickAddOrUpdateLineItem(newLineItem, id);
   }
 
   getBulletIcon = (currentType) => {
@@ -115,5 +116,9 @@ class LineItem extends Component {
     );
   }
 }
+
+LineItem.defaultProps = {
+  item: {},
+};
 
 export default withStyles(styles)(LineItem);

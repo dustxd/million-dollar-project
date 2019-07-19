@@ -42,7 +42,7 @@ class Entry extends Component {
     });
   }
 
-  onClickAddLineItem = (lineItemInfo) => {
+  onClickAddOrUpdateLineItem = (lineItemInfo, lineItemId) => {
     const { entryId, actions } = this.props;
 
     const newLineItem = {
@@ -50,7 +50,13 @@ class Entry extends Component {
       entryId,
     };
 
-    actions.addResource(newLineItem, 'lineItems');
+    if (lineItemId === 'NEW') {
+      actions.addResource(newLineItem, 'lineItems');
+    } else {
+      actions.updateResource(newLineItem, 'lineItems', lineItemId);
+    }
+
+    this.onBlurLineItem();
   }
 
   onClickLineItem = (lineItemId) => {
@@ -91,6 +97,7 @@ class Entry extends Component {
                     id={_id}
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
+                    onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
                     item={item}
                   />
                 );
@@ -104,8 +111,7 @@ class Entry extends Component {
                     id="NEW"
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
-                    onClickAddLineItem={lineItemInfo => this.onClickAddLineItem(lineItemInfo)}
-                    item={{}}
+                    onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
                   />
                 )
                 : null
