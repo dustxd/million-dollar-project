@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
-  Button,
+  IconButton,
   Icon,
   ListItem,
   ListItemIcon,
@@ -52,7 +52,7 @@ class LineItem extends Component {
     onClickLineItem(id);
   }
 
-  handleAddLineItem = () => {
+  handleAddOrUpdateLineItem = () => {
     const { onClickAddOrUpdateLineItem, id } = this.props;
     const { bullet, text } = this.state;
 
@@ -101,12 +101,17 @@ class LineItem extends Component {
             isSelected
               ? (
                 <ListItemSecondaryAction>
-                  <Button
+                  <IconButton
                     disabled={!text}
-                    onClick={() => this.handleAddLineItem()}
+                    onClick={() => this.handleAddOrUpdateLineItem()}
                   >
-                    SAVE
-                  </Button>
+                    <Icon>save</Icon>
+                  </IconButton>
+                  <IconButton
+                    onClick={() => {}}
+                  >
+                    <Icon>close</Icon>
+                  </IconButton>
                 </ListItemSecondaryAction>
               )
               : null
