@@ -36,13 +36,13 @@ class Spread extends Component {
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
               <Grid container spacing={0} className={classes.inheritHeight}>
-                <Grid item className={classes.inheritHeight} xs={12} sm={6}>
+                <Grid className={classes.inheritHeight} item xs={12} sm={6}>
                   <Paper className={classes.inheritHeight}>
                     <Page actions={actions} page="left" />
                   </Paper>
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  <Paper>
+                <Grid item className={classes.inheritHeight} xs={12} sm={6}>
+                  <Paper className={classes.inheritHeight}>
                     <Page actions={actions} page="right" />
                   </Paper>
                 </Grid>
