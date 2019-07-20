@@ -22,11 +22,11 @@ class Results extends Component {
       ],
       data: []
     };
-  } 
+  }
 
   render() {
     const { entries } = this.props;
-    
+
     console.log(entries);
 
 
@@ -50,7 +50,7 @@ class Results extends Component {
             onClick: () => {
               const { coreProps, history } = this.props;
               // const { actions } = coreProps;
-              // history.push('/singlePage',{ entry: _id})
+              history.push('/singlePage', { entry: 0});
             }
           }
         ]}
@@ -69,7 +69,7 @@ class Results extends Component {
   //   actions.logoutUser();
   //   history.push('/login');
   // }
-  
+
 }
 }
 
@@ -79,12 +79,9 @@ export default ResultsContainer = withTracker(() => {
 
   return {
     entries: Entries.find(
-      {}, 
-      {sort: {createdAt: -1}, 
+      {},
+      {sort: {createdAt: -1},
       fields:{createdAt: 1, header: 1, type: 1, _id: 1}
     }).fetch(),
   };
-})(Results)
-
-
-
+})(withRouter(Results));
