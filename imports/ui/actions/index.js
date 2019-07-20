@@ -142,3 +142,34 @@ export function deleteResource(resourceId, resourcePath) {
     });
   };
 }
+
+function updateResourceSuccess(resource, resourceId, resourcePath) {
+  const response = {
+    _id: resourceId,
+    ...resource,
+  };
+  return {
+    type: types.UPDATE_RESOURCE_SUCCESS,
+    response,
+    resourcePath,
+  };
+}
+
+function updateResourceFailure(error) {
+  return {
+    type: types.UPDATE_RESOURCE_FAILURE, error,
+  };
+}
+
+export function updateResource(resource, resourcePath, resourceId) {
+  return (dispatch) => {
+    dispatch(updateLoadingState(types.UPDATE_RESOURCE_REQUEST));
+    Meteor.call(`${resourcePath}.update`, resourceId, resource, (error, result) => {
+      if (error) {
+        dispatch(updateResourceFailure(error));
+      } else {
+        dispatch(updateResourceSuccess(resource, resourceId, resourcePath));
+      }
+    });
+  };
+}

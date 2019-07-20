@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import {
+  ClickAwayListener,
   Icon,
   IconButton,
   List,
   Typography,
 } from '@material-ui/core';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 
+import { LineItems } from '../../../api/lineItems';
 import LineItem from './LineItem';
 
 const styles = {
@@ -18,33 +22,127 @@ const styles = {
 };
 
 class Entry extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      openNewLineItem: false,
+      selectedLineItem: '',
+    };
+  }
+
   onClickDeleteEntry = (entryId) => {
     const { actions } = this.props;
     actions.deleteResource(entryId, 'entries');
   }
 
+  onClickOpenNewLineItem = () => {
+    this.setState({
+      openNewLineItem: true,
+      selectedLineItem: 'NEW',
+    });
+  }
+
+  onClickAddOrUpdateLineItem = (lineItemInfo, lineItemId) => {
+    const { entryId, actions } = this.props;
+
+    const newLineItem = {
+      ...lineItemInfo,
+      entryId,
+    };
+
+    if (lineItemId === 'NEW') {
+      actions.addResource(newLineItem, 'lineItems');
+    } else {
+      actions.updateResource(newLineItem, 'lineItems', lineItemId);
+    }
+
+    this.onBlurLineItem();
+  }
+
+  onClickRemoveLineItem = (lineItemId) => {
+    const { actions } = this.props;
+
+    if (lineItemId === 'NEW') {
+      this.onBlurLineItem();
+    } else {
+      actions.deleteResource(lineItemId, 'lineItems');
+    }
+  }
+
+  onClickLineItem = (lineItemId) => {
+    this.setState({ selectedLineItem: lineItemId });
+  }
+
+  onBlurLineItem = () => {
+    this.setState({
+      openNewLineItem: false,
+      selectedLineItem: '',
+    });
+  }
+
   render() {
-    const { classes, header, entryId } = this.props;
+    const { classes, header, entryId, lineItems } = this.props;
+    const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
-      <div>
-        <div className={classes.header}>
-          <Typography variant="h5">{header}</Typography>
-          <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
-            <Icon>delete</Icon>
-          </IconButton>
+      <ClickAwayListener onClickAway={() => this.onBlurLineItem()}>
+        <div>
+          <div className={classes.header}>
+            <Typography variant="h5">{header}</Typography>
+            <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+              <Icon>delete</Icon>
+            </IconButton>
+            <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+              <Icon>add</Icon>
+            </IconButton>
+          </div>
+          <List>
+            {
+              lineItems.map((lineItem) => {
+                const { _id, owner, ...item } = lineItem;
+
+                return (
+                  <LineItem
+                    key={_id}
+                    id={_id}
+                    selectedLineItem={selectedLineItem}
+                    onClickLineItem={id => this.onClickLineItem(id)}
+                    onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
+                    onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}
+                    item={item}
+                  />
+                );
+              })
+            }
+            {
+              openNewLineItem
+                ? (
+                  <LineItem
+                    key="NEW"
+                    id="NEW"
+                    selectedLineItem={selectedLineItem}
+                    onClickLineItem={id => this.onClickLineItem(id)}
+                    onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
+                    onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}
+                  />
+                )
+                : null
+            }
+          </List>
         </div>
-        <List component="nav">
-          <LineItem item={{ type: 'TASK', status: 'TODO', content: 'Need to do this' }} />
-          <LineItem item={{ type: 'TASK', status: 'COMPLETED', content: 'Done with this' }} />
-          <LineItem item={{ type: 'TASK', status: 'SCHEDULED', content: 'Scheduled' }} />
-          <LineItem item={{ type: 'TASK', status: 'MIGRATED', content: 'Migrated this' }} />
-          <LineItem item={{ type: 'EVENT', content: 'An event' }} />
-          <LineItem item={{ type: 'NOTE', content: 'A memorable note' }} />
-        </List>
-      </div>
+      </ClickAwayListener>
     );
   }
 }
 
-export default withStyles(styles)(Entry);
+const dataSource = (props) => {
+  const { entryId } = props;
+
+  Meteor.subscribe('lineItems', entryId);
+
+  return {
+    lineItems: LineItems.find({ entryId }).fetch(),
+  };
+};
+
+export default withTracker(dataSource)(withStyles(styles)(Entry));
