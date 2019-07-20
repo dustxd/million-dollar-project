@@ -17,6 +17,9 @@ const customizedThemes = {
       fontSize: '70px',
       fontWeight: 'bold',
     },
+    body1: {
+      width: 'inherit',
+    }
   },
   overrides: {
     MuiButton: {

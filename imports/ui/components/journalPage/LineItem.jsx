@@ -6,12 +6,16 @@ import {
   ListItemIcon,
   ListItemText,
   TextField,
+  Typography,
 } from '@material-ui/core';
 
 const styles = {
-  itemTextField: {
-
+  listItem: {
+    width: '-webkit-fill-available',
   },
+  inheritWidth: {
+    width:'inherit',
+  }
 };
 class LineItem extends Component {
   constructor(props) {
@@ -72,12 +76,17 @@ class LineItem extends Component {
           <ListItemIcon onClick={() => this.onClickBullet()}>
             <Icon>{this.getBulletIcon(type, status)}</Icon>
           </ListItemIcon>
-          <ListItemText>
+          <ListItemText className={classes.listItem} className={classes.inheritWidth}>
             <TextField
-              className={classes.itemTextField}
+              className={classes.inheritWidth}
               defaultValue={content}
               InputProps={{
                 disableUnderline: true,
+                multiline: true,
+                fullWidth: true,
+                classes: {
+                  input: classes.inheritWidth,
+                },
               }}
               onChange={e => this.onChangeContent(e)}
             />
