@@ -8,11 +8,11 @@ import Entry from './Entry';
 
 const styles = {
   leftPage: {
-    padding: '1em',
+    padding: '2em',
     paddingRight: '3em',
   },
   rightPage: {
-    padding: '1em',
+    padding: '2em',
     paddingLeft: '3em',
   },
 };
@@ -31,7 +31,7 @@ class Page extends Component {
 
     if (page === 'left') {
       return (
-        <div className={classes.rightPage}>
+        <div className={classes.leftPage}>
           {/* <Entry header={entries[0].header} />
           <Entry header={entries[1].header} /> */}
           {

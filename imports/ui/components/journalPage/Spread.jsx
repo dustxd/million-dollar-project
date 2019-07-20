@@ -7,10 +7,15 @@ import Page from './Page';
 const styles = {
   spreadContainer: {
     padding: '20px',
+    height: '-webkit-fill-available',
   },
   root: {
     flexGrow: 1,
+    height: 'inherit',
   },
+  inheritHeight: {
+    height:'inherit',
+  }
 };
 
 class Spread extends Component {
@@ -30,9 +35,9 @@ class Spread extends Component {
         : (
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
-              <Grid container spacing={0}>
-                <Grid item xs={12} sm={6}>
-                  <Paper>
+              <Grid container spacing={0} className={classes.inheritHeight}>
+                <Grid item className={classes.inheritHeight} xs={12} sm={6}>
+                  <Paper className={classes.inheritHeight}>
                     <Page actions={actions} page="left" />
                   </Paper>
                 </Grid>
