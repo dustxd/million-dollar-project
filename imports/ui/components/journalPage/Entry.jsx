@@ -59,6 +59,16 @@ class Entry extends Component {
     this.onBlurLineItem();
   }
 
+  onClickRemoveLineItem = (lineItemId) => {
+    const { actions } = this.props;
+
+    if (lineItemId === 'NEW') {
+      this.onBlurLineItem();
+    } else {
+      actions.deleteResource(lineItemId, 'lineItems');
+    }
+  }
+
   onClickLineItem = (lineItemId) => {
     this.setState({ selectedLineItem: lineItemId });
   }
@@ -98,6 +108,7 @@ class Entry extends Component {
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
+                    onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}
                     item={item}
                   />
                 );
@@ -112,6 +123,7 @@ class Entry extends Component {
                     selectedLineItem={selectedLineItem}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
+                    onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}
                   />
                 )
                 : null

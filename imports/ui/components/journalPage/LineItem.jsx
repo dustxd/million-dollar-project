@@ -66,6 +66,12 @@ class LineItem extends Component {
     onClickAddOrUpdateLineItem(newLineItem, id);
   }
 
+  handleRemoveLineItem = () => {
+    const { onClickRemoveLineItem, id } = this.props;
+
+    onClickRemoveLineItem(id);
+  }
+
   getBulletIcon = (currentType) => {
     const currentBullet = BULLET_DEFINITION.find(bullet => bullet.type === currentType);
     if (!currentBullet) {
@@ -108,7 +114,7 @@ class LineItem extends Component {
                     <Icon>save</Icon>
                   </IconButton>
                   <IconButton
-                    onClick={() => {}}
+                    onClick={() => this.handleRemoveLineItem()}
                   >
                     <Icon>close</Icon>
                   </IconButton>
