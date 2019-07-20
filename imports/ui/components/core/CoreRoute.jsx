@@ -18,7 +18,7 @@ const NAVIGATION_OPTIONS = [
     key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
   },
   {
-    key: 'singePage', title: 'Page View', path: '/singlePage', icon: 'note',
+    key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'note',
   },
   {
     key: 'search', title: 'Search', path: '/search', icon: 'search',

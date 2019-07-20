@@ -29,7 +29,13 @@ class Entry extends Component {
     return (
       <div>
         <div className={classes.header}>
+          <IconButton>
+            <Icon>keyboard_arrow_left</Icon>
+          </IconButton>
           <Typography variant="h5">{header}</Typography>
+          <IconButton>
+            <Icon>keyboard_arrow_right</Icon>
+          </IconButton>
           <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
             <Icon>delete</Icon>
           </IconButton>
