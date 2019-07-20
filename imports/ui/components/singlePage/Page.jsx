@@ -13,19 +13,27 @@ const styles = {
   },
 };
 
+
+
 class Page extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
+      pageTracker: ""
     };
   }
 
+  // getMostRecentEntry = () => {
+  //   return Entries;
+  // }
+
   render() {
-    const {
- classes, page, entries, actions 
-} = this.props;
+    const { classes, page, entries, actions } = this.props;
+    // console.log(entries);
+    // entry = entries[0];
+    // console.log(entries);
+    // console.log(entries[0]);
 
 
     return (
@@ -33,7 +41,8 @@ class Page extends Component {
         {/* <Entry header={entries[0].header} />
           <Entry header={entries[1].header} /> */}
         {
-            entries.map(entry => (
+            // entry = entries[0];
+            entries.map(entry => ( 
               <Entry
                 key={entry._id}
                 header={entry && entry.header}
@@ -55,6 +64,20 @@ export default PageContainer = withTracker(() => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find().fetch(),
+    // entries: Entries.find({header: "July 19, 2019"}).fetch(),
+    entries: Entries.find({}, {sort: {createdAt: -1}, limit: 1}).fetch(),
+    // entries: Entries.find().fetch(),
+
+    // entries: Entries.aggregate(
+    // [
+    //   {$sort: {createdAt: 1}},
+    //   {
+    //     $group:
+    //     {
+    //       _id: 
+    //     }
+    //   }
+    // ]
+    // )
   };
 })(withStyles(styles)(Page));

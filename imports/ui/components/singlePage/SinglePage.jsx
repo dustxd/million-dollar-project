@@ -31,7 +31,7 @@ class SinglePage extends Component {
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12} sm={8}>
                   <Paper>
                     <Page actions={actions} page="left" />
                   </Paper>
