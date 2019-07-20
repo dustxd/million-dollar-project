@@ -9,11 +9,11 @@ import Entry from './Entry';
 const styles = {
   leftPage: {
     padding: '2em',
-    paddingRight: '3em',
+    paddingLeft: '3em',
   },
   rightPage: {
     padding: '2em',
-    paddingLeft: '3em',
+    paddingRight: '3em',
   },
 };
 
