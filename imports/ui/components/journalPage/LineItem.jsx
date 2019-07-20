@@ -1,91 +1,143 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import {
+  IconButton,
   Icon,
   ListItem,
   ListItemIcon,
-  ListItemText,
+  ListItemSecondaryAction,
   TextField,
 } from '@material-ui/core';
+
+import {
+  BULLET_DEFINITION,
+  TASK_STATUS,
+  TASK,
+} from '../../constants/ResourceConstants';
 
 const styles = {
   itemTextField: {
 
   },
+  listItemSecondaryAction: {
+    paddingRight: '120px',
+  },
 };
+
 class LineItem extends Component {
   constructor(props) {
     super(props);
+    const { item } = props;
+    const { status, type, content } = item;
     this.state = {
-      content: '',
+      bullet: status || type || BULLET_DEFINITION[0].type,
+      text: content || '',
     };
   }
 
   onClickBullet = () => {
-    console.log('clicked');
+    const { bullet } = this.state;
+    const numberOfTypes = BULLET_DEFINITION.length;
+    const currentIndex = BULLET_DEFINITION.findIndex(def => def.type === bullet);
+    const newIndex = (currentIndex + 1) % numberOfTypes;
+    const newBullet = BULLET_DEFINITION[newIndex].type;
+    this.setState({ bullet: newBullet });
   }
 
   onChangeContent = (e) => {
     this.setState({
-      content: e.target.value,
+      text: e.target.value,
     });
   }
 
-  handleSubmit =(e) => {
-    e.preventDefault();
+  handleClickLineItem = () => {
+    const { onClickLineItem, id } = this.props;
+
+    onClickLineItem(id);
   }
 
-  getBulletIcon = (type, status) => {
-    if (type === 'TASK') {
-      switch (status) {
-        case 'TODO':
-          return 'lens';
-        case 'COMPLETED':
-          return 'done';
-        case 'SCHEDULED':
-          return 'chevron_left';
-        case 'MIGRATED':
-          return 'chevron_right';
-        default:
-          return null;
-      }
-    }
+  handleAddOrUpdateLineItem = () => {
+    const { onClickAddOrUpdateLineItem, id } = this.props;
+    const { bullet, text } = this.state;
 
-    if (type === 'EVENT') {
-      return 'panorama_fish_eye';
-    }
+    const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
+    const newLineItem = {
+      type: isTask ? TASK : bullet,
+      status: isTask ? bullet : undefined,
+      content: text,
+    };
 
-    if (type === 'NOTE') {
-      return 'remove';
-    }
+    onClickAddOrUpdateLineItem(newLineItem, id);
+  }
 
-    return null;
+  handleRemoveLineItem = () => {
+    const { onClickRemoveLineItem, id } = this.props;
+
+    onClickRemoveLineItem(id);
+  }
+
+  getBulletIcon = (currentType) => {
+    const currentBullet = BULLET_DEFINITION.find(bullet => bullet.type === currentType);
+    if (!currentBullet) {
+      return null;
+    }
+    return currentBullet.icon;
   }
 
   render() {
-    const { classes, item } = this.props;
-    const { type, status, content } = item;
+    const { classes, id, selectedLineItem } = this.props;
+    const { bullet, text } = this.state;
+    const isSelected = id === selectedLineItem;
 
     return (
       <div>
-        <ListItem button>
+        <ListItem
+          selected={isSelected}
+          onClick={() => this.handleClickLineItem()}
+          classes={{
+            secondaryAction: classes.listItemSecondaryAction,
+          }}
+        >
           <ListItemIcon onClick={() => this.onClickBullet()}>
-            <Icon>{this.getBulletIcon(type, status)}</Icon>
+            <Icon>{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
-          <ListItemText>
-            <TextField
-              className={classes.itemTextField}
-              defaultValue={content}
-              InputProps={{
-                disableUnderline: true,
-              }}
-              onChange={e => this.onChangeContent(e)}
-            />
-          </ListItemText>
+          <TextField
+            fullWidth
+            autoFocus={isSelected}
+            className={classes.itemTextField}
+            defaultValue={text}
+            InputProps={{
+              disableUnderline: true,
+            }}
+            onChange={e => this.onChangeContent(e)}
+          />
+          {
+            isSelected
+              ? (
+                <ListItemSecondaryAction>
+                  <IconButton
+                    disabled={!text}
+                    onClick={() => this.handleAddOrUpdateLineItem()}
+                  >
+                    <Icon>save</Icon>
+                  </IconButton>
+                  <IconButton
+                    onClick={() => this.handleRemoveLineItem()}
+                  >
+                    <Icon>close</Icon>
+                  </IconButton>
+                </ListItemSecondaryAction>
+              )
+              : null
+          }
         </ListItem>
       </div>
     );
   }
 }
+
+LineItem.defaultProps = {
+  item: {},
+};
 
 export default withStyles(styles)(LineItem);
