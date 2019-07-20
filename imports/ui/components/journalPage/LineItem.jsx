@@ -19,7 +19,11 @@ const styles = {
   itemTextField: {
 
   },
+  listItemSecondaryAction: {
+    paddingRight: '120px',
+  },
 };
+
 class LineItem extends Component {
   constructor(props) {
     super(props);
@@ -90,11 +94,15 @@ class LineItem extends Component {
         <ListItem
           selected={isSelected}
           onClick={() => this.handleClickLineItem()}
+          classes={{
+            secondaryAction: classes.listItemSecondaryAction,
+          }}
         >
           <ListItemIcon onClick={() => this.onClickBullet()}>
             <Icon>{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
           <TextField
+            fullWidth
             autoFocus={isSelected}
             className={classes.itemTextField}
             defaultValue={text}
