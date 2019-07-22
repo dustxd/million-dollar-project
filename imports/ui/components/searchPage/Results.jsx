@@ -1,87 +1,102 @@
 import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { Meteor } from 'meteor/meteor';
-import moment from 'moment';
-import { Route } from 'react-router-dom';
-import { Redirect, withRouter } from 'react-router';
+import { withRouter } from 'react-router';
 
 import { Entries } from '../../../api/entries';
 import { withTracker } from 'meteor/react-meteor-data';
 
-
+const tableColumns = [
+  { title: 'Date Created', field: 'createdAt' },
+  { title: 'Header', field: 'header' },
+  { title: 'Details', field: 'type' },
+];
 
 class Results extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      columns: [
-        { title: 'Date Created', field: 'date' },
-        { title: 'Header', field: 'header' },
-        { title: 'Details', field: 'type' },
-      ],
-      data: []
+
     };
   }
 
-  render() {
+  getDate = (dateObject) => {
+    const year = dateObject.getFullYear();
+    let month = dateObject.getMonth() + 1;
+    let day = dateObject.getDate();
+
+    // Prepend month and day with 0 if < 10 to get 'mm' and 'dd'
+    month = (month < 10)
+      ? `0${month}`
+      : month;
+
+    day = (day < 10)
+      ? `0${day}`
+      : day;
+
+    return `${day}/${month}/${year}`;
+  }
+
+  getParsedEntries = () => {
     const { entries } = this.props;
 
-    console.log(entries);
+    if (!entries) {
+      return [];
+    }
 
+    const parsedEntries = entries.map((entry) => {
+      const { createdAt } = entry;
+      const date = this.getDate(createdAt);
+      const mutableEntry = Object.assign({}, entry, { createdAt: date });
+      return mutableEntry;
+    });
 
-  return (
-    <div className="search-container">
-      <MaterialTable
-        title="Search Results"
-        columns={this.state.columns}
-        data={entries}
-        actions={[
-          {
-            icon:'add_circle_outline',
-            tooltip:'See All Details',
-            onClick: (event, rowData) => {
-              //Operation to expand entire message
-            }
-          },
-          {
-            icon:'book',
-            tooltip:'Go To Page',
-            onClick: () => {
-              const { coreProps, history } = this.props;
-              // const { actions } = coreProps;
-              history.push('/singlePage', { entry: 0});
-            }
-          }
-        ]}
-        options={{
-          actionsColumnIndex: -1
-        }}
-      />
-    </div>
-  );
+    return parsedEntries;
+  }
 
+  render() {
+    const formattedEntries = this.getParsedEntries();
 
-
-  // onClickSignout = () => {
-  //   const { coreProps, history } = this.props;
-  //   const { actions } = coreProps;
-  //   actions.logoutUser();
-  //   history.push('/login');
-  // }
-
+    return (
+      <div className="search-container">
+        <MaterialTable
+          title="Search Results"
+          columns={tableColumns}
+          data={formattedEntries}
+          actions={[
+            {
+              icon: 'add_circle_outline',
+              tooltip: 'See All Details',
+              onClick: (event, rowData) => {
+                //Operation to expand entire message
+              },
+            },
+            {
+              icon: 'book',
+              tooltip: 'Go To Page',
+              onClick: () => {
+                const { coreProps, history } = this.props;
+                // const { actions } = coreProps;
+                history.push('/singlePage', { entry: 0 });
+              },
+            },
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+          }}
+        />
+      </div>
+    );
+  }
 }
-}
 
-export default ResultsContainer = withTracker(() => {
+const dataSource = (props) => {
   Meteor.subscribe('entries');
 
-
   return {
-    entries: Entries.find(
-      {},
-      {sort: {createdAt: -1},
-      fields:{createdAt: 1, header: 1, type: 1, _id: 1}
-    }).fetch(),
+    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
-})(withRouter(Results));
+};
+
+export default withTracker(dataSource)(withRouter(Results));
