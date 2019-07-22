@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Grid, LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
-import Page from './Page';
+import Page from '../journalPage/Page';
 
 const styles = {
   spreadContainer: {
-		padding: '20px',
+    padding: '20px',
   },
   root: {
-		flexGrow: 1,
+    flexGrow: 1,
   },
 };
 
@@ -33,7 +33,7 @@ class SinglePage extends Component {
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
                   <Paper>
-                    <Page actions={actions} page="left" />
+                    <Page type="DATED_SINGLE_PAGE" actions={actions} page="left" />
                   </Paper>
                 </Grid>
               </Grid>
