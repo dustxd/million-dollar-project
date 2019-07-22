@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import MaterialTable from 'material-table';
 import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
+import { withTracker } from 'meteor/react-meteor-data';
 
 import { Entries } from '../../../api/entries';
-import { withTracker } from 'meteor/react-meteor-data';
 
 const tableColumns = [
   { title: 'Date Created', field: 'createdAt' },
