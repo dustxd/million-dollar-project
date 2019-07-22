@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { LineItems } from '../../../../api/lineItems';
 import LineItem from './LineItem';
+import { HEADER_TYPES } from '../../../constants/ResourceConstants';
 
 const styles = {
   header: {
@@ -102,7 +103,7 @@ class Entry extends Component {
   renderHeader = () => {
     const { headerType, classes, header, entryId } = this.props;
 
-    if (headerType === 'DATED_WITH_NAV') {
+    if (headerType === HEADER_TYPES.WITH_NAV) {
       return this.renderDatedHeaderWithNav();
     }
 
