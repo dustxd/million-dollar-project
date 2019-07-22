@@ -10,7 +10,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 
-import { LineItems } from '../../../api/lineItems';
+import { LineItems } from '../../../../api/lineItems';
 import LineItem from './LineItem';
 
 const styles = {

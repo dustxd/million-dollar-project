@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
-import Entry from './Entry';
+import Entry from './subComponents/Entry';
 
 const styles = {
   leftPage: {
