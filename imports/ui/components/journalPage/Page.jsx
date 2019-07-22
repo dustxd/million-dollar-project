@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
+import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
 
 const styles = {
   leftPage: {
@@ -26,6 +27,18 @@ class Page extends Component {
     };
   }
 
+  getHeaderType = () => {
+    const { type } = this.props;
+
+    const selectedLayout = PAGE_LAYOUT.find(layout => layout.type === type);
+
+    if (selectedLayout) {
+      return selectedLayout.headerType;
+    }
+
+    return PAGE_LAYOUT[0].headerType;
+  }
+
   render() {
     const { classes, page, entries, actions } = this.props;
 
@@ -39,6 +52,7 @@ class Page extends Component {
               <Entry
                 key={entry._id}
                 header={entry && entry.header}
+                headerType={this.getHeaderType()}
                 actions={actions}
                 entryId={entry._id}
               />
@@ -56,10 +70,12 @@ class Page extends Component {
   }
 }
 
-export default PageContainer = withTracker(() => {
+const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
     entries: Entries.find().fetch(),
   };
-})(withStyles(styles)(Page));
+};
+
+export default withTracker(dataSource)(withStyles(styles)(Page));
