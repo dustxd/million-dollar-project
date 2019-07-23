@@ -16,6 +16,9 @@ const styles = {
     padding: '1em',
     paddingLeft: '3em',
   },
+  center: {
+    padding: '2em',
+  },
 };
 
 class Page extends Component {
@@ -25,6 +28,31 @@ class Page extends Component {
     this.state = {
 
     };
+  }
+
+  getStyling = () => {
+    const { position, classes } = this.props;
+
+    if (position === 'left') {
+      return classes.leftPage;
+    }
+
+    if (position === 'right') {
+      return classes.rightPage;
+    }
+
+    return classes.center;
+  }
+
+  getHeader = (entryId) => {
+    const { entries } = this.props;
+    const selectedEntry = entries.find(entry => entry._id === entryId);
+
+    if (selectedEntry) {
+      return selectedEntry.header;
+    }
+
+    return '';
   }
 
   getHeaderType = () => {
@@ -40,31 +68,17 @@ class Page extends Component {
   }
 
   render() {
-    const { classes, page, entries, actions } = this.props;
-
-    if (page === 'left') {
-      return (
-        <div className={classes.rightPage}>
-          {/* <Entry header={entries[0].header} />
-          <Entry header={entries[1].header} /> */}
-          {
-            entries.map(entry => (
-              <Entry
-                key={entry._id}
-                header={entry && entry.header}
-                headerType={this.getHeaderType()}
-                actions={actions}
-                entryId={entry._id}
-              />
-            ))
-          }
-        </div>
-      );
-    }
+    const { entryId, actions } = this.props;
 
     return (
-      <div className={classes.rightPage}>
-        {/* <Entry header={entries.length > 0 && entries[2].header} /> */}
+      <div className={this.getStyling()}>
+        <Entry
+          key={entryId}
+          header={this.getHeader(entryId)}
+          headerType={this.getHeaderType()}
+          actions={actions}
+          entryId={entryId}
+        />
       </div>
     );
   }
@@ -76,6 +90,11 @@ const dataSource = (props) => {
   return {
     entries: Entries.find().fetch(),
   };
+};
+
+Page.defaultProps = {
+  alignment: 'center',
+  entryId: '',
 };
 
 export default withTracker(dataSource)(withStyles(styles)(Page));
