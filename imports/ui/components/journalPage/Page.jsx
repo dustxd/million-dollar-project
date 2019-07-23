@@ -45,14 +45,16 @@ class Page extends Component {
   }
 
   getDisplayedEntryId = (redirectedEntryId) => {
-    const { entries } = this.props;
+    const { entries, position } = this.props;
 
     if (redirectedEntryId) {
       return redirectedEntryId;
     }
 
     if (entries && entries.length > 0) {
-      return entries[0]._id;
+      if (entries.length !== 1 || position !== 'right') {
+        return entries[0]._id;
+      }
     }
 
     return '';
@@ -85,6 +87,10 @@ class Page extends Component {
     const { entryId, actions } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
+
+    if (!displayedEntryId) {
+      return <div className={this.getStyling()} />
+    }
 
     return (
       <div className={this.getStyling()}>

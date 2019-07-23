@@ -31,9 +31,13 @@ class Spread extends Component {
     let rightEntryId = '';
 
     if (entries && entries.length > 0) {
-      // Entries are sorted in descending order
-      leftEntryId = entries[1] && entries[1]._id;
-      rightEntryId = entries[0] && entries[0]._id;
+      if (entries.length === 1) {
+        leftEntryId = entries[0] && entries[0]._id;
+      } else {
+        // Entries are sorted in descending order
+        leftEntryId = entries[1] && entries[1]._id;
+        rightEntryId = entries[0] && entries[0]._id;
+      }
     }
 
     return (
