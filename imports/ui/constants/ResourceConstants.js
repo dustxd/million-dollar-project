@@ -23,3 +23,16 @@ export const TASK_STATUS = [
   'SCHEDULED',
   'MIGRATED',
 ];
+
+const DEFAULT = 'DEFAULT';
+const WITH_NAV = 'WITH_NAV';
+
+export const HEADER_TYPES = {
+  DEFAULT,
+  WITH_NAV,
+};
+
+export const PAGE_LAYOUT = [
+  { type: 'DEFAULT_LAYOUT', headerType: DEFAULT },
+  { type: 'DATED_SINGLE_PAGE', headerType: WITH_NAV },
+];

@@ -13,7 +13,7 @@ import {
   BULLET_DEFINITION,
   TASK_STATUS,
   TASK,
-} from '../../constants/ResourceConstants';
+} from '../../../constants/ResourceConstants';
 
 const styles = {
   itemTextField: {

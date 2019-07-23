@@ -10,8 +10,9 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 
-import { LineItems } from '../../../api/lineItems';
+import { LineItems } from '../../../../api/lineItems';
 import LineItem from './LineItem';
+import { HEADER_TYPES } from '../../../constants/ResourceConstants';
 
 const styles = {
   header: {
@@ -80,22 +81,53 @@ class Entry extends Component {
     });
   }
 
+  renderDatedHeaderWithNav = () => {
+    const { classes, header, entryId } = this.props;
+
+    return (
+      <div className={classes.header}>
+        <IconButton>
+          <Icon>keyboard_arrow_left</Icon>
+        </IconButton>
+        <Typography variant="h5">{header}</Typography>
+        <IconButton>
+          <Icon>keyboard_arrow_right</Icon>
+        </IconButton>
+        <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+          <Icon>delete</Icon>
+        </IconButton>
+      </div>
+    );
+  }
+
+  renderHeader = () => {
+    const { headerType, classes, header, entryId } = this.props;
+
+    if (headerType === HEADER_TYPES.WITH_NAV) {
+      return this.renderDatedHeaderWithNav();
+    }
+
+    return (
+      <div className={classes.header}>
+        <Typography variant="h5">{header}</Typography>
+        <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+          <Icon>delete</Icon>
+        </IconButton>
+        <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+          <Icon>add</Icon>
+        </IconButton>
+      </div>
+    );
+  }
+
   render() {
-    const { classes, header, entryId, lineItems } = this.props;
+    const { lineItems } = this.props;
     const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
       <ClickAwayListener onClickAway={() => this.onBlurLineItem()}>
         <div>
-          <div className={classes.header}>
-            <Typography variant="h5">{header}</Typography>
-            <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
-              <Icon>delete</Icon>
-            </IconButton>
-            <IconButton onClick={() => this.onClickOpenNewLineItem()}>
-              <Icon>add</Icon>
-            </IconButton>
-          </div>
+          { this.renderHeader() }
           <List>
             {
               lineItems.map((lineItem) => {

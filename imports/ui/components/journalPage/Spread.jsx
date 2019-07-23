@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { Grid, LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { withTracker } from 'meteor/react-meteor-data';
+import { Meteor } from 'meteor/meteor';
 
 import Page from './Page';
+import { Entries } from '../../../api/entries';
 
 const styles = {
   spreadContainer: {
@@ -22,7 +25,16 @@ class Spread extends Component {
   }
 
   render() {
-    const { loading, classes, actions } = this.props;
+    const { loading, classes, actions, entries } = this.props;
+
+    let leftEntryId = '';
+    let rightEntryId = '';
+
+    if (entries && entries.length > 0) {
+      // Entries are sorted in descending order
+      leftEntryId = entries[1] && entries[1]._id;
+      rightEntryId = entries[0] && entries[0]._id;
+    }
 
     return (
       loading
@@ -33,12 +45,12 @@ class Spread extends Component {
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
                   <Paper>
-                    <Page actions={actions} page="left" />
+                    <Page actions={actions} position="left" entryId={leftEntryId} />
                   </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Paper>
-                    <Page actions={actions} page="right" />
+                    <Page actions={actions} position="right" entryId={rightEntryId} />
                   </Paper>
                 </Grid>
               </Grid>
@@ -49,4 +61,12 @@ class Spread extends Component {
   }
 }
 
-export default withStyles(styles)(Spread);
+const dataSource = (props) => {
+  Meteor.subscribe('entries');
+
+  return {
+    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+  };
+};
+
+export default withTracker(dataSource)(withStyles(styles)(Spread));
