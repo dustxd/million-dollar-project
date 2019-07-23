@@ -44,6 +44,20 @@ class Page extends Component {
     return classes.center;
   }
 
+  getDisplayedEntryId = (redirectedEntryId) => {
+    const { entries } = this.props;
+
+    if (redirectedEntryId) {
+      return redirectedEntryId;
+    }
+
+    if (entries && entries.length > 0) {
+      return entries[0]._id;
+    }
+
+    return '';
+  }
+
   getHeader = (entryId) => {
     const { entries } = this.props;
     const selectedEntry = entries.find(entry => entry._id === entryId);
@@ -70,14 +84,16 @@ class Page extends Component {
   render() {
     const { entryId, actions } = this.props;
 
+    const displayedEntryId = this.getDisplayedEntryId(entryId);
+
     return (
       <div className={this.getStyling()}>
         <Entry
-          key={entryId}
-          header={this.getHeader(entryId)}
+          key={displayedEntryId}
+          header={this.getHeader(displayedEntryId)}
           headerType={this.getHeaderType()}
           actions={actions}
-          entryId={entryId}
+          entryId={displayedEntryId}
         />
       </div>
     );
@@ -88,13 +104,12 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find().fetch(),
+    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 };
 
 Page.defaultProps = {
   alignment: 'center',
-  entryId: '',
 };
 
 export default withTracker(dataSource)(withStyles(styles)(Page));
