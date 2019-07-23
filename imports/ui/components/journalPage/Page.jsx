@@ -9,12 +9,12 @@ import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
 
 const styles = {
   leftPage: {
-    padding: '1em',
-    paddingRight: '3em',
+    padding: '2em',
+    paddingLeft: '3em',
   },
   rightPage: {
-    padding: '1em',
-    paddingLeft: '3em',
+    padding: '2em',
+    paddingRight: '3em',
   },
   center: {
     padding: '2em',
@@ -109,7 +109,7 @@ const dataSource = (props) => {
 };
 
 Page.defaultProps = {
-  alignment: 'center',
+  position: 'center',
 };
 
 export default withTracker(dataSource)(withStyles(styles)(Page));
