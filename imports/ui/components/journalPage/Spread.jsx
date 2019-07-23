@@ -33,12 +33,12 @@ class Spread extends Component {
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
                   <Paper>
-                    <Page actions={actions} page="left" />
+                    <Page actions={actions} position="left" />
                   </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Paper>
-                    <Page actions={actions} page="right" />
+                    <Page actions={actions} position="right" />
                   </Paper>
                 </Grid>
               </Grid>
