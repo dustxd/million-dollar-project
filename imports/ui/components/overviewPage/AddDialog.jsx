@@ -10,6 +10,8 @@ import {
   Typography,
 } from '@material-ui/core';
 
+import { ADD_DATED_ENTRY_DIALOG, ADD_COLLECTION_DIALOG } from '../../constants/ResourceConstants';
+
 const entryInfoFields = [
   { key: 'header', title: 'HEADER', type: 'textField' },
   // { key: 'type', title: 'TYPE', type: 'select' },
@@ -55,6 +57,17 @@ class AddDialog extends Component {
     }
   }
 
+  getDialogInfo = () => {
+    const { type } = this.props;
+
+    if (type === 'dated') {
+      return ADD_DATED_ENTRY_DIALOG;
+    }
+
+    // By default, the dialog should be for adding collection
+    return ADD_COLLECTION_DIALOG;
+  }
+
   renderInputComponent = (infoField) => {
     const { type, key } = infoField;
 
@@ -72,16 +85,17 @@ class AddDialog extends Component {
 
   render() {
     const { open, handleCloseDialog } = this.props;
+    const dialog = this.getDialogInfo();
 
     return (
       <Dialog
         open={open}
         onClose={handleCloseDialog}
       >
-        <DialogTitle>CREATE AN ENTRY</DialogTitle>
+        <DialogTitle>{dialog.title}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please enter a header.
+            {dialog.subtitle}
           </DialogContentText>
           {
             entryInfoFields.map(infoField => (
@@ -99,7 +113,7 @@ class AddDialog extends Component {
             CANCEL
           </Button>
           <Button onClick={() => this.onClickAdd()}>
-            ADD
+            {dialog.actions.addButton}
           </Button>
         </DialogActions>
       </Dialog>

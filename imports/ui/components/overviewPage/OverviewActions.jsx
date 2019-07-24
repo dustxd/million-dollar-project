@@ -24,22 +24,25 @@ class OverviewActions extends React.Component {
     super(props);
     this.state = {
       openAddDialog: false,
+      type: '',
     };
   }
 
   onClickActionButton = (key) => {
-    if (key === 'dated') {
-      this.setState({ openAddDialog: true });
+    if (key === 'undated') {
+      this.setState({ openAddDialog: true, type: 'undated' });
+    } else if (key === 'dated') {
+      this.setState({ openAddDialog: true, type: 'dated' });
     }
   }
 
   onClickCloseDialog = () => {
-    this.setState({ openAddDialog: false });
+    this.setState({ openAddDialog: false, type: '' });
   }
 
   render() {
     const { actions } = this.props;
-    const { openAddDialog } = this.state;
+    const { openAddDialog, type } = this.state;
 
     return (
       <div>
@@ -62,6 +65,7 @@ class OverviewActions extends React.Component {
             && (
               <AddDialog
                 open={openAddDialog}
+                type={type}
                 actions={actions}
                 handleCloseDialog={() => this.onClickCloseDialog()}
               />

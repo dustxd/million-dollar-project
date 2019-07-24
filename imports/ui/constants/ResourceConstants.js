@@ -37,3 +37,19 @@ export const PAGE_LAYOUT = [
   { type: 'DEFAULT_LAYOUT', headerType: DEFAULT },
   { type: 'DATED_SINGLE_PAGE', headerType: WITH_NAV },
 ];
+
+export const ADD_DATED_ENTRY_DIALOG = {
+  title: 'CREATE A DATED ENTRY',
+  subtitle: 'Please select a date.',
+  actions: {
+    addButton: 'ADD',
+  },
+};
+
+export const ADD_COLLECTION_DIALOG = {
+  title: 'CREATE A COLLECTION',
+  subtitle: 'Please enter a header.',
+  actions: {
+    addButton: 'ADD',
+  },
+};
