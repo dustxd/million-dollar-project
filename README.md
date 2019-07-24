@@ -1,6 +1,7 @@
 # A Million Dollar Project
 
-A web application that makes bullet journaling flexible and easy to use.
+(Two Sentence High Level Description)
+A web application that makes bullet journaling flexible and easy to use, allowing users to organize their tasks in a more effective way for easier retrieval and access. It aims to help users keep track of their habits, sort their daily activities, and plan for their future goals.
 
 ## Project Description
 
