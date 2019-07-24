@@ -12,7 +12,7 @@ import {
 import {
   BULLET_DEFINITION,
   TASK_STATUS,
-  TASK,
+  LINE_ITEM_TYPES,
 } from '../../../constants/ResourceConstants';
 
 const styles = {
@@ -76,7 +76,7 @@ class LineItem extends Component {
 
     const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
     const newLineItem = {
-      type: isTask ? TASK : bullet,
+      type: isTask ? LINE_ITEM_TYPES.TASK : bullet,
       status: isTask ? bullet : undefined,
       content: text,
     };

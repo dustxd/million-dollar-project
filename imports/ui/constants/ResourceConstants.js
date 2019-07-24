@@ -1,7 +1,11 @@
-export const TASK = 'TASK';
-export const EVENT = 'EVENT';
-export const NOTE = 'NOTE';
+// Constants
+const TASK = 'TASK';
+const EVENT = 'EVENT';
+const NOTE = 'NOTE';
+const DEFAULT = 'DEFAULT';
+const WITH_NAV = 'WITH_NAV';
 
+// Objects
 export const BULLET_DEFINITION = [
   { type: 'TODO', icon: 'lens' },
   { type: 'COMPLETED', icon: 'done' },
@@ -23,9 +27,6 @@ export const TASK_STATUS = [
   'SCHEDULED',
   'MIGRATED',
 ];
-
-const DEFAULT = 'DEFAULT';
-const WITH_NAV = 'WITH_NAV';
 
 export const HEADER_TYPES = {
   DEFAULT,
