@@ -5,20 +5,36 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storageSession from 'redux-persist/lib/storage/session';
+import { PersistGate } from 'redux-persist/integration/react';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
 import App from '../imports/ui/App';
 import RootReducer from '../imports/ui/reducers';
 import './main.css';
 import customizedThemes from '../imports/ui/css/customMuiStyles';
 
+const persistConfig = {
+  key: 'root',
+  storage: storageSession,
+  blacklist: ['loading'],
+};
+
+const persistedReducer = persistReducer(persistConfig, RootReducer);
+const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
+const persistor = persistStore(store);
+
 const theme = createMuiTheme(customizedThemes);
 
 Meteor.startup(() => {
   render(
-    <Provider store={createStore(RootReducer, applyMiddleware(thunk))}>
-      <MuiThemeProvider theme={theme}>
-        <App />
-      </MuiThemeProvider>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <MuiThemeProvider theme={theme}>
+          <App />
+        </MuiThemeProvider>
+      </PersistGate>
     </Provider>,
     document.getElementById('react-target'),
   );
