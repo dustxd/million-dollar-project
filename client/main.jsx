@@ -18,6 +18,7 @@ import customizedThemes from '../imports/ui/css/customMuiStyles';
 const persistConfig = {
   key: 'root',
   storage: storageSession,
+  blacklist: ['loading'],
 };
 
 const persistedReducer = persistReducer(persistConfig, RootReducer);
