@@ -26,7 +26,6 @@ class SearchBar extends React.Component {
 
     return (
       <div>
-        <h1>Hi, {user && user.profile.firstName}!</h1>
         <TextField
           id="search-bar"
           label="Search"

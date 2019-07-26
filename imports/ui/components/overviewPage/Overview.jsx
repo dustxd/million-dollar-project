@@ -1,5 +1,5 @@
 import React from 'react';
-import { LinearProgress } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 
 import OverviewActions from './OverviewActions';
 import SearchBar from './SearchBar';
@@ -21,6 +21,7 @@ class Overview extends React.Component {
         ? <LinearProgress />
         : (
           <div className="overview-container">
+            <Typography variant="h4">Hi, {user && user.profile.firstName}!</Typography>
             <SearchBar user={user} />
             <OverviewActions actions={actions} />
           </div>
