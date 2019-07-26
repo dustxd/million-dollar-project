@@ -95,12 +95,12 @@ class AddDialog extends Component {
   }
 
   onClickAdd = () => {
-    const { actions, onClickCloseDialog } = this.props;
+    const { type, actions, onClickCloseDialog } = this.props;
     const { header } = this.state;
 
     const newEntry = {
       header,
-      type: 'collection',
+      type,
       createdAt: new Date(),
     };
 
