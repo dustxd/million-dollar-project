@@ -32,7 +32,7 @@ class Results extends Component {
 
     const parsedEntries = entries.map((entry) => {
       const { createdAt, type, header } = entry;
-      const createdAtString = moment(createdAt).format('MMMM DD, YYYY');
+      const createdAtString = moment(createdAt).format('YYYY-MM-DD');
       let headerString = header;
       if (type === 'dated') {
         headerString = moment(header).format('MMMM DD, YYYY');
