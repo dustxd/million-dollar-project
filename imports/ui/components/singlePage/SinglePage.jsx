@@ -11,6 +11,10 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  paper: {
+    height: '100%',
+    minHeight: '-webkit-fill-available',
+  },
 };
 
 class SinglePage extends Component {
@@ -32,7 +36,7 @@ class SinglePage extends Component {
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
-                  <Paper>
+                  <Paper className={classes.paper}>
                     <Page type="DATED_SINGLE_PAGE" actions={actions} page="left" />
                   </Paper>
                 </Grid>
