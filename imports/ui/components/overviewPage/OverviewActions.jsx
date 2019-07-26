@@ -15,7 +15,7 @@ const buttonStyles = makeStyles(theme => ({
 
 const overviewActionButtons = [
   { key: 'dated', title: 'Add daily entry', icon: <AddEntry className={buttonStyles.rightIcon} /> },
-  { key: 'undated', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
+  { key: 'collection', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
   { key: 'recent', title: 'Last entry', icon: <LastEntry className={buttonStyles.rightIcon} /> },
 ];
 
@@ -29,11 +29,17 @@ class OverviewActions extends React.Component {
   }
 
   onClickActionButton = (key) => {
-    if (key === 'undated') {
-      this.setState({ openAddDialog: true, type: 'undated' });
-    } else if (key === 'dated') {
-      this.setState({ openAddDialog: true, type: 'dated' });
+    // Check if key belongs to any of the overview action buttons
+    const actionButton = overviewActionButtons.find(button => button.key === key);
+
+    if (!actionButton) {
+      return;
     }
+
+    this.setState({
+      openAddDialog: true,
+      type: key,
+    });
   }
 
   onClickCloseDialog = () => {
@@ -67,7 +73,7 @@ class OverviewActions extends React.Component {
                 open={openAddDialog}
                 type={type}
                 actions={actions}
-                handleCloseDialog={() => this.onClickCloseDialog()}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
               />
             )
         }
