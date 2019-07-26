@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
 import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
+import { ContactsOutlined } from '@material-ui/icons';
 
 const styles = {
   leftPage: {
@@ -26,7 +28,6 @@ class Page extends Component {
     super(props);
 
     this.state = {
-
     };
   }
 
@@ -83,10 +84,21 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+  // getEntryId = ({ location }, entryId) => {
+  //   if(location.state.entry != null){
+  //     return location.state.entry;
+  //   }
+  //   return entryId;
+  // }
+
   render() {
     const { entryId, actions } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
+
+    // if(this.props.location.state.entry != null) {
+    //   entryId = this.props.location.state.entry;
+    // }
 
     if (!displayedEntryId) {
       return <div className={this.getStyling()} />
@@ -108,8 +120,16 @@ class Page extends Component {
 
 const dataSource = (props) => {
   Meteor.subscribe('entries');
-
-  return {
+  // console.log(this.props.entry)
+  // if (props.entry != null){
+  //   return {
+  //     entries: Entries.find( { header: props.entry }).fetch()
+  //   }
+  // } else {
+    // return props.entry
+  // }
+  
+    return {
     entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 };

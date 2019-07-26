@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, LinearProgress, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from 'react-router';
 
 import Page from '../journalPage/Page';
 
@@ -24,6 +25,14 @@ class SinglePage extends Component {
   render() {
     const { loading, classes, actions } = this.props;
 
+    let entryId = '';
+
+    if (this.props.location.state != undefined) {
+      entryId = this.props.location.state.entry;
+    }
+    
+
+
     return (
       loading
         ? <LinearProgress />
@@ -33,7 +42,8 @@ class SinglePage extends Component {
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
                   <Paper>
-                    <Page type="DATED_SINGLE_PAGE" actions={actions} page="left" />
+                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={entryId} page="left" />
+                    {/* <Page type="DATED_SINGLE_PAGE" actions={actions} page="left"/> */}
                   </Paper>
                 </Grid>
               </Grid>
@@ -44,4 +54,4 @@ class SinglePage extends Component {
   }
 }
 
-export default withStyles(styles)(SinglePage);
+export default (withStyles(styles))(withRouter(SinglePage));

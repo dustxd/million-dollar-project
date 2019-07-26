@@ -10,6 +10,7 @@ const tableColumns = [
   { title: 'Date Created', field: 'createdAt' },
   { title: 'Header', field: 'header' },
   { title: 'Details', field: 'type' },
+  { title: 'EntryId', field: '_id'}
 ];
 
 class Results extends Component {
@@ -75,10 +76,12 @@ class Results extends Component {
             {
               icon: 'book',
               tooltip: 'Go To Page',
-              onClick: () => {
+              onClick: (event, rowData) => {
                 const { coreProps, history } = this.props;
                 // const { actions } = coreProps;
-                history.push('/singlePage', { entry: 0 });
+                // history.push('/singlePage', {entry: 0 }) ;
+                // history stores entry as this.history..... not as a prop
+                this.props.history.push({pathname : '/singlePage', state : {entry: rowData._id}});
               },
             },
           ]}
