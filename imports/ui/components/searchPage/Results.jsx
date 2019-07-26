@@ -30,9 +30,20 @@ class Results extends Component {
     }
 
     const parsedEntries = entries.map((entry) => {
-      const { createdAt } = entry;
-      const date = moment(createdAt).format('MMMM DD, YYYY');
-      const mutableEntry = Object.assign({}, entry, { createdAt: date });
+      const { createdAt, type, header } = entry;
+      const createdAtString = moment(createdAt).format('MMMM DD, YYYY');
+      let headerString = header;
+      if (type === 'dated') {
+        headerString = moment(header).format('MMMM DD, YYYY');
+      }
+      const mutableEntry = Object.assign(
+        {},
+        entry,
+        {
+          createdAt: createdAtString,
+          header: headerString,
+        },
+      );
       return mutableEntry;
     });
 
