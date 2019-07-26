@@ -14,6 +14,9 @@ const styles = {
   root: {
     flexGrow: 1,
   },
+  paper: {
+    height: '100%',
+  },
 };
 
 class Spread extends Component {
@@ -48,12 +51,12 @@ class Spread extends Component {
             <div className={classes.root}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
-                  <Paper>
+                  <Paper className={classes.paper}>
                     <Page actions={actions} position="left" entryId={leftEntryId} />
                   </Paper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Paper>
+                  <Paper className={classes.paper}>
                     <Page actions={actions} position="right" entryId={rightEntryId} />
                   </Paper>
                 </Grid>
