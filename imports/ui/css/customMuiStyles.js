@@ -4,9 +4,9 @@
 const customizedThemes = {
   palette: {
     primary: {
-      light: '#323232',
-      main: '#000000',
-      dark: '#191919',
+      light: '#bec358',
+      main: '#868735',
+      dark: '#4f3d16',
       contrastText: '#ffffff',
     },
   },
