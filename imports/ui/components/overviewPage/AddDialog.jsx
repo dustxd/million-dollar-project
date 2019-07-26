@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -13,6 +12,7 @@ import {
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import MomentUtils from '@date-io/moment';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 import { ADD_DATED_ENTRY_DIALOG, ADD_COLLECTION_DIALOG } from '../../constants/ResourceConstants';
 
@@ -99,7 +99,7 @@ class AddDialog extends Component {
     const { header } = this.state;
 
     const newEntry = {
-      header,
+      header: moment(header).toDate(),
       type,
       createdAt: new Date(),
     };
@@ -110,11 +110,9 @@ class AddDialog extends Component {
   }
 
   onKeyPress = (event) => {
-    const { header } = this.state;
-
     if (event.key === 'Enter') {
       event.preventDefault();
-      if (!header) return;
+      if (this.isDisabled()) return;
       this.onClickAdd();
     }
   }
@@ -128,6 +126,17 @@ class AddDialog extends Component {
 
     // By default, the dialog should be for adding collection
     return ADD_COLLECTION_DIALOG;
+  }
+
+  isDisabled = () => {
+    const { type } = this.props;
+    const { header } = this.state;
+
+    if (type === 'dated') {
+      return !moment(header).isValid();
+    }
+
+    return !header;
   }
 
   renderInputComponent = (infoField) => {
@@ -166,6 +175,7 @@ class AddDialog extends Component {
             format="DD/MM/YYYY"
             value={header}
             onChange={date => this.onChangeDateField(date)}
+            onKeyPress={e => this.onKeyPress(e)}
           />
         </MuiPickersUtilsProvider>
       );
@@ -176,6 +186,7 @@ class AddDialog extends Component {
 
   render() {
     const { open, onClickCloseDialog, classes } = this.props;
+    const { header } = this.state;
     const dialog = this.getDialogInfo();
     const {
       title,
@@ -209,6 +220,7 @@ class AddDialog extends Component {
           <Button
             variant="contained"
             className={classes.addButton}
+            disabled={this.isDisabled()}
             onClick={() => this.onClickAdd()}
           >
             {actions.addButton}
