@@ -11,7 +11,7 @@ const tableColumns = [
   { title: 'Date Created', field: 'createdAt' },
   { title: 'Header', field: 'header' },
   { title: 'Details', field: 'type' },
-  { title: 'EntryId', field: '_id'}
+  { title: 'EntryId', field: '_id', hidden: true },
 ];
 
 class Results extends Component {
