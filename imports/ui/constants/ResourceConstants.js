@@ -41,6 +41,9 @@ export const PAGE_LAYOUT = [
 export const ADD_DATED_ENTRY_DIALOG = {
   title: 'CREATE A DATED ENTRY',
   subtitle: 'Please select a date.',
+  fields: [
+    { key: 'header', title: 'Date', type: 'date' },
+  ],
   actions: {
     addButton: 'ADD',
   },
@@ -49,6 +52,9 @@ export const ADD_DATED_ENTRY_DIALOG = {
 export const ADD_COLLECTION_DIALOG = {
   title: 'CREATE A COLLECTION',
   subtitle: 'Please enter a header.',
+  fields: [
+    { key: 'header', title: 'Header', type: 'textField' },
+  ],
   actions: {
     addButton: 'ADD',
   },
