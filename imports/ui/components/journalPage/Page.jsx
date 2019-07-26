@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
@@ -64,11 +65,17 @@ class Page extends Component {
     const { entries } = this.props;
     const selectedEntry = entries.find(entry => entry._id === entryId);
 
-    if (selectedEntry) {
-      return selectedEntry.header;
+    if (!selectedEntry) {
+      return '';
     }
 
-    return '';
+    const { header } = selectedEntry;
+
+    if (selectedEntry.type === 'dated') {
+      return moment(header).format('MMMM DD, YYYY');
+    }
+
+    return header;
   }
 
   getHeaderType = () => {

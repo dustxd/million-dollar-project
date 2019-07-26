@@ -3,6 +3,7 @@ import MaterialTable from 'material-table';
 import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
+import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 
@@ -21,23 +22,6 @@ class Results extends Component {
     };
   }
 
-  getDate = (dateObject) => {
-    const year = dateObject.getFullYear();
-    let month = dateObject.getMonth() + 1;
-    let day = dateObject.getDate();
-
-    // Prepend month and day with 0 if < 10 to get 'mm' and 'dd'
-    month = (month < 10)
-      ? `0${month}`
-      : month;
-
-    day = (day < 10)
-      ? `0${day}`
-      : day;
-
-    return `${day}/${month}/${year}`;
-  }
-
   getParsedEntries = () => {
     const { entries } = this.props;
 
@@ -47,7 +31,7 @@ class Results extends Component {
 
     const parsedEntries = entries.map((entry) => {
       const { createdAt } = entry;
-      const date = this.getDate(createdAt);
+      const date = moment(createdAt).format('MMMM DD, YYYY');
       const mutableEntry = Object.assign({}, entry, { createdAt: date });
       return mutableEntry;
     });
