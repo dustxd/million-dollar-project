@@ -15,7 +15,7 @@ const buttonStyles = makeStyles(theme => ({
 
 const overviewActionButtons = [
   { key: 'dated', title: 'Add daily entry', icon: <AddEntry className={buttonStyles.rightIcon} /> },
-  { key: 'undated', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
+  { key: 'collection', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
   { key: 'recent', title: 'Last entry', icon: <LastEntry className={buttonStyles.rightIcon} /> },
 ];
 
@@ -24,22 +24,31 @@ class OverviewActions extends React.Component {
     super(props);
     this.state = {
       openAddDialog: false,
+      type: '',
     };
   }
 
   onClickActionButton = (key) => {
-    if (key === 'dated') {
-      this.setState({ openAddDialog: true });
+    // Check if key belongs to any of the overview action buttons
+    const actionButton = overviewActionButtons.find(button => button.key === key);
+
+    if (!actionButton) {
+      return;
     }
+
+    this.setState({
+      openAddDialog: true,
+      type: key,
+    });
   }
 
   onClickCloseDialog = () => {
-    this.setState({ openAddDialog: false });
+    this.setState({ openAddDialog: false, type: '' });
   }
 
   render() {
     const { actions } = this.props;
-    const { openAddDialog } = this.state;
+    const { openAddDialog, type } = this.state;
 
     return (
       <div>
@@ -62,8 +71,9 @@ class OverviewActions extends React.Component {
             && (
               <AddDialog
                 open={openAddDialog}
+                type={type}
                 actions={actions}
-                handleCloseDialog={() => this.onClickCloseDialog()}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
               />
             )
         }

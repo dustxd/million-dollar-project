@@ -139,7 +139,7 @@ class CoreView extends React.Component {
   render() {
     const { classes, render, coreProps, ...routeProps } = this.props;
 
-    if (coreProps.user === null) {
+    if (!coreProps.user) {
       return (
         <Redirect to="/login" />
       );
