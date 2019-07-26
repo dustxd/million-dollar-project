@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
-import { withRouter } from 'react-router';
+import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
 import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
-import { ContactsOutlined } from '@material-ui/icons';
 
 const styles = {
   leftPage: {
@@ -65,11 +64,17 @@ class Page extends Component {
     const { entries } = this.props;
     const selectedEntry = entries.find(entry => entry._id === entryId);
 
-    if (selectedEntry) {
-      return selectedEntry.header;
+    if (!selectedEntry) {
+      return '';
     }
 
-    return '';
+    const { header } = selectedEntry;
+
+    if (selectedEntry.type === 'dated') {
+      return moment(header).format('MMMM DD, YYYY');
+    }
+
+    return header;
   }
 
   getHeaderType = () => {
@@ -84,24 +89,13 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
-  // getEntryId = ({ location }, entryId) => {
-  //   if(location.state.entry != null){
-  //     return location.state.entry;
-  //   }
-  //   return entryId;
-  // }
-
   render() {
     const { entryId, actions } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
-    // if(this.props.location.state.entry != null) {
-    //   entryId = this.props.location.state.entry;
-    // }
-
     if (!displayedEntryId) {
-      return <div className={this.getStyling()} />
+      return <div className={this.getStyling()} />;
     }
 
     return (
@@ -120,16 +114,8 @@ class Page extends Component {
 
 const dataSource = (props) => {
   Meteor.subscribe('entries');
-  // console.log(this.props.entry)
-  // if (props.entry != null){
-  //   return {
-  //     entries: Entries.find( { header: props.entry }).fetch()
-  //   }
-  // } else {
-    // return props.entry
-  // }
-  
-    return {
+
+  return {
     entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 };
