@@ -99,7 +99,7 @@ class AddDialog extends Component {
     const { header } = this.state;
 
     const newEntry = {
-      header: moment(header).toDate(),
+      header: type === 'dated' ? moment(header).toDate() : header,
       type,
       createdAt: new Date(),
     };
