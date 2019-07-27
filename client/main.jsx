@@ -13,7 +13,7 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import App from '../imports/ui/App';
 import RootReducer from '../imports/ui/reducers';
 import './main.css';
-import { appTheme, overrideTheme } from '../imports/ui/css/customMuiStyles';
+import { appTheme, userTheme } from '../imports/ui/css/customMuiStyles';
 
 const persistConfig = {
   key: 'root',
