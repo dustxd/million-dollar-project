@@ -26,7 +26,7 @@ const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(
 const persistor = persistStore(store);
 
 const outerTheme = createMuiTheme(appTheme);
-const innerTheme = createMuiTheme(overrideTheme);
+const innerTheme = createMuiTheme(userTheme);
 
 Meteor.startup(() => {
   render(
