@@ -13,6 +13,7 @@ const buttonStyles = makeStyles(theme => ({
   },
 }));
 
+
 const overviewActionButtons = [
   { key: 'dated', title: 'Add daily entry', icon: <AddEntry className={buttonStyles.rightIcon} /> },
   { key: 'collection', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
@@ -56,8 +57,10 @@ class OverviewActions extends React.Component {
           {
             overviewActionButtons.map(button => (
               <Button
+                color="primary" 
                 key={button.key}
                 variant="contained"
+                size="large"
                 onClick={() => this.onClickActionButton(button.key)}
               >
                 {button.title}

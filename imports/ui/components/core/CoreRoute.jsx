@@ -98,7 +98,7 @@ class CoreView extends React.Component {
                 className={classes.navOptionButton}
                 onClick={() => history.push(option.path)}
               >
-                <Icon>{option.icon}</Icon>
+                <Icon color="primary">{option.icon}</Icon>
                 <Typography className={classes.navOptionText} noWrap>
                   {option.title}
                 </Typography>
@@ -110,7 +110,7 @@ class CoreView extends React.Component {
           className={classes.signoutButton}
           onClick={() => this.onClickSignout()}
         >
-          <Icon className={classes.signoutIcon}>exit_to_app</Icon>
+          {/* <Icon className={classes.signoutIcon}>exit_to_app</Icon> */}
           <Typography className={classes.signoutText} noWrap>
             Sign Out
           </Typography>

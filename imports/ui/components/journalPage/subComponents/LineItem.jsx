@@ -118,7 +118,7 @@ class LineItem extends Component {
           }}
         >
           <ListItemIcon onClick={() => this.onClickBullet()}>
-            <Icon>{this.getBulletIcon(bullet)}</Icon>
+            <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
           <TextField
             fullWidth
@@ -138,12 +138,12 @@ class LineItem extends Component {
                     disabled={!text}
                     onClick={() => this.handleAddOrUpdateLineItem()}
                   >
-                    <Icon>save</Icon>
+                    <Icon color="secondary">save</Icon>
                   </IconButton>
                   <IconButton
                     onClick={() => this.handleRemoveLineItem()}
                   >
-                    <Icon>close</Icon>
+                    <Icon color="secondary">close</Icon>
                   </IconButton>
                 </ListItemSecondaryAction>
               )

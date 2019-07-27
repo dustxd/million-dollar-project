@@ -62,6 +62,9 @@ class Results extends Component {
           actions={[
             {
               icon: 'add_circle_outline',
+              iconProps: {
+                color: 'primary'
+              },
               tooltip: 'See All Details',
               onClick: (event, rowData) => {
                 //Operation to expand entire message
@@ -69,6 +72,9 @@ class Results extends Component {
             },
             {
               icon: 'book',
+              iconProps: {
+                color: 'primary'
+              },
               tooltip: 'Go To Page',
               onClick: () => {
                 const { coreProps, history } = this.props;
