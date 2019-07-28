@@ -10,8 +10,13 @@ import { Entries } from '../../../api/entries';
 const tableColumns = [
   { title: 'Date Created', field: 'createdAt' },
   { title: 'Header', field: 'header' },
+<<<<<<< HEAD
   { title: 'Type', field: 'type' },
   { title: 'EntryId', field: '_id' },
+=======
+  { title: 'Details', field: 'type' },
+  { title: 'EntryId', field: '_id', hidden: true },
+>>>>>>> 5abd64b3501cd108951c61558af150df12f526d0
 ];
 
 // { title: 'EntryId', field: '_id', hidden: true}
