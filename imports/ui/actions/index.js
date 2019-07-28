@@ -173,3 +173,22 @@ export function updateResource(resource, resourcePath, resourceId) {
     });
   };
 }
+
+// export const returnToBookmarkPage = (entryId) => {
+//   return {
+//     type: types.BOOKMARK_PAGE,
+//     entryId, 
+//   };
+// }
+
+export const bookmarkPage = (entryId) => {
+  return {
+    type: types.BOOKMARK_PAGE, entryId,
+  };
+};
+
+export function updateBookmark(entryId) {
+  return (dispatch) => {
+    dispatch(bookmarkPage(entryId));
+  };
+}

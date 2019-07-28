@@ -28,6 +28,7 @@ const App = props => (
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.loading,
+  bookmark: state.bookmark,
 });
 
 const mapDispatchToProps = dispatch => ({

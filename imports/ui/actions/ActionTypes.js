@@ -1,5 +1,6 @@
 // non api calls
 export const LOGOUT_USER = 'LOGOUT_USER';
+export const BOOKMARK_PAGE = 'BOOKMARK_PAGE';
 
 // api calls - request
 export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST';

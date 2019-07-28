@@ -3,6 +3,8 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
+import { updateBookmark } from '../../actions/index';
+
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
@@ -89,6 +91,28 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+  componentDidMount() {
+    const { bookmark, entryId } = this.props;
+
+    if (bookmark !== entryId) {
+      // console.log(bookmark);
+      // console.log(entryId);
+      updateBookmark(entryId);
+    }
+  }
+
+  componentDidUpdate() {
+    const { bookmark, entryId } = this.props;
+
+    if (bookmark !== entryId) {
+      // console.log(bookmark);
+      // console.log(entryId);
+      updateBookmark(entryId);
+    }
+  }
+
+
+
   render() {
     const { entryId, actions } = this.props;
 
@@ -97,6 +121,7 @@ class Page extends Component {
     if (!displayedEntryId) {
       return <div className={this.getStyling()} />;
     }
+
 
     return (
       <div className={this.getStyling()}>

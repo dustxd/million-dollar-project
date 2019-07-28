@@ -81,16 +81,24 @@ class Entry extends Component {
     });
   }
 
+  onClickPreviousEntry = () => {
+
+  }
+
+  onClickNextEntry = () => {
+    
+  }
+
   renderDatedHeaderWithNav = () => {
     const { classes, header, entryId } = this.props;
 
     return (
       <div className={classes.header}>
-        <IconButton>
+        <IconButton onClick={() => this.onClickPreviousEntry()}>
           <Icon>keyboard_arrow_left</Icon>
         </IconButton>
         <Typography variant="h5">{header}</Typography>
-        <IconButton>
+        <IconButton onClick={() => this.onClickNextEntry()}>
           <Icon>keyboard_arrow_right</Icon>
         </IconButton>
         <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
