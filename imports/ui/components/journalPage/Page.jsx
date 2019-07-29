@@ -3,7 +3,7 @@ import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
-import { updateBookmark } from '../../actions/index';
+// import { updateBookmark } from '../../actions/index';
 
 
 import { Entries } from '../../../api/entries';
@@ -47,7 +47,7 @@ class Page extends Component {
   }
 
   getDisplayedEntryId = (redirectedEntryId) => {
-    const { entries, position } = this.props;
+    const { entries, position, index } = this.props;
 
     if (redirectedEntryId) {
       return redirectedEntryId;
@@ -55,7 +55,9 @@ class Page extends Component {
 
     if (entries && entries.length > 0) {
       if (entries.length !== 1 || position !== 'right') {
-        return entries[0]._id;
+        // return entries[0]._id;
+        return entries[index]._id;
+        // index is stored in redux
       }
     }
 
@@ -92,29 +94,33 @@ class Page extends Component {
   }
 
   componentDidMount() {
-    const { bookmark, entryId } = this.props;
+    const { bookmark, entryId, actions } = this.props;
 
     if (bookmark !== entryId) {
-      // console.log(bookmark);
-      // console.log(entryId);
-      updateBookmark(entryId);
+      console.log(bookmark);
+      console.log(entryId);
+      actions.updateBookmark(entryId);
     }
   }
 
   componentDidUpdate() {
-    const { bookmark, entryId } = this.props;
+    const { bookmark, entryId, actions } = this.props;
 
     if (bookmark !== entryId) {
-      // console.log(bookmark);
-      // console.log(entryId);
-      updateBookmark(entryId);
+      console.log(bookmark);
+      console.log(entryId);
+      actions.updateBookmark(entryId);
     }
   }
 
-
+  getNumEntries() {
+    const {entries} = this.props;
+    return entries.length;
+  }
 
   render() {
     const { entryId, actions } = this.props;
+    
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -131,6 +137,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
+          numEntries={this.getNumEntries()}
         />
       </div>
     );

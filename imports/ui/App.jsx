@@ -29,6 +29,7 @@ const mapStateToProps = state => ({
   user: state.user,
   loading: state.loading,
   bookmark: state.bookmark,
+  index: state.index,
 });
 
 const mapDispatchToProps = dispatch => ({

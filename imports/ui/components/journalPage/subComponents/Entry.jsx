@@ -81,12 +81,36 @@ class Entry extends Component {
     });
   }
 
-  onClickPreviousEntry = () => {
+  hideRightArrow = () => {
+  }
+
+  hideLeftArrow = () => {
 
   }
 
+  onClickPreviousEntry = () => {
+    const { index, numEntries, actions } = this.props
+    var prevIndex = index;
+    // console.log(numEntries);
+    if (index > numEntries) {
+      this.hideLeftArrow();
+    } else {
+      prevIndex += 1;
+      actions.updateIndexPage(prevIndex);
+    }
+    // check if pageIndex is <size of entries array - 1>, if true hide LeftArrow
+    // else index +1
+  }
+
   onClickNextEntry = () => {
-    
+    const { index, actions } = this.props
+    if (index === 0) {
+      this.hideRightArrow();
+    } else {
+      let nextIndex = index;
+      nextIndex -= 1;
+      actions.updateIndexPage(nextIndex);
+    }
   }
 
   renderDatedHeaderWithNav = () => {

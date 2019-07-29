@@ -23,7 +23,7 @@ class SinglePage extends Component {
   }
 
   render() {
-    const { loading, classes, actions, bookmark } = this.props;
+    const { loading, classes, actions, bookmark, index } = this.props;
 
     let entryId = '';
 
@@ -42,7 +42,7 @@ class SinglePage extends Component {
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
                   <Paper>
-                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={entryId} page="left" bookmark={bookmark} />
+                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={entryId} page="left" bookmark={bookmark} index={index} />
                     {/* <Page type="DATED_SINGLE_PAGE" actions={actions} page="left"/> */}
                   </Paper>
                 </Grid>
