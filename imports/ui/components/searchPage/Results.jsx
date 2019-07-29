@@ -4,13 +4,51 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
+import { Typography } from '@material-ui/core';
 
 import { Entries } from '../../../api/entries';
+import { LineItems } from '../../../api/lineItems';
+
+const renderLineItems = (row) => {
+  const { lineItems } = row;
+
+  return (
+    <div>
+      {
+        lineItems.map(lineItem => (
+          <Typography key={lineItem._id}>
+            {lineItem.content}
+          </Typography>
+        ))
+      }
+    </div>
+  );
+};
+
+const searchLineItems = (filterValue, row, columnDef) => {
+  const { lineItems } = row;
+  return lineItems.find((lineItem) => {
+    const { content } = lineItem;
+    return content.toLowerCase().includes(filterValue.toLowerCase());
+  });
+};
 
 const tableColumns = [
-  { title: 'Date Created', field: 'createdAt' },
+  {
+    title: 'Date Created',
+    field: 'createdAt',
+    type: 'date',
+    defaultSort: 'desc',
+  },
   { title: 'Header', field: 'header' },
-  { title: 'Details', field: 'type' },
+  { title: 'Type', field: 'type' },
+  {
+    title: 'Details',
+    field: 'lineItems',
+    render: renderLineItems,
+    customFilterAndSearch: searchLineItems,
+  },
+  { title: 'EntryId', field: '_id', hidden: true },
 ];
 
 class Results extends Component {
@@ -87,10 +125,19 @@ class Results extends Component {
 }
 
 const dataSource = (props) => {
-  Meteor.subscribe('entries');
+  const entriesHandler = Meteor.subscribe('entriesWithLineItems');
+
+  let entriesWithLineItems = [];
+  if (entriesHandler.ready()) {
+    entriesWithLineItems = Entries.find().fetch().map((entry) => {
+      const lineItemsForEntry = LineItems.find({ entryId: entry._id }).fetch();
+      const mutableEntry = Object.assign({}, entry, { lineItems: lineItemsForEntry });
+      return mutableEntry;
+    });
+  }
 
   return {
-    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    entries: entriesWithLineItems,
   };
 };
 
