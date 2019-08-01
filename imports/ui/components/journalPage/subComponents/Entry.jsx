@@ -96,6 +96,9 @@ class Entry extends Component {
         <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
           <Icon>delete</Icon>
         </IconButton>
+        <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+          <Icon>add</Icon>
+        </IconButton>
       </div>
     );
   }

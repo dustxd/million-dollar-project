@@ -28,6 +28,7 @@ const App = props => (
 const mapStateToProps = state => ({
   user: state.user,
   loading: state.loading,
+  index: state.index,
 });
 
 const mapDispatchToProps = dispatch => ({
