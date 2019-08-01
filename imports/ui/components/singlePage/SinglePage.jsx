@@ -26,11 +26,17 @@ class SinglePage extends Component {
   render() {
     const { loading, classes, actions, index } = this.props;
 
-    let entryId = '';
+    // let entryId = '';
 
-    if (this.props.location.state != undefined) {
-      entryId = this.props.location.state.entry;
-    }
+    // if (this.props.location.state != undefined) {
+    //   entryId = this.props.location.state.entry;
+    // }
+
+    // if (this.props.location.state !== undefined) {
+    //   const entryId = this.props.location.state.entry;
+    //   console.log(entryId);
+    //   actions.updateIndexPage(entryId);
+    // }
 
     return (
       loading
@@ -41,7 +47,7 @@ class SinglePage extends Component {
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
                   <Paper>
-                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={entryId} page="left" index={index} />
+                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={index} page="left" index={index} />
                   </Paper>
                 </Grid>
               </Grid>

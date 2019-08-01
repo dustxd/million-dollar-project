@@ -6,10 +6,11 @@ import Results from './Results.jsx';
 
 class SearchPage extends React.Component {
 	render(){
+		const { actions } = this.props;
 		return (
 			<div className="search-container">
         {/* <SearchBar /> */}
-        <Results />
+        <Results actions={actions} />
 			</div>
 		);
 	}

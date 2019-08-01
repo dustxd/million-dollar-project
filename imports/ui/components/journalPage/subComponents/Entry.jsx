@@ -81,16 +81,62 @@ class Entry extends Component {
     });
   }
 
+  getEntryIndex = () => {
+    const { entryId, entries } = this.props;
+    const entryIndex = entries.findIndex(x => x._id === entryId);
+    return entryIndex;
+  }
+
+  getNextEntryId = () => {
+    const { entries } = this.props;
+    const nextEntryIndex = this.getEntryIndex() - 1;
+    const nextEntry = entries[nextEntryIndex]._id;
+    return nextEntry;
+  }
+
+  getPrevEntryId = () => {
+    const { entries } = this.props;
+    const prevEntryIndex = this.getEntryIndex() + 1;
+    const prevEntry = entries[prevEntryIndex]._id;    
+    return prevEntry;
+  }
+
+  getNumEntries() {
+    const {entries} = this.props;
+    return entries.length;
+  }
+
+  hideRightArrow = () => {
+  }
+
+  hideLeftArrow = () => {
+
+  }
+
+  onClickPreviousEntry = () => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      actions.updateIndexPage(this.getPrevEntryId());
+    }
+  }
+
+  onClickNextEntry = () => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() > 0) {
+      actions.updateIndexPage(this.getNextEntryId());
+    }
+  }
+
   renderDatedHeaderWithNav = () => {
     const { classes, header, entryId } = this.props;
 
     return (
       <div className={classes.header}>
-        <IconButton>
+        <IconButton onClick={() => this.onClickPreviousEntry()}>
           <Icon>keyboard_arrow_left</Icon>
         </IconButton>
         <Typography variant="h5">{header}</Typography>
-        <IconButton>
+        <IconButton onClick={() => this.onClickNextEntry()}>
           <Icon>keyboard_arrow_right</Icon>
         </IconButton>
         <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>

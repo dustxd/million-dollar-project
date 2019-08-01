@@ -81,8 +81,10 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+
+
   render() {
-    const { entryId, actions } = this.props;
+    const { entryId, actions, entries } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -94,6 +96,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
+          entries={entries}
         />
       </div>
     );
