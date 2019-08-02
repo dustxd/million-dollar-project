@@ -107,7 +107,7 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
 };
 
