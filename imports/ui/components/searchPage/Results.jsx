@@ -4,60 +4,72 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Typography } from '@material-ui/core';
+import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import { LineItems } from '../../../api/lineItems';
+import DetailView from './subComponents/DetailView';
 
-const renderLineItems = (row) => {
-  const { lineItems } = row;
-
-  return (
-    <div>
-      {
-        lineItems.map(lineItem => (
-          <Typography key={lineItem._id}>
-            {lineItem.content}
-          </Typography>
-        ))
-      }
-    </div>
-  );
-};
-
-const searchLineItems = (filterValue, row, columnDef) => {
-  const { lineItems } = row;
-  return lineItems.find((lineItem) => {
-    const { content } = lineItem;
-    return content.toLowerCase().includes(filterValue.toLowerCase());
-  });
-};
-
-const tableColumns = [
-  {
-    title: 'Date Created',
-    field: 'createdAt',
-    type: 'date',
-    defaultSort: 'desc',
+const styles = {
+  actionsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
-  { title: 'Header', field: 'header' },
-  { title: 'Type', field: 'type' },
-  {
-    title: 'Details',
-    field: 'lineItems',
-    render: renderLineItems,
-    customFilterAndSearch: searchLineItems,
-  },
-  { title: 'EntryId', field: '_id', hidden: true },
-];
+};
 
 class Results extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
+      tableColumns: [
+        {
+          title: 'Date Created',
+          field: 'createdAt',
+          type: 'date',
+          defaultSort: 'desc',
+        },
+        { title: 'Header', field: 'header' },
+        { title: 'Type', field: 'type' },
+        {
+          title: 'Items',
+          field: 'lineItems',
+          render: this.renderLineItems,
+          customFilterAndSearch: this.searchLineItems,
+        },
+        {
+          title: 'Actions',
+          sorting: false,
+          headerStyle: {
+            display: 'flex',
+            justifyContent: 'center',
+          },
+          cellStyle: {
+            width: '84px',
+            padding: '0 5px',
+          },
+          render: this.renderActions,
+        },
+        { title: 'EntryId', field: '_id', hidden: true },
+      ],
+      selectedLineItem: '',
     };
+  }
+
+  onClickDetails = (rowId, isCurrentLineItemSelected) => {
+    if (isCurrentLineItemSelected) {
+      // Close detail view if the same row is selected
+      this.setState({ selectedLineItem: '' });
+    } else {
+      this.setState({ selectedLineItem: rowId });
+    }
+  }
+
+  onClickRedirect = (id) => {
+    const { history } = this.props;
+    history.push('/singlePage', { entryId: id });
   }
 
   getParsedEntries = () => {
@@ -88,7 +100,47 @@ class Results extends Component {
     return parsedEntries;
   }
 
+  searchLineItems = (filterValue, row, columnDef) => {
+    const { lineItems } = row;
+    return lineItems.find((lineItem) => {
+      const { content } = lineItem;
+      return content.toLowerCase().includes(filterValue.toLowerCase());
+    });
+  };
+
+  renderLineItems = (row) => {
+    const { lineItems } = row;
+    const { selectedLineItem } = this.state;
+
+    return (
+      <DetailView id={row._id} lineItems={lineItems} selectedLineItem={selectedLineItem} />
+    );
+  };
+
+  renderActions = (row) => {
+    const { classes } = this.props;
+    const { selectedLineItem } = this.state;
+    const { _id: id } = row;
+    const isCurrentLineItemOpen = id === selectedLineItem;
+
+    return (
+      <div className={classes.actionsContainer}>
+        <Tooltip title={isCurrentLineItemOpen ? 'Show Less' : 'Show More'}>
+          <IconButton onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}>
+            <Icon>{isCurrentLineItemOpen ? 'expand_less' : 'expand_more'}</Icon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Go To Page">
+          <IconButton onClick={() => this.onClickRedirect(id)}>
+            <Icon>link</Icon>
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  };
+
   render() {
+    const { tableColumns } = this.state;
     const formattedEntries = this.getParsedEntries();
 
     return (
@@ -97,27 +149,6 @@ class Results extends Component {
           title="Search Results"
           columns={tableColumns}
           data={formattedEntries}
-          actions={[
-            {
-              icon: 'add_circle_outline',
-              tooltip: 'See All Details',
-              onClick: (event, rowData) => {
-                //Operation to expand entire message
-              },
-            },
-            {
-              icon: 'book',
-              tooltip: 'Go To Page',
-              onClick: () => {
-                const { coreProps, history } = this.props;
-                // const { actions } = coreProps;
-                history.push('/singlePage', { entry: 0 });
-              },
-            },
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-          }}
         />
       </div>
     );
@@ -141,4 +172,4 @@ const dataSource = (props) => {
   };
 };
 
-export default withTracker(dataSource)(withRouter(Results));
+export default withTracker(dataSource)(withRouter(withStyles(styles)(Results)));
