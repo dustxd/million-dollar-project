@@ -12,7 +12,7 @@ import {
 import {
   BULLET_DEFINITION,
   TASK_STATUS,
-  TASK,
+  LINE_ITEM_TYPES,
 } from '../../../constants/ResourceConstants';
 
 const styles = {
@@ -33,6 +33,20 @@ class LineItem extends Component {
       bullet: status || type || BULLET_DEFINITION[0].type,
       text: content || '',
     };
+    this.initialState = this.state;
+  }
+
+  componentDidUpdate(prevProps) {
+    const { id } = this.props;
+    const isSelected = this.isLineItemSelected();
+
+    if (!isSelected) {
+      if (prevProps.selectedLineItem === id) {
+        // If current line item is deselected, reset to its original state
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState(this.initialState);
+      }
+    }
   }
 
   onClickBullet = () => {
@@ -62,7 +76,7 @@ class LineItem extends Component {
 
     const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
     const newLineItem = {
-      type: isTask ? TASK : bullet,
+      type: isTask ? LINE_ITEM_TYPES.TASK : bullet,
       status: isTask ? bullet : undefined,
       content: text,
     };
@@ -76,6 +90,11 @@ class LineItem extends Component {
     onClickRemoveLineItem(id);
   }
 
+  isLineItemSelected = () => {
+    const { id, selectedLineItem } = this.props;
+    return id === selectedLineItem;
+  }
+
   getBulletIcon = (currentType) => {
     const currentBullet = BULLET_DEFINITION.find(bullet => bullet.type === currentType);
     if (!currentBullet) {
@@ -85,9 +104,9 @@ class LineItem extends Component {
   }
 
   render() {
-    const { classes, id, selectedLineItem } = this.props;
+    const { classes } = this.props;
     const { bullet, text } = this.state;
-    const isSelected = id === selectedLineItem;
+    const isSelected = this.isLineItemSelected();
 
     return (
       <div>
@@ -105,7 +124,7 @@ class LineItem extends Component {
             fullWidth
             autoFocus={isSelected}
             className={classes.itemTextField}
-            defaultValue={text}
+            value={text}
             InputProps={{
               disableUnderline: true,
             }}

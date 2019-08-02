@@ -2,25 +2,83 @@ import React, { Component } from 'react';
 import {
   Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Icon,
+  IconButton,
   TextField,
-  Typography,
 } from '@material-ui/core';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import MomentUtils from '@date-io/moment';
+import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
-const entryInfoFields = [
-  { key: 'header', title: 'HEADER', type: 'textField' },
-  // { key: 'type', title: 'TYPE', type: 'select' },
-];
+import { ADD_DATED_ENTRY_DIALOG, ADD_COLLECTION_DIALOG } from '../../constants/ResourceConstants';
+
+const styles = {
+  dialogTitleRoot: {
+    padding: '24px',
+  },
+  closeButton: {
+    position: 'absolute',
+    right: '5px',
+    top: '5px',
+  },
+  dialogContentRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  textField: {
+    width: '400px',
+    margin: '10px',
+    '& label.Mui-focused': {
+      color: '#868735',
+    },
+    '& .MuiOutlinedInput-root': {
+      '& fieldset': {
+        borderColor: '#bec358',
+      },
+      '&:hover fieldset': {
+        borderColor: '#868735',
+      },
+      '&.Mui-focused fieldset': {
+        borderColor: '#868735',
+      },
+    },
+  },
+  textFieldInput: {
+    height: '15px',
+  },
+  inputLabelRoot: {
+    color: '#bec358',
+  },
+  addButton: {
+    boxShadow: 'none',
+    width: '400px',
+    height: '50px',
+    backgroundColor: '#868735',
+    color: '#ffffff',
+    padding: '14px',
+    marginTop: '20px',
+    marginBottom: '30px',
+  },
+};
 
 class AddDialog extends Component {
   constructor(props) {
     super(props);
+
+    const { type } = props;
+    let header = '';
+
+    if (type === 'dated') {
+      header = new Date();
+    }
+
     this.state = {
-      header: '',
-      type: '',
+      header,
     };
   }
 
@@ -30,40 +88,96 @@ class AddDialog extends Component {
     });
   }
 
+  onChangeDateField = (date) => {
+    this.setState({
+      header: date,
+    });
+  }
+
   onClickAdd = () => {
-    const { actions, handleCloseDialog } = this.props;
+    const { type, actions, onClickCloseDialog } = this.props;
     const { header } = this.state;
 
     const newEntry = {
-      header,
-      type: 'collection',
+      header: type === 'dated' ? moment(header).toDate() : header,
+      type,
       createdAt: new Date(),
     };
 
     actions.addResource(newEntry, 'entries');
 
-    handleCloseDialog();
+    onClickCloseDialog();
   }
 
   onKeyPress = (event) => {
-    const { header } = this.state;
-
     if (event.key === 'Enter') {
       event.preventDefault();
-      if (!header) return;
+      if (this.isDisabled()) return;
       this.onClickAdd();
     }
   }
 
+  getDialogInfo = () => {
+    const { type } = this.props;
+
+    if (type === 'dated') {
+      return ADD_DATED_ENTRY_DIALOG;
+    }
+
+    // By default, the dialog should be for adding collection
+    return ADD_COLLECTION_DIALOG;
+  }
+
+  isDisabled = () => {
+    const { type } = this.props;
+    const { header } = this.state;
+
+    if (type === 'dated') {
+      return !moment(header).isValid();
+    }
+
+    return !header;
+  }
+
   renderInputComponent = (infoField) => {
-    const { type, key } = infoField;
+    const { classes } = this.props;
+    const { header } = this.state;
+    const { type, key, title } = infoField;
 
     if (type === 'textField') {
       return (
         <TextField
+          variant="outlined"
+          className={classes.textField}
+          label={title}
           onChange={e => this.onChangeTextField(key, e)}
           onKeyPress={e => this.onKeyPress(e)}
+          InputProps={{
+            classes: {
+              input: classes.textFieldInput,
+            },
+          }}
+          InputLabelProps={{
+            classes: {
+              root: classes.inputLabelRoot,
+            },
+          }}
         />
+      );
+    }
+
+    if (type === 'date') {
+      return (
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <KeyboardDatePicker
+            inputVariant="outlined"
+            className={classes.textField}
+            format="DD/MM/YYYY"
+            value={header}
+            onChange={date => this.onChangeDateField(date)}
+            onKeyPress={e => this.onKeyPress(e)}
+          />
+        </MuiPickersUtilsProvider>
       );
     }
 
@@ -71,40 +185,50 @@ class AddDialog extends Component {
   }
 
   render() {
-    const { open, handleCloseDialog } = this.props;
+    const { open, onClickCloseDialog, classes } = this.props;
+    const { header } = this.state;
+    const dialog = this.getDialogInfo();
+    const {
+      title,
+      subtitle,
+      fields,
+      actions,
+    } = dialog;
 
     return (
       <Dialog
         open={open}
-        onClose={handleCloseDialog}
+        onClose={onClickCloseDialog}
       >
-        <DialogTitle>CREATE AN ENTRY</DialogTitle>
-        <DialogContent>
+        <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
+          {title}
+          <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
+            <Icon>close</Icon>
+          </IconButton>
+        </DialogTitle>
+        <DialogContent classes={{ root: classes.dialogContentRoot }}>
           <DialogContentText>
-            Please enter a header.
+            {subtitle}
           </DialogContentText>
           {
-            entryInfoFields.map(infoField => (
+            fields.map(infoField => (
               <div key={infoField.key}>
-                <Typography>
-                  {infoField.title}
-                </Typography>
                 { this.renderInputComponent(infoField) }
               </div>
             ))
           }
+          <Button
+            variant="contained"
+            className={classes.addButton}
+            disabled={this.isDisabled()}
+            onClick={() => this.onClickAdd()}
+          >
+            {actions.addButton}
+          </Button>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog}>
-            CANCEL
-          </Button>
-          <Button onClick={() => this.onClickAdd()}>
-            ADD
-          </Button>
-        </DialogActions>
       </Dialog>
     );
   }
 }
 
-export default AddDialog;
+export default withStyles(styles)(AddDialog);

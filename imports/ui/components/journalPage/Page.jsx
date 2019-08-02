@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { withStyles } from '@material-ui/core/styles';
+import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
@@ -45,14 +46,16 @@ class Page extends Component {
   }
 
   getDisplayedEntryId = (redirectedEntryId) => {
-    const { entries } = this.props;
+    const { entries, position } = this.props;
 
     if (redirectedEntryId) {
       return redirectedEntryId;
     }
 
     if (entries && entries.length > 0) {
-      return entries[0]._id;
+      if (entries.length !== 1 || position !== 'right') {
+        return entries[0]._id;
+      }
     }
 
     return '';
@@ -62,11 +65,17 @@ class Page extends Component {
     const { entries } = this.props;
     const selectedEntry = entries.find(entry => entry._id === entryId);
 
-    if (selectedEntry) {
-      return selectedEntry.header;
+    if (!selectedEntry) {
+      return '';
     }
 
-    return '';
+    const { header } = selectedEntry;
+
+    if (selectedEntry.type === 'dated') {
+      return moment(header).format('MMMM DD, YYYY');
+    }
+
+    return header;
   }
 
   getHeaderType = () => {
@@ -87,6 +96,10 @@ class Page extends Component {
     const { entryId, actions, entries } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
+
+    if (!displayedEntryId) {
+      return <div className={this.getStyling()} />
+    }
 
     return (
       <div className={this.getStyling()}>
