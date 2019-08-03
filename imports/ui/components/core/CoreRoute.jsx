@@ -6,9 +6,12 @@ import {
   AppBar,
   Button,
   Icon,
+  IconButton,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 
+const WHITE = "#ffffff";
 // Component constants
 const NAVIGATION_OPTIONS = [
   {
@@ -36,7 +39,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
+    backgroundColor: 'primary',
   },
   navOptionsContainer: {
     display: 'flex',
@@ -87,7 +90,7 @@ class CoreView extends React.Component {
 
     return (
       <AppBar
-        color="default"
+        color="primary"
         className={classes.appBar}
       >
         <div className={classes.navOptionsContainer}>
@@ -98,7 +101,7 @@ class CoreView extends React.Component {
                 className={classes.navOptionButton}
                 onClick={() => history.push(option.path)}
               >
-                <Icon color="primary">{option.icon}</Icon>
+                <Icon color={WHITE}>{option.icon}</Icon>
                 <Typography className={classes.navOptionText} noWrap>
                   {option.title}
                 </Typography>
@@ -106,12 +109,26 @@ class CoreView extends React.Component {
             ))
           }
         </div>
+        <IconButton
+          aria-label="account of current user"
+          aria-controls="menu-appbar"
+          aria-haspopup="true"
+          // onClick={handleMenu}
+        >
+          <Tooltip title="Account" aria-label="Account">
+          <Icon color={WHITE}>account_circle</Icon>
+          </Tooltip>
+        </IconButton>
         <Button
           className={classes.signoutButton}
           onClick={() => this.onClickSignout()}
         >
-          {/* <Icon className={classes.signoutIcon}>exit_to_app</Icon> */}
-          <Typography className={classes.signoutText} noWrap>
+          <Tooltip title="Logout" aria-label="Logout">
+            <Icon className={classes.signoutIcon}>exit_to_app</Icon>
+          </Tooltip>
+          
+              
+              <Typography className={classes.signoutText} noWrap>
             Sign Out
           </Typography>
         </Button>
