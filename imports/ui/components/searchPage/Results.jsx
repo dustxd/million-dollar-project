@@ -152,25 +152,23 @@ class Results extends Component {
     const formattedEntries = this.getParsedEntries();
 
     return (
-      <div className="search-container">
-        <MaterialTable
-          title="Search Results"
-          columns={tableColumns}
-          data={formattedEntries}
-          icons={{
-            Search: React.forwardRef((props, ref) => (
-              <Icon
-                {...props}
-                ref={ref}
-                color="primary"
-                className={classes.searchIcon}
-              >
-                search
-              </Icon>
-            )),
-          }}
-        />
-      </div>
+      <MaterialTable
+        title="Search Results"
+        columns={tableColumns}
+        data={formattedEntries}
+        icons={{
+          Search: React.forwardRef((props, ref) => (
+            <Icon
+              {...props}
+              ref={ref}
+              color="primary"
+              className={classes.searchIcon}
+            >
+              search
+            </Icon>
+          )),
+        }}
+      />
     );
   }
 }
