@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Page from '../journalPage/Page';
 
 const styles = {
-  spreadContainer: {
+  singleContainer: {
     padding: '20px',
   },
   root: {
@@ -37,7 +37,7 @@ class SinglePage extends Component {
       loading
         ? <LinearProgress />
         : (
-          <div className={classes.spreadContainer}>
+          <div className={classes.singleContainer}>
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
