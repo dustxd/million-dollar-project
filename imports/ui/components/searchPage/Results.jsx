@@ -155,7 +155,14 @@ class Results extends Component {
           data={formattedEntries}
           icons={{
             Search: React.forwardRef((props, ref) => (
-              <Icon {...props} ref={ref} className={classes.searchIcon}>search</Icon>
+              <Icon
+                {...props}
+                ref={ref}
+                color="primary"
+                className={classes.searchIcon}
+              >
+                search
+              </Icon>
             )),
           }}
         />
