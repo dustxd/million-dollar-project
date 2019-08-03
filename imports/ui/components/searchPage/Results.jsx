@@ -17,6 +17,9 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'center',
   },
+  searchIcon: {
+    color: '#868735',
+  },
 };
 
 class Results extends Component {
@@ -140,6 +143,7 @@ class Results extends Component {
   };
 
   render() {
+    const { classes } = this.props;
     const { tableColumns } = this.state;
     const formattedEntries = this.getParsedEntries();
 
@@ -149,6 +153,11 @@ class Results extends Component {
           title="Search Results"
           columns={tableColumns}
           data={formattedEntries}
+          icons={{
+            Search: React.forwardRef((props, ref) => (
+              <Icon {...props} ref={ref} className={classes.searchIcon}>search</Icon>
+            )),
+          }}
         />
       </div>
     );
