@@ -4,32 +4,36 @@
 const paperColor = '#fafafa';
 const PURPLE = '#6d1b7b';
 const PINK = '#f73378';
-const GREEN ='#cddc39';
+const GREEN ='#618833';
 const YELLOW = '#ffcf33';
 
 export const appTheme = {
   palette: {
     primary: {
-      light: '#323232',
-      main: PINK,
-      dark: '#191919',
-      contrastText: '#ffffff',
+      main: YELLOW,
     },
     secondary: {
-      main: PURPLE,
+      main: GREEN,
     },
   },
   typography: {
-    fontFamily: 'sans-serif',
+    fontFamily: 'Roboto, sans-serif',
+  },
+  overrides: {
+    MuiPaper: {
+      root: {
+        backgroundColor: paperColor,
+      },
+    },
   },
 };
 
 export const userTheme = {
-  palette: {
-    primary: {
-      main: GREEN,
-    },
-  },
+  // palette: {
+  //   primary: {
+  //     main: GREEN,
+  //   },
+  // },
   overrides: {
     MuiPaper: {
       root: {
