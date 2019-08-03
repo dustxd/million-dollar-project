@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
+import { SEARCH_CONSTRAINTS } from '../../../constants/ResourceConstants';
+
 const styles = {
 
 };
-
-const NUM_PREVIEW_ITEMS = 3;
 
 class DetailView extends Component {
   constructor(props) {
@@ -20,7 +20,9 @@ class DetailView extends Component {
   render() {
     const { lineItems, id, selectedLineItem } = this.props;
     const open = id === selectedLineItem;
-    const displayedLineItems = open ? lineItems : lineItems.slice(0, NUM_PREVIEW_ITEMS);
+    const displayedLineItems = open
+      ? lineItems
+      : lineItems.slice(0, SEARCH_CONSTRAINTS.NUM_PREVIEW_ITEMS);
 
     return (
       <div>

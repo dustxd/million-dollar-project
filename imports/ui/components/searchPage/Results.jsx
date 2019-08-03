@@ -9,6 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import { LineItems } from '../../../api/lineItems';
+import { SEARCH_CONSTRAINTS } from '../../constants/ResourceConstants';
 import DetailView from './subComponents/DetailView';
 
 const styles = {
@@ -123,13 +124,16 @@ class Results extends Component {
   renderActions = (row) => {
     const { classes } = this.props;
     const { selectedLineItem } = this.state;
-    const { _id: id } = row;
+    const { _id: id, lineItems } = row;
     const isCurrentLineItemOpen = id === selectedLineItem;
 
     return (
       <div className={classes.actionsContainer}>
         <Tooltip title={isCurrentLineItemOpen ? 'Show Less' : 'Show More'}>
-          <IconButton onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}>
+          <IconButton
+            disabled={lineItems.length <= SEARCH_CONSTRAINTS.NUM_PREVIEW_ITEMS}
+            onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}
+          >
             <Icon>{isCurrentLineItemOpen ? 'expand_less' : 'expand_more'}</Icon>
           </IconButton>
         </Tooltip>
