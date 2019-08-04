@@ -72,9 +72,9 @@ class Results extends Component {
               icon: 'book',
               tooltip: 'Go To Page',
               onClick: (event, rowData) => {
-                const { coreProps, history, actions } = this.props;
+                const { history, actions } = this.props;
                 actions.updateIndexPage(rowData._id);
-                this.props.history.push({pathname : '/singlePage', state : {entry: rowData._id}});
+                history.push('/singlePage');
               },
             },
           ]}
