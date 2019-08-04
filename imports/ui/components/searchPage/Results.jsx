@@ -153,7 +153,7 @@ class Results extends Component {
 
     return (
       <MaterialTable
-        title="Search Results"
+        title="Journal Entries"
         columns={tableColumns}
         data={formattedEntries}
         icons={{
