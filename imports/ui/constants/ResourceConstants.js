@@ -39,7 +39,7 @@ export const PAGE_LAYOUT = [
 ];
 
 export const ADD_DATED_ENTRY_DIALOG = {
-  title: 'CREATE A DATED ENTRY',
+  title: 'Create a Dated Entry',
   subtitle: 'Please select a date.',
   fields: [
     { key: 'header', title: 'Date', type: 'date' },
@@ -50,7 +50,7 @@ export const ADD_DATED_ENTRY_DIALOG = {
 };
 
 export const ADD_COLLECTION_DIALOG = {
-  title: 'CREATE A COLLECTION',
+  title: 'Create a Collection',
   subtitle: 'Please enter a header.',
   fields: [
     { key: 'header', title: 'Header', type: 'textField' },

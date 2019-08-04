@@ -7,21 +7,25 @@ import {
   Button,
   Icon,
   IconButton,
+  Menu,
+  MenuItem,
+  Tabs,
+  Tab,
+  Toolbar,
   Tooltip,
   Typography,
 } from '@material-ui/core';
 
-const WHITE = "#ffffff";
 // Component constants
 const NAVIGATION_OPTIONS = [
   {
     key: 'overview', title: 'Overview', path: '/', icon: 'dashboard',
   },
   {
-    key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
+    key: 'spread', title: 'Spread View', path: '/spread', icon: 'chrome_reader_mode',
   },
   {
-    key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'note',
+    key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'insert_drive_file',
   },
   {
     key: 'search', title: 'Search', path: '/search', icon: 'search',
@@ -29,7 +33,7 @@ const NAVIGATION_OPTIONS = [
 ];
 
 // Styles
-const APPBAR_HEIGHT = 50;
+const APPBAR_HEIGHT = 60;
 
 const styles = {
   appBar: {
@@ -39,7 +43,7 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'primary',
+    // backgroundColor: 'primary',
   },
   navOptionsContainer: {
     display: 'flex',
@@ -53,28 +57,18 @@ const styles = {
   navOptionText: {
     marginLeft: '10px',
   },
-  signoutButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  signoutIcon: {
-    color: '#bec358',
-  },
-  signoutText: {
-    marginLeft: '10px',
-    textDecoration: 'underline',
-    color: '#bec358',
-  },
   pageContent: {
     marginTop: `${APPBAR_HEIGHT}px`,
   },
 };
+  
 
 class CoreView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      anchorEl: null,
+      currentTab: 0,
     };
   }
 
@@ -85,6 +79,24 @@ class CoreView extends React.Component {
     history.push('/login');
   }
 
+  menuHandleClick = (event) => {
+    this.setState({ 
+      anchorEl: event.currentTarget,
+    });
+  }
+  
+  menuHandleClose = () => {
+    this.setState({ 
+      anchorEl: null,
+    });
+  }
+
+  tabsHandleChange = (event, updatedTab) => {
+    this.setState({
+      currentTab: updatedTab,
+    })
+  }
+
   renderAppBar = () => {
     const { classes, history } = this.props;
 
@@ -93,45 +105,40 @@ class CoreView extends React.Component {
         color="primary"
         className={classes.appBar}
       >
-        <div className={classes.navOptionsContainer}>
+      <Toolbar>
+        <Tabs
+          value={this.state.currentTab}
+          onChange={this.tabsHandleChange}
+          indicatorColor="secondary"
+          textColor="secondary"
+          
+        >
           {
             NAVIGATION_OPTIONS.map(option => (
-              <Button
-                key={option.key}
-                className={classes.navOptionButton}
-                onClick={() => history.push(option.path)}
-              >
-                <Icon color={WHITE}>{option.icon}</Icon>
-                <Typography className={classes.navOptionText} noWrap>
-                  {option.title}
-                </Typography>
-              </Button>
+              <Tab label={option.title} key={option.key} onClick={() => history.push(option.path)}/>
             ))
           }
-        </div>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls="menu-appbar"
-          aria-haspopup="true"
-          // onClick={handleMenu}
-        >
-          <Tooltip title="Account" aria-label="Account">
-          <Icon color={WHITE}>account_circle</Icon>
-          </Tooltip>
-        </IconButton>
-        <Button
-          className={classes.signoutButton}
-          onClick={() => this.onClickSignout()}
-        >
-          <Tooltip title="Logout" aria-label="Logout">
-            <Icon className={classes.signoutIcon}>exit_to_app</Icon>
-          </Tooltip>
-          
-              
-              <Typography className={classes.signoutText} noWrap>
-            Sign Out
-          </Typography>
-        </Button>
+          </Tabs>
+        </Toolbar>
+        <Toolbar>
+          <div>
+            <Tooltip title="Account" aria-label="Account">
+              <IconButton onClick={this.menuHandleClick}>
+                <Icon color="secondary">account_circle</Icon>
+              </IconButton>
+            </Tooltip>
+            <Menu
+              id="simple-menu"
+              anchorEl={this.state.anchorEl}
+              keepMounted
+              open={Boolean(this.state.anchorEl)}
+              onClose={this.menuHandleClose}
+            >
+              <MenuItem onClick={this.menuHandleClose}>My account</MenuItem>
+              <MenuItem onClick={this.onClickSignout}>Logout</MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
       </AppBar>
     );
   }
