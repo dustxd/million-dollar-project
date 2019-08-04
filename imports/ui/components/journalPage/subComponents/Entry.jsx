@@ -21,8 +21,9 @@ const styles = {
     alignItems: 'center',
   },
   headertext: {
-    align: 'center',
-    width: 225,
+    width: '40%',
+    display: 'flex',
+    justifyContent: 'center',
   },
 };
 
