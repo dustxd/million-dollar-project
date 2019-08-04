@@ -58,7 +58,6 @@ const styles = {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
-    backgroundColor: '#868735',
     color: '#ffffff',
     padding: '14px',
     marginTop: '20px',
@@ -154,7 +153,9 @@ class AddDialog extends Component {
           onKeyPress={e => this.onKeyPress(e)}
           InputProps={{
             classes: {
-              input: classes.textFieldInput,
+              input: {
+                color: "secondary"
+              },
             },
           }}
           InputLabelProps={{
@@ -170,6 +171,7 @@ class AddDialog extends Component {
       return (
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <KeyboardDatePicker
+            color="secondary"
             inputVariant="outlined"
             className={classes.textField}
             format="DD/MM/YYYY"
@@ -219,6 +221,7 @@ class AddDialog extends Component {
           }
           <Button
             variant="contained"
+            color="primary"
             className={classes.addButton}
             disabled={this.isDisabled()}
             onClick={() => this.onClickAdd()}
