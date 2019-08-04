@@ -16,6 +16,7 @@ const styles = {
   },
   paper: {
     height: '100%',
+    minHeight: '-webkit-fill-available',
   },
 };
 
