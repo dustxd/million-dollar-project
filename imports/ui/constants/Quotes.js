@@ -7,6 +7,7 @@ export default INSPIRATIONAL_QUOTES = [
   "Tomorrow becomes never. No matter how small the task, take the first step now!",
   "Never mistake motion for action.",
   "In life, people tend to wait for good things to come to them. And by waiting, they miss out.",
+  "Our life is shaped by our mind, for we become what we think.",
+  "You can’t stop the waves, but you can learn to surf.",
+  "As soon as we wish to be happier, we are no longer happy.",
 ];
-
- 
