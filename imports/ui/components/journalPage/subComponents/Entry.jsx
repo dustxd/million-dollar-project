@@ -97,21 +97,14 @@ class Entry extends Component {
   getPrevEntryId = () => {
     const { entries } = this.props;
     const prevEntryIndex = this.getEntryIndex() + 1;
-    const prevEntry = entries[prevEntryIndex]._id;    
+    const prevEntry = entries[prevEntryIndex]._id;
     return prevEntry;
   }
 
   getNumEntries() {
-    const {entries} = this.props;
+    const { entries } = this.props;
     return entries.length;
   }
-
-  // hideRightArrow = () => {
-  // }
-
-  // hideLeftArrow = () => {
-
-  // }
 
   onClickPreviousEntry = () => {
     const { actions } = this.props;
@@ -135,24 +128,23 @@ class Entry extends Component {
     } else {
       this.onClickDeleteEntry(entryId);
     }
-  } 
+  }
 
   isPrevDisabled = () => {
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
       return false;
-    } 
+    }
+
     return true;
   }
 
   isNextDisabled = () => {
-    if (this.getEntryIndex() == 0) {
+    if (this.getEntryIndex() === 0) {
       return true;
     }
+
     return false;
   }
-
-
-
 
   renderDatedHeaderWithNav = () => {
     const { classes, header, entryId } = this.props;
