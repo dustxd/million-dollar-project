@@ -53,6 +53,12 @@ class Page extends Component {
     }
 
     if (entries && entries.length > 0) {
+      // This handles Spread View:
+      // 1. If there is more than one page, then by default the right
+      //    page should show the most recently created entry.
+      // 2. If there is only one page, then the left page should show
+      //    the most recently created entry and right page should be
+      //    blank (hence need to return empty string).
       if (entries.length !== 1 || position !== 'right') {
         return entries[0]._id;
       }
@@ -98,7 +104,7 @@ class Page extends Component {
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
     if (!displayedEntryId) {
-      return <div className={this.getStyling()} />
+      return <div className={this.getStyling()} />;
     }
 
     return (

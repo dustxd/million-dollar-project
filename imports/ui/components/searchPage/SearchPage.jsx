@@ -1,19 +1,31 @@
 import React from 'react';
-import Results from './Results.jsx';
+import { withStyles } from '@material-ui/core/styles';
 
-// import SearchBar from './SearchBar.jsx';
-// import '../../css/overviewPage/SearchPage.css';
+import Results from './Results';
+
+const styles = {
+  searchContainer: {
+    padding: '20px',
+  },
+};
 
 class SearchPage extends React.Component {
-	render(){
-		const { actions } = this.props;
-		return (
-			<div className="search-container">
-        {/* <SearchBar /> */}
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    };
+  }
+
+  render() {
+    const { classes, actions } = this.props;
+
+    return (
+      <div className={classes.searchContainer}>
         <Results actions={actions} />
-			</div>
-		);
-	}
+      </div>
+    );
+  }
 }
 
-export default SearchPage;
+export default withStyles(styles)(SearchPage);

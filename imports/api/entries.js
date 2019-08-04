@@ -1,6 +1,7 @@
 import { Mongo } from 'meteor/mongo';
 import { Meteor } from 'meteor/meteor';
 import { check } from 'meteor/check';
+import LineItems from './lineItems';
 
 export const Entries = new Mongo.Collection('entries');
 export default Entries;
@@ -11,6 +12,17 @@ if (Meteor.isServer) {
     // Entries.find() returns the cursors, NOT the entries
     // themselves, i.e. Entries.find().fetch()
     return Entries.find({ owner: this.userId });
+  });
+
+  Meteor.publishComposite('entriesWithLineItems', function entriesPublication() {
+    return {
+      find: () => Entries.find({ owner: this.userId }),
+      children: [
+        {
+          find: entry => LineItems.find({ entryId: entry._id }),
+        },
+      ],
+    };
   });
 }
 

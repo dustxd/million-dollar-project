@@ -4,23 +4,77 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
+import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
+import { LineItems } from '../../../api/lineItems';
+import { SEARCH_CONSTRAINTS } from '../../constants/ResourceConstants';
+import DetailView from './subComponents/DetailView';
 
-const tableColumns = [
-  { title: 'Date Created', field: 'createdAt' },
-  { title: 'Header', field: 'header' },
-  { title: 'Type', field: 'type' },
-  { title: 'EntryId', field: '_id', hidden: true },
-];
+const styles = {
+  actionsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  searchIcon: {
+    color: '#868735',
+  },
+};
 
 class Results extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-
+      tableColumns: [
+        {
+          title: 'Date Created',
+          field: 'createdAt',
+          type: 'date',
+          defaultSort: 'desc',
+        },
+        { title: 'Header', field: 'header' },
+        { title: 'Type', field: 'type' },
+        {
+          title: 'Items',
+          field: 'lineItems',
+          render: this.renderLineItems,
+          customFilterAndSearch: this.searchLineItems,
+        },
+        {
+          title: 'Actions',
+          sorting: false,
+          headerStyle: {
+            display: 'flex',
+            justifyContent: 'center',
+          },
+          cellStyle: {
+            width: '84px',
+            padding: '0 5px',
+          },
+          render: this.renderActions,
+        },
+        { title: 'EntryId', field: '_id', hidden: true },
+      ],
+      selectedLineItem: '',
     };
+  }
+
+  onClickDetails = (rowId, isCurrentLineItemSelected) => {
+    if (isCurrentLineItemSelected) {
+      // Close detail view if the same row is selected
+      this.setState({ selectedLineItem: '' });
+    } else {
+      this.setState({ selectedLineItem: rowId });
+    }
+  }
+
+  onClickRedirect = (id) => {
+    const { history, actions } = this.props;
+    actions.updateIndexPage(id);
+    history.push('/singlePage');
   }
 
   getParsedEntries = () => {
@@ -51,48 +105,90 @@ class Results extends Component {
     return parsedEntries;
   }
 
+  searchLineItems = (filterValue, row, columnDef) => {
+    const { lineItems } = row;
+    return lineItems.find((lineItem) => {
+      const { content } = lineItem;
+      return content.toLowerCase().includes(filterValue.toLowerCase());
+    });
+  };
+
+  renderLineItems = (row) => {
+    const { lineItems } = row;
+    const { selectedLineItem } = this.state;
+
+    return (
+      <DetailView id={row._id} lineItems={lineItems} selectedLineItem={selectedLineItem} />
+    );
+  };
+
+  renderActions = (row) => {
+    const { classes } = this.props;
+    const { selectedLineItem } = this.state;
+    const { _id: id, lineItems } = row;
+    const isCurrentLineItemOpen = id === selectedLineItem;
+
+    return (
+      <div className={classes.actionsContainer}>
+        <Tooltip title={isCurrentLineItemOpen ? 'Show Less' : 'Show More'}>
+          <IconButton
+            disabled={lineItems.length <= SEARCH_CONSTRAINTS.NUM_PREVIEW_ITEMS}
+            onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}
+          >
+            <Icon>{isCurrentLineItemOpen ? 'expand_less' : 'expand_more'}</Icon>
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Go To Page">
+          <IconButton onClick={() => this.onClickRedirect(id)}>
+            <Icon>link</Icon>
+          </IconButton>
+        </Tooltip>
+      </div>
+    );
+  };
+
   render() {
+    const { classes } = this.props;
+    const { tableColumns } = this.state;
     const formattedEntries = this.getParsedEntries();
 
     return (
-      <div className="search-container">
-        <MaterialTable
-          title="Search Results"
-          columns={tableColumns}
-          data={formattedEntries}
-          actions={[
-            {
-              icon: 'add_circle_outline',
-              tooltip: 'See All Details',
-              onClick: (event, rowData) => {
-                //Operation to expand entire message
-              },
-            },
-            {
-              icon: 'book',
-              tooltip: 'Go To Page',
-              onClick: (event, rowData) => {
-                const { history, actions } = this.props;
-                actions.updateIndexPage(rowData._id);
-                history.push('/singlePage');
-              },
-            },
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-          }}
-        />
-      </div>
+      <MaterialTable
+        title="Search Results"
+        columns={tableColumns}
+        data={formattedEntries}
+        icons={{
+          Search: React.forwardRef((props, ref) => (
+            <Icon
+              {...props}
+              ref={ref}
+              color="primary"
+              className={classes.searchIcon}
+            >
+              search
+            </Icon>
+          )),
+        }}
+      />
     );
   }
 }
 
 const dataSource = (props) => {
-  Meteor.subscribe('entries');
+  const entriesHandler = Meteor.subscribe('entriesWithLineItems');
+
+  let entriesWithLineItems = [];
+  if (entriesHandler.ready()) {
+    entriesWithLineItems = Entries.find().fetch().map((entry) => {
+      const lineItemsForEntry = LineItems.find({ entryId: entry._id }).fetch();
+      const mutableEntry = Object.assign({}, entry, { lineItems: lineItemsForEntry });
+      return mutableEntry;
+    });
+  }
 
   return {
-    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    entries: entriesWithLineItems,
   };
 };
 
-export default withTracker(dataSource)(withRouter(Results));
+export default withTracker(dataSource)(withRouter(withStyles(styles)(Results)));

@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
 import { Grid, LinearProgress, Paper } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
+import { withStyles } from '@material-ui/core/styles';
 
 import Page from '../journalPage/Page';
 
 const styles = {
-  spreadContainer: {
+  singleContainer: {
     padding: '20px',
   },
   root: {
     flexGrow: 1,
+  },
+  paper: {
+    height: '100%',
+    minHeight: '-webkit-fill-available',
   },
 };
 
@@ -30,12 +34,12 @@ class SinglePage extends Component {
       loading
         ? <LinearProgress />
         : (
-          <div className={classes.spreadContainer}>
+          <div className={classes.singleContainer}>
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
-                  <Paper>
-                    <Page type="DATED_SINGLE_PAGE" position="left" actions={actions} entryId={index} page="left" index={index} />
+                  <Paper className={classes.paper}>
+                    <Page type="DATED_SINGLE_PAGE" entryId={index} actions={actions} />
                   </Paper>
                 </Grid>
               </Grid>
@@ -46,4 +50,4 @@ class SinglePage extends Component {
   }
 }
 
-export default (withStyles(styles))(withRouter(SinglePage));
+export default withRouter(withStyles(styles)(SinglePage));
