@@ -9,3 +9,4 @@ export default INSPIRATIONAL_QUOTES = [
   "In life, people tend to wait for good things to come to them. And by waiting, they miss out.",
 ];
 
+ 
