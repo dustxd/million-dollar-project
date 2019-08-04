@@ -20,6 +20,10 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  headertext: {
+    align: 'center',
+    width: 225,
+  },
 };
 
 class Entry extends Component {
@@ -106,13 +110,6 @@ class Entry extends Component {
     return entries.length;
   }
 
-  // hideRightArrow = () => {
-  // }
-
-  // hideLeftArrow = () => {
-
-  // }
-
   onClickPreviousEntry = () => {
     const { actions } = this.props;
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
@@ -160,11 +157,13 @@ class Entry extends Component {
     return (
       <div className={classes.header}>
         <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
-          <Icon>keyboard_arrow_left</Icon>
+          <Icon>arrow_back</Icon>
         </IconButton>
-        <Typography variant="h5">{header}</Typography>
+        <div className={classes.headertext}>
+          <Typography variant="h5">{header}</Typography>
+        </div>
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
-          <Icon>keyboard_arrow_right</Icon>
+          <Icon>arrow_forward</Icon>
         </IconButton>
         <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
           <Icon>delete</Icon>
