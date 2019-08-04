@@ -96,13 +96,15 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+
+
   render() {
-    const { entryId, actions } = this.props;
+    const { entryId, actions, entries } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
     if (!displayedEntryId) {
-      return <div className={this.getStyling()} />
+      return <div className={this.getStyling()} />;
     }
 
     return (
@@ -113,6 +115,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
+          entries={entries}
         />
       </div>
     );
@@ -123,7 +126,7 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
 };
 
