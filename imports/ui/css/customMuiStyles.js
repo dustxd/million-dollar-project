@@ -7,13 +7,14 @@ const PINK = '#f73378';
 const GREEN ='#618833';
 const YELLOW = '#ffcf33';
 
-export const appTheme = {
+export default appTheme = {
   palette: {
     primary: {
-      main: YELLOW,
+      main: '#78909C',
+      contrastText: '#fff',
     },
     secondary: {
-      main: GREEN,
+      main: '#37474F',
     },
   },
   typography: {
@@ -22,22 +23,7 @@ export const appTheme = {
   overrides: {
     MuiPaper: {
       root: {
-        backgroundColor: paperColor,
-      },
-    },
-  },
-};
-
-export const userTheme = {
-  // palette: {
-  //   primary: {
-  //     main: GREEN,
-  //   },
-  // },
-  overrides: {
-    MuiPaper: {
-      root: {
-        backgroundColor: paperColor,
+        backgroundColor: 'rgba(250, 250, 250, 0.725)',
       },
     },
   },

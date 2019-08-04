@@ -13,12 +13,10 @@ import SinglePage from './components/singlePage/SinglePage';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import appTheme from './css/customMuiStyles';
 
-const outerTheme = createMuiTheme(appTheme);
-
 const App = props => (
-  <MuiThemeProvider theme={outerTheme}>
+  <MuiThemeProvider theme={createMuiTheme(appTheme)}>
     <BrowserRouter>
-      <div className="App">
+      <div className="App" >
         <Switch>
           <Route exact path="/login" name="login" render={() => <LoginPage {...props} />} />
           <CoreRoute exact path="/" name="overview" coreProps={props} render={() => <Overview {...props} />} />
