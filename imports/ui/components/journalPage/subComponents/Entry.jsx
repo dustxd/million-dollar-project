@@ -20,6 +20,11 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  headertext: {
+    width: '40%',
+    display: 'flex',
+    justifyContent: 'center',
+  },
 };
 
 class Entry extends Component {
@@ -81,20 +86,90 @@ class Entry extends Component {
     });
   }
 
+  getEntryIndex = () => {
+    const { entryId, entries } = this.props;
+    const entryIndex = entries.findIndex(x => x._id === entryId);
+    return entryIndex;
+  }
+
+  getNextEntryId = () => {
+    const { entries } = this.props;
+    const nextEntryIndex = this.getEntryIndex() - 1;
+    const nextEntry = entries[nextEntryIndex]._id;
+    return nextEntry;
+  }
+
+  getPrevEntryId = () => {
+    const { entries } = this.props;
+    const prevEntryIndex = this.getEntryIndex() + 1;
+    const prevEntry = entries[prevEntryIndex]._id;
+    return prevEntry;
+  }
+
+  getNumEntries() {
+    const { entries } = this.props;
+    return entries.length;
+  }
+
+  onClickPreviousEntry = () => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      actions.updateIndexPage(this.getPrevEntryId());
+    }
+  }
+
+  onClickNextEntry = () => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() > 0) {
+      actions.updateIndexPage(this.getNextEntryId());
+    }
+  }
+
+  onClickGetPrevAndDeleteEntry = (entryId) => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      actions.updateIndexPage(this.getPrevEntryId());
+      this.onClickDeleteEntry(entryId);
+    } else {
+      this.onClickDeleteEntry(entryId);
+    }
+  }
+
+  isPrevDisabled = () => {
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      return false;
+    }
+
+    return true;
+  }
+
+  isNextDisabled = () => {
+    if (this.getEntryIndex() === 0) {
+      return true;
+    }
+
+    return false;
+  }
+
   renderDatedHeaderWithNav = () => {
     const { classes, header, entryId } = this.props;
 
     return (
       <div className={classes.header}>
-        <IconButton>
-          <Icon>keyboard_arrow_left</Icon>
+        <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
+          <Icon>arrow_back</Icon>
         </IconButton>
-        <Typography variant="h5">{header}</Typography>
-        <IconButton>
-          <Icon>keyboard_arrow_right</Icon>
+        <div className={classes.headertext}>
+          <Typography variant="h5">{header}</Typography>
+        </div>
+        <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
+          <Icon>arrow_forward</Icon>
         </IconButton>
-        <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+        <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
           <Icon>delete</Icon>
+        </IconButton>
+        <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+          <Icon>add</Icon>
         </IconButton>
       </div>
     );

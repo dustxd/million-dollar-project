@@ -26,16 +26,9 @@ class SinglePage extends Component {
     };
   }
 
+
   render() {
-    const { loading, classes, location, actions } = this.props;
-    const { state } = location;
-
-    let entryId = '';
-
-    if (state) {
-      const { entryId: redirectedEntryId } = state;
-      entryId = redirectedEntryId;
-    }
+    const { loading, classes, actions, index } = this.props;
 
     return (
       loading
@@ -46,7 +39,7 @@ class SinglePage extends Component {
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
                   <Paper className={classes.paper}>
-                    <Page type="DATED_SINGLE_PAGE" entryId={entryId} actions={actions} page="left" />
+                    <Page type="DATED_SINGLE_PAGE" entryId={index} actions={actions} />
                   </Paper>
                 </Grid>
               </Grid>
