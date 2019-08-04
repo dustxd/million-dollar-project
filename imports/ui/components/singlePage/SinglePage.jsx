@@ -26,18 +26,6 @@ class SinglePage extends Component {
   render() {
     const { loading, classes, actions, index } = this.props;
 
-    // let entryId = '';
-
-    // if (this.props.location.state != undefined) {
-    //   entryId = this.props.location.state.entry;
-    // }
-
-    // if (this.props.location.state !== undefined) {
-    //   const entryId = this.props.location.state.entry;
-    //   console.log(entryId);
-    //   actions.updateIndexPage(entryId);
-    // }
-
     return (
       loading
         ? <LinearProgress />

@@ -106,12 +106,12 @@ class Entry extends Component {
     return entries.length;
   }
 
-  hideRightArrow = () => {
-  }
+  // hideRightArrow = () => {
+  // }
 
-  hideLeftArrow = () => {
+  // hideLeftArrow = () => {
 
-  }
+  // }
 
   onClickPreviousEntry = () => {
     const { actions } = this.props;
@@ -127,19 +127,46 @@ class Entry extends Component {
     }
   }
 
+  onClickGetPrevAndDeleteEntry = (entryId) => {
+    const { actions } = this.props;
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      actions.updateIndexPage(this.getPrevEntryId());
+      this.onClickDeleteEntry(entryId);
+    } else {
+      this.onClickDeleteEntry(entryId);
+    }
+  } 
+
+  isPrevDisabled = () => {
+    if (this.getEntryIndex() < this.getNumEntries() - 1) {
+      return false;
+    } 
+    return true;
+  }
+
+  isNextDisabled = () => {
+    if (this.getEntryIndex() == 0) {
+      return true;
+    }
+    return false;
+  }
+
+
+
+
   renderDatedHeaderWithNav = () => {
     const { classes, header, entryId } = this.props;
 
     return (
       <div className={classes.header}>
-        <IconButton onClick={() => this.onClickPreviousEntry()}>
+        <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
           <Icon>keyboard_arrow_left</Icon>
         </IconButton>
         <Typography variant="h5">{header}</Typography>
-        <IconButton onClick={() => this.onClickNextEntry()}>
+        <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
           <Icon>keyboard_arrow_right</Icon>
         </IconButton>
-        <IconButton onClick={() => this.onClickDeleteEntry(entryId)}>
+        <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
           <Icon>delete</Icon>
         </IconButton>
         <IconButton onClick={() => this.onClickOpenNewLineItem()}>
