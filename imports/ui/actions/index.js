@@ -173,3 +173,15 @@ export function updateResource(resource, resourcePath, resourceId) {
     });
   };
 }
+
+export const indexPage = (index) => {
+  return {
+    type: types.INDEX_PAGE, index,
+  };
+};
+
+export function updateIndexPage(index) {
+  return (dispatch) => {
+    dispatch(indexPage(index));
+  };
+}

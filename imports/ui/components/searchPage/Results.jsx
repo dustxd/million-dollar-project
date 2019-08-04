@@ -72,8 +72,9 @@ class Results extends Component {
   }
 
   onClickRedirect = (id) => {
-    const { history } = this.props;
-    history.push('/singlePage', { entryId: id });
+    const { history, actions } = this.props;
+    actions.updateIndexPage(id);
+    history.push('/singlePage');
   }
 
   getParsedEntries = () => {
@@ -153,7 +154,7 @@ class Results extends Component {
 
     return (
       <MaterialTable
-        title="Search Results"
+        title="Journal Entries"
         columns={tableColumns}
         data={formattedEntries}
         icons={{
