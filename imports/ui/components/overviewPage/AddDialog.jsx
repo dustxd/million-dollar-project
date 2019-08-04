@@ -14,7 +14,11 @@ import MomentUtils from '@date-io/moment';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
 
-import { ADD_DATED_ENTRY_DIALOG, ADD_COLLECTION_DIALOG } from '../../constants/ResourceConstants';
+import {
+  ADD_DATED_ENTRY_DIALOG,
+  ADD_COLLECTION_DIALOG,
+  DATE_CONSTRAINTS,
+} from '../../constants/ResourceConstants';
 
 const styles = {
   dialogTitleRoot: {
@@ -98,7 +102,7 @@ class AddDialog extends Component {
     const { header } = this.state;
 
     const newEntry = {
-      header: moment(header).toDate(),
+      header: type === 'dated' ? moment(header).toDate() : header,
       type,
       createdAt: new Date(),
     };
@@ -132,7 +136,9 @@ class AddDialog extends Component {
     const { header } = this.state;
 
     if (type === 'dated') {
-      return !moment(header).isValid();
+      return !moment(header).isValid()
+        || !moment(header).isBefore(DATE_CONSTRAINTS.MAX_DATE)
+        || !moment(header).isAfter(DATE_CONSTRAINTS.MIN_DATE);
     }
 
     return !header;

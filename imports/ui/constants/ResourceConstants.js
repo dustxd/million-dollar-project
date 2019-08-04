@@ -4,6 +4,9 @@ const EVENT = 'EVENT';
 const NOTE = 'NOTE';
 const DEFAULT = 'DEFAULT';
 const WITH_NAV = 'WITH_NAV';
+const MIN_DATE = new Date('1900-01-01');
+const MAX_DATE = new Date('2100-01-01');
+const NUM_PREVIEW_ITEMS = 3;
 
 // Objects
 export const BULLET_DEFINITION = [
@@ -58,4 +61,13 @@ export const ADD_COLLECTION_DIALOG = {
   actions: {
     addButton: 'ADD',
   },
+};
+
+export const DATE_CONSTRAINTS = {
+  MIN_DATE,
+  MAX_DATE,
+};
+
+export const SEARCH_CONSTRAINTS = {
+  NUM_PREVIEW_ITEMS,
 };
