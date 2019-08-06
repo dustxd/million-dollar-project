@@ -30,7 +30,8 @@ class Overview extends React.Component {
 
   render() {
     const { loading, user, actions } = this.props;
-    const { quote } = user;
+    const { profile, quote } = user;
+    const { firstName } = profile;
     const greeting = this.greetingText();
 
     return (
@@ -39,7 +40,7 @@ class Overview extends React.Component {
         : (
           <div className="overview-container">
             <Typography variant="h4">
-              {`${greeting} ${user && user.profile.firstName}.`}
+              {`${greeting} ${firstName}.`}
             </Typography>
             <SearchBar user={user} />
             <OverviewActions actions={actions} />
