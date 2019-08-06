@@ -159,9 +159,7 @@ class AddDialog extends Component {
           onKeyPress={e => this.onKeyPress(e)}
           InputProps={{
             classes: {
-              input: {
-                color: "secondary"
-              },
+              input: classes.textFieldInput,
             },
           }}
           InputLabelProps={{
@@ -177,7 +175,6 @@ class AddDialog extends Component {
       return (
         <MuiPickersUtilsProvider utils={MomentUtils}>
           <KeyboardDatePicker
-            color="secondary"
             inputVariant="outlined"
             className={classes.textField}
             format="DD/MM/YYYY"
