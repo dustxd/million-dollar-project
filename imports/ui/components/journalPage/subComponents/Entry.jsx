@@ -20,6 +20,12 @@ const styles = {
     flexDirection: 'row',
     alignItems: 'center',
   },
+  headerWithNav: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   headertext: {
     width: '40%',
     display: 'flex',
@@ -155,7 +161,7 @@ class Entry extends Component {
     const { classes, header, entryId } = this.props;
 
     return (
-      <div className={classes.header}>
+      <div className={classes.headerWithNav}>
         <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
           <Icon>arrow_back</Icon>
         </IconButton>

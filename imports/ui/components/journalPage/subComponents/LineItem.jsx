@@ -64,6 +64,16 @@ class LineItem extends Component {
     });
   }
 
+  onKeyPress = (event) => {
+    const { text } = this.state;
+
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      if (!text) return;
+      this.handleAddOrUpdateLineItem();
+    }
+  }
+
   handleClickLineItem = () => {
     const { onClickLineItem, id } = this.props;
 
@@ -129,6 +139,7 @@ class LineItem extends Component {
               disableUnderline: true,
             }}
             onChange={e => this.onChangeContent(e)}
+            onKeyPress={e => this.onKeyPress(e)}
           />
           {
             isSelected
