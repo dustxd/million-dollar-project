@@ -57,7 +57,7 @@ class OverviewActions extends React.Component {
           {
             overviewActionButtons.map(button => (
               <Button
-                color="primary" 
+                color="primary"
                 key={button.key}
                 variant="contained"
                 size="large"
