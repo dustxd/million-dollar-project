@@ -165,7 +165,6 @@ class Results extends Component {
               {...props}
               ref={ref}
               color="primary"
-              className={classes.searchIcon}
             >
               search
             </Icon>
