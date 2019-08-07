@@ -96,19 +96,39 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+  filterEntriesByType = (arrayEntries, type) =>{
+    return arrayEntries.filter(entry => entry.type.includes(type));
+  }
 
-  // filterEntries = (entryId, entries) => {
-  //   if (entryId)
-  //   const sortedEntries = entries
-
+  // sortEntriesByDate = (entries) => {
+  //   return entries.
   // }
 
+  filterEntries = (entries) => {
+    const { mode } = this.props;
+
+    if (mode === 'entries') {
+      const datedEntries = this.filterEntriesByType(entries, 'dated');
+      // actions.updateIndexPage({
+      //   page: this.getPrevEntryId(),
+      //   mode,
+      // });
+      // return this.sortEntriesByDate(datedEntries);
+      return datedEntries;
+    }
+    if (mode === 'collections') {
+      return this.filterEntriesByType(entries, 'collection');
+    }
+    return entries;
+  }
 
 
   render() {
     const { entryId, actions, entries, mode } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
+    const filteredEntries = this.filterEntries(entries);
+    // console.log(filteredEntries);
 
     if (!displayedEntryId) {
       return <div className={this.getStyling()} />;
@@ -122,7 +142,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
-          entries={entries}
+          entries={filteredEntries}
           mode={mode}
         />
       </div>
