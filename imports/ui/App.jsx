@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
+import appTheme from './css/customMuiStyles';
 import * as Actions from './actions/index';
 import CoreRoute from './components/core/CoreRoute';
 import LoginPage from './components/authentication/LoginPage';
@@ -10,23 +12,19 @@ import Overview from './components/overviewPage/Overview';
 import SearchPage from './components/searchPage/SearchPage';
 import Spread from './components/journalPage/Spread';
 import SinglePage from './components/singlePage/SinglePage';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import appTheme from './css/customMuiStyles';
 
 const App = props => (
   <MuiThemeProvider theme={createMuiTheme(appTheme)}>
     <BrowserRouter>
-      <div className="App" >
-        <Switch>
-          <Route exact path="/login" name="login" render={() => <LoginPage {...props} />} />
-          <CoreRoute exact path="/" name="overview" coreProps={props} render={() => <Overview {...props} />} />
-          <CoreRoute exact path="/search" name="search" coreProps={props} render={() => <SearchPage {...props} />} />
-          <CoreRoute exact path="/singlePage" name="singlePage" coreProps={props} render={() => <SinglePage {...props} />} />
-          <CoreRoute exact path="/spread" name="spread" coreProps={props} render={() => <Spread {...props} />} />
-        </Switch>
-      </div>
+      <Switch>
+        <Route exact path="/login" name="login" render={() => <LoginPage {...props} />} />
+        <CoreRoute exact path="/" name="overview" coreProps={props} render={() => <Overview {...props} />} />
+        <CoreRoute exact path="/search" name="search" coreProps={props} render={() => <SearchPage {...props} />} />
+        <CoreRoute exact path="/singlePage" name="singlePage" coreProps={props} render={() => <SinglePage {...props} />} />
+        <CoreRoute exact path="/spread" name="spread" coreProps={props} render={() => <Spread {...props} />} />
+      </Switch>
     </BrowserRouter>
-  </MuiThemeProvider> 
+  </MuiThemeProvider>
 );
 
 const mapStateToProps = state => ({
