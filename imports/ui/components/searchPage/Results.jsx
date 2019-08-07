@@ -131,16 +131,18 @@ class Results extends Component {
     return (
       <div className={classes.actionsContainer}>
         <Tooltip title={isCurrentLineItemOpen ? 'Show Less' : 'Show More'}>
-          <IconButton
-            disabled={lineItems.length <= SEARCH_CONSTRAINTS.NUM_PREVIEW_ITEMS}
-            onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}
-          >
-            <Icon>{isCurrentLineItemOpen ? 'expand_less' : 'expand_more'}</Icon>
-          </IconButton>
+          <div>
+            <IconButton
+              disabled={lineItems.length <= SEARCH_CONSTRAINTS.NUM_PREVIEW_ITEMS}
+              onClick={() => this.onClickDetails(id, isCurrentLineItemOpen)}
+            >
+              <Icon color="primary">{isCurrentLineItemOpen ? 'expand_less' : 'expand_more'}</Icon>
+            </IconButton>
+          </div>
         </Tooltip>
         <Tooltip title="Go To Page">
           <IconButton onClick={() => this.onClickRedirect(id)}>
-            <Icon>link</Icon>
+            <Icon color="primary">link</Icon>
           </IconButton>
         </Tooltip>
       </div>

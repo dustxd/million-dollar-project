@@ -3,7 +3,6 @@ import { Meteor } from 'meteor/meteor';
 import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import thunk from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session';
@@ -13,7 +12,6 @@ import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import App from '../imports/ui/App';
 import RootReducer from '../imports/ui/reducers';
 import './main.css';
-import customizedThemes from '../imports/ui/css/customMuiStyles';
 
 const persistConfig = {
   key: 'root',
@@ -25,15 +23,11 @@ const persistedReducer = persistReducer(persistConfig, RootReducer);
 const store = createStore(persistedReducer, composeWithDevTools(applyMiddleware(thunk)));
 const persistor = persistStore(store);
 
-const theme = createMuiTheme(customizedThemes);
-
 Meteor.startup(() => {
   render(
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <MuiThemeProvider theme={theme}>
-          <App />
-        </MuiThemeProvider>
+        <App />
       </PersistGate>
     </Provider>,
     document.getElementById('react-target'),

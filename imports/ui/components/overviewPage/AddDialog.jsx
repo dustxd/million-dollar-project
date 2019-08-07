@@ -62,7 +62,6 @@ const styles = {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
-    backgroundColor: '#868735',
     color: '#ffffff',
     padding: '14px',
     marginTop: '20px',
@@ -225,6 +224,7 @@ class AddDialog extends Component {
           }
           <Button
             variant="contained"
+            color="primary"
             className={classes.addButton}
             disabled={this.isDisabled()}
             onClick={() => this.onClickAdd()}

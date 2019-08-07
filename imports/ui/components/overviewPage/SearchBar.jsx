@@ -1,7 +1,6 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import '../../css/overviewPage/Overview.css';
 
 const styles = {
   textField: {
@@ -26,7 +25,6 @@ class SearchBar extends React.Component {
 
     return (
       <div>
-        <h1>Hi, {user && user.profile.firstName}!</h1>
         <TextField
           id="search-bar"
           label="Search"
