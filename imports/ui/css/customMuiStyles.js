@@ -1,17 +1,12 @@
 /**
  * Custom base theme for material-ui components.
  */
-const paperColor = '#fafafa';
-const PURPLE = '#6d1b7b';
-const PINK = '#f73378';
-const GREEN ='#618833';
-const YELLOW = '#ffcf33';
 
-export default appTheme = {
+const appTheme = {
   palette: {
     primary: {
       main: '#78909C',
-      contrastText: '#fff',
+      contrastText: '#ffffff',
     },
     secondary: {
       main: '#37474F',
@@ -21,10 +16,8 @@ export default appTheme = {
     fontFamily: 'Roboto, sans-serif',
   },
   overrides: {
-    MuiPaper: {
-      root: {
-        backgroundColor: 'rgba(250, 250, 250, 0.725)',
-      },
-    },
+
   },
 };
+
+export default appTheme;
