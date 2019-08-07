@@ -11,7 +11,6 @@ import {
   MenuItem,
   Tabs,
   Tab,
-  Toolbar,
   Tooltip,
   Typography,
 } from '@material-ui/core';
@@ -43,7 +42,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    // backgroundColor: 'primary',
   },
   navOptionsContainer: {
     display: 'flex',
@@ -61,7 +59,6 @@ const styles = {
     marginTop: `${APPBAR_HEIGHT}px`,
   },
 };
-  
 
 class CoreView extends React.Component {
   constructor(props) {
@@ -79,66 +76,66 @@ class CoreView extends React.Component {
     history.push('/login');
   }
 
-  menuHandleClick = (event) => {
-    this.setState({ 
+  onClickOpenMenu = (event) => {
+    this.setState({
       anchorEl: event.currentTarget,
     });
   }
-  
-  menuHandleClose = () => {
-    this.setState({ 
+
+  onClickCloseMenu = () => {
+    this.setState({
       anchorEl: null,
     });
   }
 
-  tabsHandleChange = (event, updatedTab) => {
+  onClickChangeTab = (event, updatedTab) => {
     this.setState({
       currentTab: updatedTab,
-    })
+    });
   }
 
   renderAppBar = () => {
     const { classes, history } = this.props;
+    const { currentTab, anchorEl } = this.state;
 
     return (
       <AppBar
         color="primary"
         className={classes.appBar}
       >
-      <Toolbar>
         <Tabs
-          value={this.state.currentTab}
-          onChange={this.tabsHandleChange}
+          value={currentTab}
+          onChange={(e, tab) => this.onClickChangeTab(e, tab)}
           indicatorColor="secondary"
           textColor="secondary"
-          
         >
           {
             NAVIGATION_OPTIONS.map(option => (
-              <Tab label={option.title} key={option.key} onClick={() => history.push(option.path)}/>
+              <Tab
+                key={option.key}
+                label={option.title}
+                onClick={() => history.push(option.path)}
+              />
             ))
           }
-          </Tabs>
-        </Toolbar>
-        <Toolbar>
-          <div>
-            <Tooltip title="Account" aria-label="Account">
-              <IconButton onClick={this.menuHandleClick}>
-                <Icon color="secondary">account_circle</Icon>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              id="simple-menu"
-              anchorEl={this.state.anchorEl}
-              keepMounted
-              open={Boolean(this.state.anchorEl)}
-              onClose={this.menuHandleClose}
-            >
-              <MenuItem onClick={this.menuHandleClose}>My account</MenuItem>
-              <MenuItem onClick={this.onClickSignout}>Logout</MenuItem>
-            </Menu>
-          </div>
-        </Toolbar>
+        </Tabs>
+        <div>
+          <Tooltip title="Account" aria-label="Account">
+            <IconButton onClick={e => this.onClickOpenMenu(e)}>
+              <Icon color="secondary">account_circle</Icon>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={() => this.onClickCloseMenu()}
+          >
+            <MenuItem onClick={() => this.onClickCloseMenu()}>My account</MenuItem>
+            <MenuItem onClick={() => this.onClickSignout()}>Logout</MenuItem>
+          </Menu>
+        </div>
       </AppBar>
     );
   }
