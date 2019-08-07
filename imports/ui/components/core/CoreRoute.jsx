@@ -95,8 +95,15 @@ class CoreView extends React.Component {
   }
 
   renderAppBar = () => {
-    const { classes, history } = this.props;
+    const { path, classes, history } = this.props;
     const { currentTab, anchorEl } = this.state;
+
+    let tabIndex = currentTab;
+
+    if (NAVIGATION_OPTIONS[currentTab].path !== path) {
+      // Handles redirection from other pages where onClickChangeTab will not be triggered
+      tabIndex = NAVIGATION_OPTIONS.findIndex(option => option.path === path);
+    }
 
     return (
       <AppBar
@@ -104,7 +111,7 @@ class CoreView extends React.Component {
         className={classes.appBar}
       >
         <Tabs
-          value={currentTab}
+          value={tabIndex}
           onChange={(e, tab) => this.onClickChangeTab(e, tab)}
           indicatorColor="secondary"
           textColor="secondary"
