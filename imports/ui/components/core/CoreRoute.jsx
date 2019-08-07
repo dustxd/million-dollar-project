@@ -27,7 +27,7 @@ const NAVIGATION_OPTIONS = [
     key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'insert_drive_file',
   },
   {
-    key: 'search', title: 'Search', path: '/search', icon: 'search',
+    key: 'list', title: 'List View', path: '/list', icon: 'search',
   },
 ];
 

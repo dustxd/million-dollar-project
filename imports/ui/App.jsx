@@ -9,7 +9,7 @@ import * as Actions from './actions/index';
 import CoreRoute from './components/core/CoreRoute';
 import LoginPage from './components/authentication/LoginPage';
 import Overview from './components/overviewPage/Overview';
-import SearchPage from './components/searchPage/SearchPage';
+import ListView from './components/listView/ListView';
 import Spread from './components/journalPage/Spread';
 import SinglePage from './components/singlePage/SinglePage';
 
@@ -19,7 +19,7 @@ const App = props => (
       <Switch>
         <Route exact path="/login" name="login" render={() => <LoginPage {...props} />} />
         <CoreRoute exact path="/" name="overview" coreProps={props} render={() => <Overview {...props} />} />
-        <CoreRoute exact path="/search" name="search" coreProps={props} render={() => <SearchPage {...props} />} />
+        <CoreRoute exact path="/list" name="list" coreProps={props} render={() => <ListView {...props} />} />
         <CoreRoute exact path="/singlePage" name="singlePage" coreProps={props} render={() => <SinglePage {...props} />} />
         <CoreRoute exact path="/spread" name="spread" coreProps={props} render={() => <Spread {...props} />} />
       </Switch>
