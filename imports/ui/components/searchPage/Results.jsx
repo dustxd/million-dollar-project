@@ -75,7 +75,7 @@ class Results extends Component {
     const { history, actions, mode } = this.props;
     actions.updateIndexPage({
       page: id,
-      mode: mode,
+      mode,
     });
     history.push('/singlePage');
   }

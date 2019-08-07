@@ -2,7 +2,7 @@ import * as types from '../actions/ActionTypes';
 
 const initialIndex = {
   page: '',
-  mode: 'dated',
+  mode: 'entries',
 };
 
 const PageIndexReducer = (index = initialIndex, action) => {

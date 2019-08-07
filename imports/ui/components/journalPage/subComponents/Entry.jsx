@@ -116,7 +116,7 @@ class Entry extends Component {
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
       actions.updateIndexPage({
         page: this.getPrevEntryId(),
-        mode: 'change',
+        mode,
       });
     }
   }
@@ -126,7 +126,7 @@ class Entry extends Component {
     if (this.getEntryIndex() > 0) {
       actions.updateIndexPage({
         page: this.getNextEntryId(),
-        mode: mode,
+        mode,
       });
     }
   }
@@ -136,7 +136,7 @@ class Entry extends Component {
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
       actions.updateIndexPage({
         page: this.getPrevEntryId(),
-        mode: mode,
+        mode,
       });
       this.onClickDeleteEntry(entryId);
     } else {

@@ -51,7 +51,7 @@ class SinglePage extends Component {
 
     actions.updateIndexPage({
       page: index.page,
-      mode: mode,
+      mode,
     });
   }
 
@@ -121,15 +121,15 @@ class SinglePage extends Component {
 
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
-                  <Button size="small" variant="contained" color="primary" className={classes.button} >
+                  <Button size="small" variant="contained" color={this.modeButtonColor('entries')} className={classes.button}>
                     <Icon>date_range</Icon>
                     Entries              
                   </Button>
-                  <Button size="small" variant="contained" color="default" className={classes.button} >
+                  <Button size="small" variant="contained" color={this.modeButtonColor('collections')} className={classes.button}>
                     <Icon>list_alt</Icon>
                     Collections            
                   </Button>
-                  <Button size="small" variant="contained" color="default" className={classes.button} >
+                  <Button size="small" variant="contained" color={this.modeButtonColor('createdAt')} className={classes.button}>
                     <Icon>access_time</Icon>
                     Created At              
                   </Button>
