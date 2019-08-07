@@ -72,8 +72,11 @@ class Results extends Component {
   }
 
   onClickRedirect = (id) => {
-    const { history, actions } = this.props;
-    actions.updateIndexPage(id);
+    const { history, actions, mode } = this.props;
+    actions.updateIndexPage({
+      page: id,
+      mode: mode,
+    });
     history.push('/singlePage');
   }
 

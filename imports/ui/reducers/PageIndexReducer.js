@@ -1,9 +1,17 @@
 import * as types from '../actions/ActionTypes';
 
-const PageIndexReducer = (index = 0, action) => {
+const initialIndex = {
+  page: '',
+  mode: 'dated',
+};
+
+const PageIndexReducer = (index = initialIndex, action) => {
   switch (action.type) {
     case types.INDEX_PAGE:
-      return action.index;
+      return {
+        page: action.index.page,
+        mode: action.index.mode,
+      };
     default:
       return index;
   }

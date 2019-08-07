@@ -18,11 +18,11 @@ class SearchPage extends React.Component {
   }
 
   render() {
-    const { classes, actions } = this.props;
+    const { classes, actions, mode } = this.props;
 
     return (
       <div className={classes.searchContainer}>
-        <Results actions={actions} />
+        <Results actions={actions} mode={mode}/>
       </div>
     );
   }

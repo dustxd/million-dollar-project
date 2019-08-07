@@ -97,9 +97,16 @@ class Page extends Component {
   }
 
 
+  // filterEntries = (entryId, entries) => {
+  //   if (entryId)
+  //   const sortedEntries = entries
+
+  // }
+
+
 
   render() {
-    const { entryId, actions, entries } = this.props;
+    const { entryId, actions, entries, mode } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -116,6 +123,7 @@ class Page extends Component {
           actions={actions}
           entryId={displayedEntryId}
           entries={entries}
+          mode={mode}
         />
       </div>
     );
