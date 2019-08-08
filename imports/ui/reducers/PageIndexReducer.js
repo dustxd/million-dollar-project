@@ -7,12 +7,12 @@ const PageIndexReducer = (index = 0, action) => {
       if (resourcePath === 'entries') {
         return response._id;
       }
-      break;
+      return index;
     case types.DELETE_RESOURCE_SUCCESS:
       if (resourcePath === 'entries') {
         return 0;
       }
-      break;
+      return index;
     case types.INDEX_PAGE:
       return action.index;
     default:
