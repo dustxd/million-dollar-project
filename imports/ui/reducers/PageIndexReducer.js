@@ -1,12 +1,16 @@
 import * as types from '../actions/ActionTypes';
 
 const PageIndexReducer = (index = 0, action) => {
-  switch (action.type) {
+  const { type, resourcePath, response } = action;
+  switch (type) {
     case types.ADD_RESOURCE_SUCCESS:
-      // eslint-disable-next-line no-case-declarations
-      const { resourcePath, response } = action;
       if (resourcePath === 'entries') {
         return response._id;
+      }
+      break;
+    case types.DELETE_RESOURCE_SUCCESS:
+      if (resourcePath === 'entries') {
+        return 0;
       }
       break;
     case types.INDEX_PAGE:
