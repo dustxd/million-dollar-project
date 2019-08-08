@@ -46,21 +46,21 @@ class Page extends Component {
   }
 
   getDisplayedEntryId = (redirectedEntryId) => {
-    const { entries, position } = this.props;
+    const { defaultEntries, position } = this.props;
 
     if (redirectedEntryId) {
       return redirectedEntryId;
     }
 
-    if (entries && entries.length > 0) {
+    if (defaultEntries && defaultEntries.length > 0) {
       // This handles Spread View:
       // 1. If there is more than one page, then by default the right
       //    page should show the most recently created entry.
       // 2. If there is only one page, then the left page should show
       //    the most recently created entry and right page should be
       //    blank (hence need to return empty string).
-      if (entries.length !== 1 || position !== 'right') {
-        return entries[0]._id;
+      if (defaultEntries.length !== 1 || position !== 'right') {
+        return defaultEntries[0]._id;
       }
     }
 
@@ -68,8 +68,8 @@ class Page extends Component {
   }
 
   getHeader = (entryId) => {
-    const { entries } = this.props;
-    const selectedEntry = entries.find(entry => entry._id === entryId);
+    const { defaultEntries } = this.props;
+    const selectedEntry = defaultEntries.find(entry => entry._id === entryId);
 
     if (!selectedEntry) {
       return '';
@@ -99,7 +99,7 @@ class Page extends Component {
 
 
   render() {
-    const { entryId, actions, entries } = this.props;
+    const { entryId, actions, entries, defaultEntries } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -115,7 +115,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
-          entries={entries}
+          entries={entries || defaultEntries}
         />
       </div>
     );
@@ -126,7 +126,7 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
+    defaultEntries: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
 };
 
