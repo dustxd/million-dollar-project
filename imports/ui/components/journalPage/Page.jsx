@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
-import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
+import { PAGE_LAYOUT_TYPES, PAGE_LAYOUT } from '../../constants/ResourceConstants';
 
 const styles = {
   leftPage: {
@@ -68,14 +68,19 @@ class Page extends Component {
   }
 
   getHeader = (entryId) => {
-    const { defaultEntries } = this.props;
-    const selectedEntry = defaultEntries.find(entry => entry._id === entryId);
+    const { type, entries, defaultEntries } = this.props;
+    const inputEntries = entries || defaultEntries;
+    const selectedEntry = inputEntries.find(entry => entry._id === entryId);
 
     if (!selectedEntry) {
       return '';
     }
 
     const { header } = selectedEntry;
+
+    if (type === PAGE_LAYOUT_TYPES.DATED_WEEK_VIEW) {
+      return moment(header).format('DD dddd').toUpperCase();
+    }
 
     if (selectedEntry.type === 'dated') {
       return moment(header).format('MMMM DD, YYYY');

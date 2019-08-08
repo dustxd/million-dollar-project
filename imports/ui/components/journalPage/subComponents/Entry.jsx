@@ -31,6 +31,10 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
+  headertextNoActions: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 };
 
 class Entry extends Component {
@@ -181,11 +185,27 @@ class Entry extends Component {
     );
   }
 
+  renderDatedHeaderWithNoActions = () => {
+    const { classes, header, entryId } = this.props;
+
+    return (
+      <div className={classes.headerWithNav}>
+        <div className={classes.headertextNoActions}>
+          <Typography variant="h5">{header}</Typography>
+        </div>
+      </div>
+    );
+  }
+
   renderHeader = () => {
     const { headerType, classes, header, entryId } = this.props;
 
     if (headerType === HEADER_TYPES.WITH_NAV) {
       return this.renderDatedHeaderWithNav();
+    }
+
+    if (headerType === HEADER_TYPES.NO_ACTIONS) {
+      return this.renderDatedHeaderWithNoActions();
     }
 
     return (
