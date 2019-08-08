@@ -131,6 +131,7 @@ class LineItem extends Component {
             <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
           </ListItemIcon>
           <TextField
+            multiline
             fullWidth
             autoFocus={isSelected}
             className={classes.itemTextField}
