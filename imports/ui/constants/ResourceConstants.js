@@ -2,8 +2,12 @@
 const TASK = 'TASK';
 const EVENT = 'EVENT';
 const NOTE = 'NOTE';
+const DEFAULT_LAYOUT = 'DEFAULT_LAYOUT';
+const DATED_SINGLE_PAGE = 'DATED_SINGLE_PAGE';
+const DATED_WEEK_VIEW = 'DATED_WEEK_VIEW';
 const DEFAULT = 'DEFAULT';
 const WITH_NAV = 'WITH_NAV';
+const NO_ACTIONS = 'NO_ACTIONS';
 const MIN_DATE = new Date('1900-01-01');
 const MAX_DATE = new Date('2100-01-01');
 const NUM_PREVIEW_ITEMS = 3;
@@ -31,14 +35,22 @@ export const TASK_STATUS = [
   'MIGRATED',
 ];
 
+export const PAGE_LAYOUT_TYPES = {
+  DEFAULT_LAYOUT,
+  DATED_SINGLE_PAGE,
+  DATED_WEEK_VIEW,
+};
+
 export const HEADER_TYPES = {
   DEFAULT,
   WITH_NAV,
+  NO_ACTIONS,
 };
 
 export const PAGE_LAYOUT = [
-  { type: 'DEFAULT_LAYOUT', headerType: DEFAULT },
-  { type: 'DATED_SINGLE_PAGE', headerType: WITH_NAV },
+  { type: DEFAULT_LAYOUT, headerType: DEFAULT },
+  { type: DATED_SINGLE_PAGE, headerType: WITH_NAV },
+  { type: DATED_WEEK_VIEW, headerType: NO_ACTIONS },
 ];
 
 export const ADD_DATED_ENTRY_DIALOG = {
