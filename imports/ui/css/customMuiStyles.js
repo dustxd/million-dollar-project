@@ -5,11 +5,11 @@
 const appTheme = {
   palette: {
     primary: {
-      main: '#bec358',
-      contrastText: '#ffffff',
+      main: '#829f9d',
+      contrastText: '#fff',
     },
     secondary: {
-      main: '#868735',
+      main: '#fff',
     },
   },
   typography: {
