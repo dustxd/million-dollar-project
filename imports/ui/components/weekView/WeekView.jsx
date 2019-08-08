@@ -84,18 +84,16 @@ class WeekView extends Component {
                     inputVariant="outlined"
                     className={classes.textField}
                     format="DD/MM/YYYY"
-                    // value={header}
-                    onChange={date => this.onChangeDateField(date)}
-                    onKeyPress={e => this.onKeyPress(e)}
-                    disabled
+                    value={new Date()}
                     leftArrowIcon={null}
                     rightArrowIcon={null}
+                    shouldDisableDate={date => !moment(date).isSame(new Date(), 'week')}
                   />
                 </MuiPickersUtilsProvider>
               </Paper>
               {
                 displayedEntries.map(entry => (
-                  <Paper className={classes.paper}>
+                  <Paper key={entry._id} className={classes.paper}>
                     <Page
                       type="DATED_WEEK_VIEW"
                       actions={actions}
