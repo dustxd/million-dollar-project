@@ -47,6 +47,6 @@ Meteor.methods({
     check(lineItemId, String);
     check(updatedLineItem, Object);
 
-    return LineItems.update(lineItemId, updatedLineItem);
+    return LineItems.update(lineItemId, { $set: { updatedLineItem } });
   },
 });

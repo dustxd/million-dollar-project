@@ -39,13 +39,12 @@ Meteor.methods({
     const {
       header,
       type,
-      createdAt,
     } = newEntry;
 
     return Entries.insert({
       header,
       type,
-      createdAt,
+      createdAt: new Date(),
       owner: Meteor.userId(),
     });
   },
@@ -58,6 +57,11 @@ Meteor.methods({
     check(entryId, String);
     check(updatedEntry, Object);
 
-    return Entries.update(entryId, updatedEntry);
+    // Make sure the user is logged in before updating a task
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    return Entries.update(entryId, { $set: { updatedEntry } });
   },
 });
