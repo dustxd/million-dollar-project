@@ -79,6 +79,7 @@ class OverviewActions extends React.Component {
             && (
               <AddDialog
                 open={openAddDialog}
+                mode="add"
                 type={type}
                 actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}

@@ -16,8 +16,8 @@ import moment from 'moment';
 import { withRouter } from 'react-router';
 
 import {
-  ADD_DATED_ENTRY_DIALOG,
-  ADD_COLLECTION_DIALOG,
+  DATED_ENTRY_DIALOG,
+  COLLECTION_DIALOG,
   DATE_CONSTRAINTS,
 } from '../../constants/ResourceConstants';
 
@@ -59,7 +59,7 @@ const styles = {
   inputLabelRoot: {
     color: '#bec358',
   },
-  addButton: {
+  actionButton: {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
@@ -127,11 +127,24 @@ class AddDialog extends Component {
     const { type } = this.props;
 
     if (type === 'dated') {
-      return ADD_DATED_ENTRY_DIALOG;
+      return DATED_ENTRY_DIALOG;
     }
 
     // By default, the dialog should be for adding collection
-    return ADD_COLLECTION_DIALOG;
+    return COLLECTION_DIALOG;
+  }
+
+  getDialogInfoForMode = () => {
+    const { mode } = this.props;
+
+    const dialog = this.getDialogInfo();
+    const { addTitle, editTitle, actions, ...dialogProps } = dialog;
+
+
+    const title = dialog[`${mode}Title`] || '';
+    const button = actions[`${mode}Button`] || '';
+
+    return { title, button, ...dialogProps };
   }
 
   isDisabled = () => {
@@ -195,12 +208,12 @@ class AddDialog extends Component {
   render() {
     const { open, onClickCloseDialog, classes } = this.props;
     const { header } = this.state;
-    const dialog = this.getDialogInfo();
+    const dialog = this.getDialogInfoForMode();
     const {
       title,
       subtitle,
       fields,
-      actions,
+      button,
     } = dialog;
 
     return (
@@ -228,11 +241,11 @@ class AddDialog extends Component {
           <Button
             variant="contained"
             color="primary"
-            className={classes.addButton}
+            className={classes.actionButton}
             disabled={this.isDisabled()}
             onClick={() => this.onClickAdd()}
           >
-            {actions.addButton}
+            {button}
           </Button>
         </DialogContent>
       </Dialog>

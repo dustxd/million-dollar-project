@@ -158,6 +158,7 @@ class Page extends Component {
             && (
               <EditDialog
                 open={openEditDialog}
+                mode="edit"
                 type={type}
                 actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}
@@ -179,6 +180,7 @@ const dataSource = (props) => {
 
 Page.defaultProps = {
   position: 'center',
+  mode: 'add',
 };
 
 export default withTracker(dataSource)(withStyles(styles)(Page));
