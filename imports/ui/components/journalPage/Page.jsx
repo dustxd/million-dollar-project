@@ -126,7 +126,7 @@ class Page extends Component {
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries}
-          disabled={type === PAGE_LAYOUT_TYPES.DATED_WEEK_VIEW}
+          isWeekView={type === PAGE_LAYOUT_TYPES.DATED_WEEK_VIEW}
         />
       </div>
     );

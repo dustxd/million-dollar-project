@@ -123,14 +123,14 @@ class LineItem extends Component {
   }
 
   render() {
-    const { classes, disabled } = this.props;
+    const { classes, isWeekView } = this.props;
     const { bullet, text } = this.state;
     const isSelected = this.isLineItemSelected();
 
     return (
       <div>
         {
-          disabled
+          isWeekView
             ? (
               <div className={classes.disabledLineItem}>
                 <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
@@ -148,26 +148,18 @@ class LineItem extends Component {
                 <ListItemIcon onClick={() => this.onClickBullet()}>
                   <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
                 </ListItemIcon>
-                {
-                  disabled
-                    ? (
-                      <Typography>{text}</Typography>
-                    )
-                    : (
-                      <TextField
-                        multiline
-                        fullWidth
-                        autoFocus={isSelected}
-                        className={classes.itemTextField}
-                        value={text}
-                        InputProps={{
-                          disableUnderline: true,
-                        }}
-                        onChange={e => this.onChangeContent(e)}
-                        onKeyPress={e => this.onKeyPress(e)}
-                      />
-                    )
-                }
+                <TextField
+                  multiline
+                  fullWidth
+                  autoFocus={isSelected}
+                  className={classes.itemTextField}
+                  value={text}
+                  InputProps={{
+                    disableUnderline: true,
+                  }}
+                  onChange={e => this.onChangeContent(e)}
+                  onKeyPress={e => this.onKeyPress(e)}
+                />
                 {
                   isSelected
                     ? (
