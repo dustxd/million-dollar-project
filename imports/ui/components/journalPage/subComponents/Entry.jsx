@@ -123,32 +123,23 @@ class Entry extends Component {
   }
 
   onClickPreviousEntry = () => {
-    const { actions, mode } = this.props;
+    const { actions } = this.props;
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
-      actions.updateIndexPage({
-        page: this.getPrevEntryId(),
-        mode,
-      });
+      actions.updateBookmarkIndex(this.getPrevEntryId());
     }
   }
 
   onClickNextEntry = () => {
-    const { actions, mode } = this.props;
+    const { actions } = this.props;
     if (this.getEntryIndex() > 0) {
-      actions.updateIndexPage({
-        page: this.getNextEntryId(),
-        mode,
-      });
+      actions.updateBookmarkIndex(this.getNextEntryId());
     }
   }
 
   onClickGetPrevAndDeleteEntry = (entryId) => {
-    const { actions, mode } = this.props;
+    const { actions } = this.props;
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
-      actions.updateIndexPage({
-        page: this.getPrevEntryId(),
-        mode,
-      });
+      actions.updateBookmarkIndex(this.getPrevEntryId());
       this.onClickDeleteEntry(entryId);
     } else {
       this.onClickDeleteEntry(entryId);
