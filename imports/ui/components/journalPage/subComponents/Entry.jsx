@@ -31,12 +31,12 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  headerNoActions: {
+  headerWeekView: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headerTextNoActions: {
+  headerTextWeekView: {
     padding: '12px',
   },
 };
@@ -189,15 +189,15 @@ class Entry extends Component {
     );
   }
 
-  renderDatedHeaderWithNoActions = () => {
+  renderDatedHeaderWeekView = () => {
     const { classes, header, entryId, weekViewProps } = this.props;
     const { noEntriesForDate, onClickOpenDialog } = weekViewProps;
 
     return (
-      <div className={classes.headerNoActions}>
+      <div className={classes.headerWeekView}>
         <Typography
           variant="h5"
-          className={noEntriesForDate ? null : classes.headerTextNoActions}
+          className={noEntriesForDate ? null : classes.headerTextWeekView}
         >
           {header}
         </Typography>
@@ -221,8 +221,8 @@ class Entry extends Component {
       return this.renderDatedHeaderWithNav();
     }
 
-    if (headerType === HEADER_TYPES.NO_ACTIONS) {
-      return this.renderDatedHeaderWithNoActions();
+    if (headerType === HEADER_TYPES.WEEK_VIEW) {
+      return this.renderDatedHeaderWeekView();
     }
 
     return (
@@ -256,7 +256,7 @@ class Entry extends Component {
                     key={_id}
                     id={_id}
                     selectedLineItem={selectedLineItem}
-                    isWeekView={headerType === HEADER_TYPES.NO_ACTIONS}
+                    isWeekView={headerType === HEADER_TYPES.WEEK_VIEW}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
                     onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}

@@ -7,7 +7,7 @@ const DATED_SINGLE_PAGE = 'DATED_SINGLE_PAGE';
 const DATED_WEEK_VIEW = 'DATED_WEEK_VIEW';
 const DEFAULT = 'DEFAULT';
 const WITH_NAV = 'WITH_NAV';
-const NO_ACTIONS = 'NO_ACTIONS';
+const WEEK_VIEW = 'WEEK_VIEW';
 const MIN_DATE = new Date('1900-01-01');
 const MAX_DATE = new Date('2100-01-01');
 const NUM_PREVIEW_ITEMS = 3;
@@ -44,13 +44,13 @@ export const PAGE_LAYOUT_TYPES = {
 export const HEADER_TYPES = {
   DEFAULT,
   WITH_NAV,
-  NO_ACTIONS,
+  WEEK_VIEW,
 };
 
 export const PAGE_LAYOUT = [
   { type: DEFAULT_LAYOUT, headerType: DEFAULT },
   { type: DATED_SINGLE_PAGE, headerType: WITH_NAV },
-  { type: DATED_WEEK_VIEW, headerType: NO_ACTIONS },
+  { type: DATED_WEEK_VIEW, headerType: WEEK_VIEW },
 ];
 
 export const ADD_DATED_ENTRY_DIALOG = {
