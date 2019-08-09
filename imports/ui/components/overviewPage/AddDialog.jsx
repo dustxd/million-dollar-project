@@ -98,17 +98,27 @@ class AddDialog extends Component {
     });
   }
 
-  onClickAdd = () => {
-    const { type, actions, onClickCloseDialog, history } = this.props;
+  onClickAddOrUpdate = () => {
+    const {
+      type,
+      mode,
+      entryId,
+      actions,
+      onClickCloseDialog,
+      history,
+    } = this.props;
     const { header } = this.state;
 
     const newEntry = {
       header: type === 'dated' ? moment(header).toDate() : header,
       type,
-      createdAt: new Date(),
     };
 
-    actions.addResource(newEntry, 'entries');
+    if (mode === 'add') {
+      actions.addResource(newEntry, 'entries');
+    } else {
+      actions.updateResource(newEntry, 'entries', entryId);
+    }
 
     onClickCloseDialog();
 
@@ -119,7 +129,7 @@ class AddDialog extends Component {
     if (event.key === 'Enter') {
       event.preventDefault();
       if (this.isDisabled()) return;
-      this.onClickAdd();
+      this.onClickAddOrUpdate();
     }
   }
 
@@ -243,7 +253,7 @@ class AddDialog extends Component {
             color="primary"
             className={classes.actionButton}
             disabled={this.isDisabled()}
-            onClick={() => this.onClickAdd()}
+            onClick={() => this.onClickAddOrUpdate()}
           >
             {button}
           </Button>
