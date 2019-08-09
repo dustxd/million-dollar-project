@@ -4,7 +4,6 @@ import { Redirect, withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
-  Button,
   Icon,
   IconButton,
   Menu,
@@ -12,8 +11,9 @@ import {
   Tabs,
   Tab,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
+
+import AccountDrawer from './AccountDrawer';
 
 // Component constants
 const NAVIGATION_OPTIONS = [
@@ -126,6 +126,7 @@ class CoreView extends React.Component {
             ))
           }
         </Tabs>
+        <AccountDrawer onClickLogout={() => this.onClickSignout()}/>
         <div>
           <Tooltip title="Account" aria-label="Account">
             <IconButton onClick={e => this.onClickOpenMenu(e)}>
