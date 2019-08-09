@@ -21,7 +21,7 @@ class ListView extends React.Component {
     const { classes, actions, mode } = this.props;
 
     return (
-      <div className={classes.searchContainer}>
+      <div className={classes.listViewContainer}>
         <Results actions={actions} mode={mode}/>
       </div>
     );
