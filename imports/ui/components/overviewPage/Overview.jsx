@@ -4,7 +4,6 @@ import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
 import OverviewActions from './OverviewActions';
-import SearchBar from './SearchBar';
 import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
@@ -25,9 +24,6 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',    
-  },
-  paper: {
-
   },
 };
 
@@ -70,10 +66,9 @@ class Overview extends React.Component {
                 <Typography variant="h1">
                     {moment().format('h:mm')}
                 </Typography>
-                <Typography variant="h4">
+                <Typography variant="h5">
                   {`${greeting} ${firstName}.`}
                 </Typography>
-                  <SearchBar user={user} />
                   <OverviewActions actions={actions} />
                   <Typography variant="overline">"{quote}"</Typography>  
                   </div>

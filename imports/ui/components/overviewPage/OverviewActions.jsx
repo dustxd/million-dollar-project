@@ -1,8 +1,8 @@
 import React from 'react';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import AddEntry from '@material-ui/icons/AddBox';
-import AddCollection from '@material-ui/icons/PlaylistAdd';
+import AddEntry from '@material-ui/icons/CalendarToday';
+import AddCollection from '@material-ui/icons/ListAlt';
 import LastEntry from '@material-ui/icons/AccessTime';
 
 import AddDialog from './AddDialog';
@@ -10,6 +10,9 @@ import AddDialog from './AddDialog';
 const buttonStyles = makeStyles(theme => ({
   rightIcon: {
     margin: theme.spacing(5),
+  },
+  button: {
+    margin: theme.spacing(1),
   },
 }));
 
@@ -22,9 +25,9 @@ const styles = {
 };
 
 const overviewActionButtons = [
-  { key: 'dated', title: 'Add daily entry', icon: <AddEntry className={buttonStyles.rightIcon} /> },
-  { key: 'collection', title: 'Add collection', icon: <AddCollection className={buttonStyles.rightIcon} /> },
-  { key: 'recent', title: 'Last entry', icon: <LastEntry className={buttonStyles.rightIcon} /> },
+  { key: 'dated', title: 'Add daily entry', icon: (<AddEntry className={buttonStyles.rightIcon} />) },
+  { key: 'collection', title: 'Add collection', icon: (<AddCollection className={buttonStyles.rightIcon} />) },
+  { key: 'recent', title: 'Last entry', icon: (<LastEntry className={buttonStyles.rightIcon} />) },
 ];
 
 class OverviewActions extends React.Component {
@@ -67,9 +70,10 @@ class OverviewActions extends React.Component {
               key={button.key}
               variant="contained"
               size="large"
+              className={buttonStyles.button}
               onClick={() => this.onClickActionButton(button.key)}
             >
-              {button.title}
+              {button.title} 
               {button.icon}
             </Button>
           ))
