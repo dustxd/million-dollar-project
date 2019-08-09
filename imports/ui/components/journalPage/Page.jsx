@@ -111,23 +111,17 @@ class Page extends Component {
   updatePageIndex = (entries) => {
     const { actions, mode } = this.props;
 
-    actions.updateIndexPage({
-      page: entries[0]._id,
-      mode,
-    });
+    actions.updateBookmarkIndex(entries[0]._id);
   }
-
-  checkFilteredEntries = () => {
-    const { entries, filteredEntries } = this.props;
-    if (filteredEntries !== undefined) {
-      return filteredEntries;
-    }
-    return entries;
-  }
-
 
   render() {
-    const { entryId, actions, entries, mode, filteredEntries, defaultEntries, weekViewProps } = this.props;
+    const {
+      entryId,
+      actions,
+      entries,
+      defaultEntries,
+      weekViewProps,
+    } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
     // const filteredEntries = this.filterEntries(entries);
@@ -144,8 +138,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
-          entries={this.checkFilteredEntries()} // Add method that checks if entries are being passed from parent. if not entries are passed from parent, return entries from Page
-          mode={mode}
+          entries={entries || defaultEntries} // if no entries are passed from parent, return defaultEntries from Page
           weekViewProps={weekViewProps}
         />
       </div>
@@ -157,8 +150,7 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
-    defaultEntries: Entries.find({}, { sort: { header: -1 } }).fetch(),
+    defaultEntries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 };
 
