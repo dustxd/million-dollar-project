@@ -42,7 +42,7 @@ Meteor.methods({
       createdAt,
     } = newEntry;
 
-    Entries.insert({
+    return Entries.insert({
       header,
       type,
       createdAt,

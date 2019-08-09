@@ -13,6 +13,7 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 import MomentUtils from '@date-io/moment';
 import { withStyles } from '@material-ui/core/styles';
 import moment from 'moment';
+import { withRouter } from 'react-router';
 
 import {
   ADD_DATED_ENTRY_DIALOG,
@@ -62,7 +63,6 @@ const styles = {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
-    backgroundColor: '#868735',
     color: '#ffffff',
     padding: '14px',
     marginTop: '20px',
@@ -74,11 +74,11 @@ class AddDialog extends Component {
   constructor(props) {
     super(props);
 
-    const { type } = props;
+    const { type, date } = props;
     let header = '';
 
     if (type === 'dated') {
-      header = new Date();
+      header = date || new Date();
     }
 
     this.state = {
@@ -99,7 +99,7 @@ class AddDialog extends Component {
   }
 
   onClickAdd = () => {
-    const { type, actions, onClickCloseDialog } = this.props;
+    const { type, actions, onClickCloseDialog, history } = this.props;
     const { header } = this.state;
 
     const newEntry = {
@@ -111,6 +111,8 @@ class AddDialog extends Component {
     actions.addResource(newEntry, 'entries');
 
     onClickCloseDialog();
+
+    history.push('/singlePage');
   }
 
   onKeyPress = (event) => {
@@ -225,6 +227,7 @@ class AddDialog extends Component {
           }
           <Button
             variant="contained"
+            color="primary"
             className={classes.addButton}
             disabled={this.isDisabled()}
             onClick={() => this.onClickAdd()}
@@ -237,4 +240,4 @@ class AddDialog extends Component {
   }
 }
 
-export default withStyles(styles)(AddDialog);
+export default withRouter(withStyles(styles)(AddDialog));

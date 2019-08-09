@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
-import { PAGE_LAYOUT } from '../../constants/ResourceConstants';
+import { PAGE_LAYOUT_TYPES, PAGE_LAYOUT } from '../../constants/ResourceConstants';
 
 const styles = {
   leftPage: {
@@ -19,6 +19,9 @@ const styles = {
   },
   center: {
     padding: '2em',
+  },
+  week: {
+    padding: '2em 1em',
   },
 };
 
@@ -42,25 +45,29 @@ class Page extends Component {
       return classes.rightPage;
     }
 
+    if (position === 'week') {
+      return classes.week;
+    }
+
     return classes.center;
   }
 
   getDisplayedEntryId = (redirectedEntryId) => {
-    const { entries, position } = this.props;
+    const { defaultEntries, position } = this.props;
 
     if (redirectedEntryId) {
       return redirectedEntryId;
     }
 
-    if (entries && entries.length > 0) {
+    if (defaultEntries && defaultEntries.length > 0) {
       // This handles Spread View:
       // 1. If there is more than one page, then by default the right
       //    page should show the most recently created entry.
       // 2. If there is only one page, then the left page should show
       //    the most recently created entry and right page should be
       //    blank (hence need to return empty string).
-      if (entries.length !== 1 || position !== 'right') {
-        return entries[0]._id;
+      if (defaultEntries.length !== 1 || position !== 'right') {
+        return defaultEntries[0]._id;
       }
     }
 
@@ -68,14 +75,19 @@ class Page extends Component {
   }
 
   getHeader = (entryId) => {
-    const { entries } = this.props;
-    const selectedEntry = entries.find(entry => entry._id === entryId);
+    const { type, entries, defaultEntries } = this.props;
+    const inputEntries = entries || defaultEntries;
+    const selectedEntry = inputEntries.find(entry => entry._id === entryId);
 
     if (!selectedEntry) {
       return '';
     }
 
     const { header } = selectedEntry;
+
+    if (type === PAGE_LAYOUT_TYPES.DATED_WEEK_VIEW) {
+      return moment(header).format('DD dddd').toUpperCase();
+    }
 
     if (selectedEntry.type === 'dated') {
       return moment(header).format('MMMM DD, YYYY');
@@ -96,14 +108,6 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
-  // filterEntriesByType = (arrayEntries, type) => {
-  //   return arrayEntries.filter(entry => entry.type === type);
-  // }
-
-  // sortEntriesByDate = (entries) => {
-  //   return entries.
-  // }
-
   updatePageIndex = (entries) => {
     const { actions, mode } = this.props;
 
@@ -112,22 +116,6 @@ class Page extends Component {
       mode,
     });
   }
-
-  // filterEntries = (entries) => {
-  //   const { mode } = this.props;
-  //   if (mode === 'entries') {
-  //     const datedEntries = this.filterEntriesByType(entries, 'dated');
-  //     this.updatePageIndex(datedEntries);
-  //     // return this.sortEntriesByDate(datedEntries);
-  //     return datedEntries;
-  //   }
-  //   if (mode === 'collections') {
-  //     const collectionEntries = this.filterEntriesByType(entries, 'collection');
-  //     // this.updatePageIndex(collectionEntries);
-  //     return collectionEntries;
-  //   }
-  //   return entries;
-  // }
 
   checkFilteredEntries = () => {
     const { entries, filteredEntries } = this.props;
@@ -139,7 +127,7 @@ class Page extends Component {
 
 
   render() {
-    const { entryId, actions, entries, mode, filteredEntries } = this.props;
+    const { entryId, actions, entries, mode, filteredEntries, defaultEntries, weekViewProps } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
     // const filteredEntries = this.filterEntries(entries);
@@ -158,6 +146,7 @@ class Page extends Component {
           entryId={displayedEntryId}
           entries={this.checkFilteredEntries()} // Add method that checks if entries are being passed from parent. if not entries are passed from parent, return entries from Page
           mode={mode}
+          weekViewProps={weekViewProps}
         />
       </div>
     );
@@ -169,6 +158,7 @@ const dataSource = (props) => {
 
   return {
     entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    defaultEntries: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
 };
 

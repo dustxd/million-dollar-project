@@ -1,10 +1,10 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import '../../css/overviewPage/Overview.css';
 import AddEntry from '@material-ui/icons/AddBox';
 import AddCollection from '@material-ui/icons/PlaylistAdd';
 import LastEntry from '@material-ui/icons/AccessTime';
+
 import AddDialog from './AddDialog';
 
 const buttonStyles = makeStyles(theme => ({
@@ -12,6 +12,14 @@ const buttonStyles = makeStyles(theme => ({
     margin: theme.spacing(5),
   },
 }));
+
+const styles = {
+  buttonsContainer: {
+    width: '80%',
+    display: 'flex',
+    justifyContent: 'space-around',
+  },
+};
 
 const overviewActionButtons = [
   { key: 'dated', title: 'Add daily entry', icon: <AddEntry className={buttonStyles.rightIcon} /> },
@@ -47,25 +55,25 @@ class OverviewActions extends React.Component {
   }
 
   render() {
-    const { actions } = this.props;
+    const { classes, actions } = this.props;
     const { openAddDialog, type } = this.state;
 
     return (
-      <div>
-        <div className="button-container">
-          {
-            overviewActionButtons.map(button => (
-              <Button
-                key={button.key}
-                variant="contained"
-                onClick={() => this.onClickActionButton(button.key)}
-              >
-                {button.title}
-                {button.icon}
-              </Button>
-            ))
-          }
-        </div>
+      <div className={classes.buttonsContainer}>
+        {
+          overviewActionButtons.map(button => (
+            <Button
+              color="primary"
+              key={button.key}
+              variant="contained"
+              size="large"
+              onClick={() => this.onClickActionButton(button.key)}
+            >
+              {button.title}
+              {button.icon}
+            </Button>
+          ))
+        }
         {
           openAddDialog
             && (
@@ -82,4 +90,4 @@ class OverviewActions extends React.Component {
   }
 }
 
-export default OverviewActions;
+export default withStyles(styles)(OverviewActions);

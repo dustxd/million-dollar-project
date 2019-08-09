@@ -6,6 +6,12 @@ import {
   AppBar,
   Button,
   Icon,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tabs,
+  Tab,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 
@@ -15,18 +21,21 @@ const NAVIGATION_OPTIONS = [
     key: 'overview', title: 'Overview', path: '/', icon: 'dashboard',
   },
   {
-    key: 'spread', title: 'Spread View', path: '/spread', icon: 'work_outline',
+    key: 'week', title: 'Week View', path: '/week', icon: 'calendar',
   },
   {
-    key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'note',
+    key: 'spread', title: 'Spread View', path: '/spread', icon: 'chrome_reader_mode',
   },
   {
-    key: 'search', title: 'Search', path: '/search', icon: 'search',
+    key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'insert_drive_file',
+  },
+  {
+    key: 'list', title: 'List View', path: '/list', icon: 'search',
   },
 ];
 
 // Styles
-const APPBAR_HEIGHT = 50;
+const APPBAR_HEIGHT = 60;
 
 const styles = {
   appBar: {
@@ -36,7 +45,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#ffffff',
   },
   navOptionsContainer: {
     display: 'flex',
@@ -50,19 +58,6 @@ const styles = {
   navOptionText: {
     marginLeft: '10px',
   },
-  signoutButton: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  signoutIcon: {
-    color: '#bec358',
-  },
-  signoutText: {
-    marginLeft: '10px',
-    textDecoration: 'underline',
-    color: '#bec358',
-  },
   pageContent: {
     marginTop: `${APPBAR_HEIGHT}px`,
   },
@@ -72,6 +67,8 @@ class CoreView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      anchorEl: null,
+      currentTab: 0,
     };
   }
 
@@ -82,39 +79,73 @@ class CoreView extends React.Component {
     history.push('/login');
   }
 
+  onClickOpenMenu = (event) => {
+    this.setState({
+      anchorEl: event.currentTarget,
+    });
+  }
+
+  onClickCloseMenu = () => {
+    this.setState({
+      anchorEl: null,
+    });
+  }
+
+  onClickChangeTab = (event, updatedTab) => {
+    this.setState({
+      currentTab: updatedTab,
+    });
+  }
+
   renderAppBar = () => {
-    const { classes, history } = this.props;
+    const { path, classes, history } = this.props;
+    const { currentTab, anchorEl } = this.state;
+
+    let tabIndex = currentTab;
+
+    if (NAVIGATION_OPTIONS[currentTab].path !== path) {
+      // Handles redirection from other pages where onClickChangeTab will not be triggered
+      tabIndex = NAVIGATION_OPTIONS.findIndex(option => option.path === path);
+    }
 
     return (
       <AppBar
-        color="default"
+        color="primary"
         className={classes.appBar}
       >
-        <div className={classes.navOptionsContainer}>
+        <Tabs
+          value={tabIndex}
+          onChange={(e, tab) => this.onClickChangeTab(e, tab)}
+          indicatorColor="secondary"
+          textColor="secondary"
+        >
           {
             NAVIGATION_OPTIONS.map(option => (
-              <Button
+              <Tab
                 key={option.key}
-                className={classes.navOptionButton}
+                label={option.title}
                 onClick={() => history.push(option.path)}
-              >
-                <Icon>{option.icon}</Icon>
-                <Typography className={classes.navOptionText} noWrap>
-                  {option.title}
-                </Typography>
-              </Button>
+              />
             ))
           }
+        </Tabs>
+        <div>
+          <Tooltip title="Account" aria-label="Account">
+            <IconButton onClick={e => this.onClickOpenMenu(e)}>
+              <Icon color="secondary">account_circle</Icon>
+            </IconButton>
+          </Tooltip>
+          <Menu
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={() => this.onClickCloseMenu()}
+          >
+            <MenuItem onClick={() => this.onClickCloseMenu()}>My account</MenuItem>
+            <MenuItem onClick={() => this.onClickSignout()}>Logout</MenuItem>
+          </Menu>
         </div>
-        <Button
-          className={classes.signoutButton}
-          onClick={() => this.onClickSignout()}
-        >
-          <Icon className={classes.signoutIcon}>exit_to_app</Icon>
-          <Typography className={classes.signoutText} noWrap>
-            Sign Out
-          </Typography>
-        </Button>
       </AppBar>
     );
   }

@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Accounts } from 'meteor/accounts-base';
 
 import * as types from './ActionTypes';
+import INSPIRATIONAL_QUOTES from '../constants/Quotes';
 
 function updateLoadingState(type) {
   return {
@@ -50,9 +51,16 @@ export function signUpUser(user) {
 }
 
 function loginUserSuccess(currentUser) {
+  const maxNumberOfQuotes = INSPIRATIONAL_QUOTES.length;
+  const randomQuoteIndex = Math.floor(Math.random() * maxNumberOfQuotes);
+  const user = {
+    ...currentUser,
+    quote: INSPIRATIONAL_QUOTES[randomQuoteIndex],
+  };
+
   return {
     type: types.LOGIN_USER_SUCCESS,
-    user: currentUser,
+    user,
   };
 }
 

@@ -1,30 +1,23 @@
 /**
  * Custom base theme for material-ui components.
  */
-const customizedThemes = {
+
+const appTheme = {
   palette: {
     primary: {
-      light: '#bec358',
-      main: '#868735',
-      dark: '#4f3d16',
+      main: '#bec358',
       contrastText: '#ffffff',
+    },
+    secondary: {
+      main: '#868735',
     },
   },
   typography: {
-    fontFamily: 'Open Sans, sans-serif',
-    h1: {
-      fontFamily: 'Great Vibes, cursive',
-      fontSize: '70px',
-      fontWeight: 'bold',
-    },
+    fontFamily: 'Roboto, sans-serif',
   },
   overrides: {
-    MuiButton: {
-      outlined: {
-        border: 'solid 2px #000000',
-      },
-    },
+
   },
 };
 
-export default customizedThemes;
+export default appTheme;

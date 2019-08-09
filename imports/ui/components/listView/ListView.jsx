@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/core/styles';
 import Results from './Results';
 
 const styles = {
-  searchContainer: {
+  listViewContainer: {
     padding: '20px',
   },
 };
 
-class SearchPage extends React.Component {
+class ListView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -28,4 +28,4 @@ class SearchPage extends React.Component {
   }
 }
 
-export default withStyles(styles)(SearchPage);
+export default withStyles(styles)(ListView);
