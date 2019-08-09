@@ -4,6 +4,7 @@ import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 
 import Page from '../journalPage/Page';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   singleContainer: {
@@ -38,9 +39,9 @@ class SinglePage extends Component {
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
-                  <Paper className={classes.paper}>
+                  <TranslucentPaper className={classes.paper}>
                     <Page type="DATED_SINGLE_PAGE" entryId={index} actions={actions} />
-                  </Paper>
+                  </TranslucentPaper>
                 </Grid>
               </Grid>
             </div>
