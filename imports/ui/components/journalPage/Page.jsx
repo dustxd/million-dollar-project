@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
 import { PAGE_LAYOUT_TYPES, PAGE_LAYOUT } from '../../constants/ResourceConstants';
+import EditDialog from '../overviewPage/AddDialog';
 
 const styles = {
   leftPage: {
@@ -30,8 +31,30 @@ class Page extends Component {
     super(props);
 
     this.state = {
-
+      openEditDialog: false,
+      type: '',
     };
+  }
+
+  onClickEditHeader = (entryId) => {
+    const { defaultEntries } = this.props;
+    const selectedEntry = defaultEntries.find(entry => entry._id === entryId);
+
+    if (!selectedEntry) {
+      return;
+    }
+
+    this.setState({
+      openEditDialog: true,
+      type: selectedEntry.type,
+    });
+  }
+
+  onClickCloseDialog = () => {
+    this.setState({
+      openEditDialog: false,
+      type: '',
+    });
   }
 
   getStyling = () => {
@@ -110,6 +133,7 @@ class Page extends Component {
 
   render() {
     const { entryId, actions, entries, defaultEntries, weekViewProps } = this.props;
+    const { openEditDialog, type } = this.state;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -123,11 +147,23 @@ class Page extends Component {
           key={displayedEntryId}
           header={this.getHeader(displayedEntryId)}
           headerType={this.getHeaderType()}
+          onClickEditHeader={id => this.onClickEditHeader(id)}
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries}
           weekViewProps={weekViewProps}
         />
+        {
+          openEditDialog
+            && (
+              <EditDialog
+                open={openEditDialog}
+                type={type}
+                actions={actions}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
+              />
+            )
+        }
       </div>
     );
   }

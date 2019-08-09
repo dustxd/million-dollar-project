@@ -163,7 +163,7 @@ class Entry extends Component {
   }
 
   renderDatedHeaderWithNav = () => {
-    const { classes, header, entryId } = this.props;
+    const { classes, header, entryId, onClickEditHeader } = this.props;
 
     return (
       <div className={classes.headerWithNav}>
@@ -175,6 +175,9 @@ class Entry extends Component {
         </div>
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
           <Icon>arrow_forward</Icon>
+        </IconButton>
+        <IconButton onClick={() => onClickEditHeader(entryId)}>
+          <Icon>edit</Icon>
         </IconButton>
         <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
           <Icon>delete</Icon>
