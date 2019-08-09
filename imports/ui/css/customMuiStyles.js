@@ -13,7 +13,7 @@ const appTheme = {
     },
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Lexend Deca, sans-serif',
   },
   overrides: {
 
