@@ -108,8 +108,6 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
-
-
   render() {
     const { entryId, actions, entries, defaultEntries, type } = this.props;
 
