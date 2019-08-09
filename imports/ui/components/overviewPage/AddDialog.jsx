@@ -61,11 +61,11 @@ class AddDialog extends Component {
   constructor(props) {
     super(props);
 
-    const { type } = props;
+    const { type, date } = props;
     let header = '';
 
     if (type === 'dated') {
-      header = new Date();
+      header = date || new Date();
     }
 
     this.state = {

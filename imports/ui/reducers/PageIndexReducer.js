@@ -13,6 +13,8 @@ const PageIndexReducer = (index = 0, action) => {
         return 0;
       }
       return index;
+    case types.LOGOUT_USER:
+      return 0;
     case types.INDEX_PAGE:
       return action.index;
     default:

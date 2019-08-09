@@ -21,6 +21,9 @@ const NAVIGATION_OPTIONS = [
     key: 'overview', title: 'Overview', path: '/', icon: 'dashboard',
   },
   {
+    key: 'week', title: 'Week View', path: '/week', icon: 'calendar',
+  },
+  {
     key: 'spread', title: 'Spread View', path: '/spread', icon: 'chrome_reader_mode',
   },
   {

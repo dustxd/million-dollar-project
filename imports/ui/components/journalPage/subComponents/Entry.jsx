@@ -26,10 +26,15 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headertext: {
+  headerText: {
     width: '40%',
     display: 'flex',
     justifyContent: 'center',
+  },
+  headerWeekView: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 };
 
@@ -165,7 +170,7 @@ class Entry extends Component {
         <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
           <Icon>arrow_back</Icon>
         </IconButton>
-        <div className={classes.headertext}>
+        <div className={classes.headerText}>
           <Typography variant="h5">{header}</Typography>
         </div>
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
@@ -181,11 +186,39 @@ class Entry extends Component {
     );
   }
 
+  renderDatedHeaderWeekView = () => {
+    const { classes, header, entryId, weekViewProps } = this.props;
+    const { noEntriesForDate, onClickOpenDialog, onClickRedirect } = weekViewProps;
+
+    return (
+      <div className={classes.headerWeekView}>
+        <Typography variant="h5">{header}</Typography>
+        {
+          noEntriesForDate
+            ? (
+              <IconButton onClick={() => onClickOpenDialog(entryId)}>
+                <Icon>add_box</Icon>
+              </IconButton>
+            )
+            : (
+              <IconButton onClick={() => onClickRedirect(entryId)}>
+                <Icon>edit</Icon>
+              </IconButton>
+            )
+        }
+      </div>
+    );
+  }
+
   renderHeader = () => {
     const { headerType, classes, header, entryId } = this.props;
 
     if (headerType === HEADER_TYPES.WITH_NAV) {
       return this.renderDatedHeaderWithNav();
+    }
+
+    if (headerType === HEADER_TYPES.WEEK_VIEW) {
+      return this.renderDatedHeaderWeekView();
     }
 
     return (
@@ -202,7 +235,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { lineItems } = this.props;
+    const { lineItems, headerType } = this.props;
     const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
@@ -219,6 +252,7 @@ class Entry extends Component {
                     key={_id}
                     id={_id}
                     selectedLineItem={selectedLineItem}
+                    isWeekView={headerType === HEADER_TYPES.WEEK_VIEW}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
                     onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}
