@@ -109,7 +109,7 @@ class Page extends Component {
   }
 
   render() {
-    const { entryId, actions, entries, defaultEntries } = this.props;
+    const { entryId, actions, entries, defaultEntries, weekViewProps } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -126,6 +126,7 @@ class Page extends Component {
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries}
+          weekViewProps={weekViewProps}
         />
       </div>
     );

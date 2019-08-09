@@ -37,6 +37,13 @@ class WeekView extends Component {
     };
   }
 
+  onClickOpenDialog = (dateString) => {
+    this.setState({
+      openAddDialog: true,
+      selectedDate: new Date(dateString),
+    });
+  }
+
   onClickCloseDialog = () => {
     this.setState({ openAddDialog: false });
   }
@@ -68,7 +75,7 @@ class WeekView extends Component {
     const displayedEntries = currentWeek.map((day, index) => {
       const entryForTheDay = datedEntries.find(entry => moment(day).isSame(entry.header, 'day'));
       if (!entryForTheDay) {
-        return { _id: moment(day).toString(), header: day, category: 'new' };
+        return { _id: moment(day).toString(), header: day, noEntriesForDate: true };
       }
       return entryForTheDay;
     });
@@ -114,6 +121,10 @@ class WeekView extends Component {
                       position="center"
                       entries={displayedEntries}
                       entryId={entry._id}
+                      weekViewProps={{
+                        noEntriesForDate: entry.noEntriesForDate,
+                        onClickOpenDialog: dateString => this.onClickOpenDialog(dateString),
+                      }}
                     />
                   </Paper>
                 ))

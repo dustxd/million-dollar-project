@@ -31,9 +31,13 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
   },
-  headertextNoActions: {
+  headerNoActions: {
     display: 'flex',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTextNoActions: {
+    padding: '12px',
   },
 };
 
@@ -186,13 +190,26 @@ class Entry extends Component {
   }
 
   renderDatedHeaderWithNoActions = () => {
-    const { classes, header, entryId } = this.props;
+    const { classes, header, entryId, weekViewProps } = this.props;
+    const { noEntriesForDate, onClickOpenDialog } = weekViewProps;
 
     return (
-      <div className={classes.headerWithNav}>
-        <div className={classes.headertextNoActions}>
-          <Typography variant="h5">{header}</Typography>
-        </div>
+      <div className={classes.headerNoActions}>
+        <Typography
+          variant="h5"
+          className={noEntriesForDate ? null : classes.headerTextNoActions}
+        >
+          {header}
+        </Typography>
+        {
+          noEntriesForDate
+            ? (
+              <IconButton onClick={() => onClickOpenDialog(entryId)}>
+                <Icon>add_box</Icon>
+              </IconButton>
+            )
+            : null
+        }
       </div>
     );
   }
