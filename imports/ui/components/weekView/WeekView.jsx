@@ -32,7 +32,7 @@ class WeekView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openAddDialog: true,
+      openAddDialog: false,
       selectedDate: new Date(),
     };
   }
