@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinearProgress, Paper } from '@material-ui/core';
+import { LinearProgress, Paper, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
@@ -9,21 +9,7 @@ import MomentUtils from '@date-io/moment';
 
 import Page from '../journalPage/Page';
 import { Entries } from '../../../api/entries';
-
-const getCurrentWeekDates = () => {
-  const today = moment();
-  const startOfWeek = today.startOf('week').clone();
-  const endOfWeek = today.endOf('week').clone();
-  let day = startOfWeek;
-  const currentWeek = [];
-
-  while (day <= endOfWeek) {
-    currentWeek.push(day.toDate());
-    day.add(1, 'days');
-  }
-
-  return currentWeek;
-};
+import AddDialog from '../overviewPage/AddDialog';
 
 const styles = {
   spreadContainer: {
@@ -37,19 +23,42 @@ const styles = {
   paper: {
 
   },
+  calendarHeader: {
+    padding: '1.75em',
+  },
 };
 
 class WeekView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      openAddDialog: true,
+      selectedDate: new Date(),
     };
   }
 
+  onClickCloseDialog = () => {
+    this.setState({ openAddDialog: false });
+  }
+
+  getCurrentWeekDates = () => {
+    const today = moment();
+    const startOfWeek = today.startOf('week').clone();
+    const endOfWeek = today.endOf('week').clone();
+    let day = startOfWeek;
+    const currentWeek = [];
+
+    while (day <= endOfWeek) {
+      currentWeek.push(day.toDate());
+      day.add(1, 'days');
+    }
+
+    return currentWeek;
+  };
+
   getCurrentWeekDatedEntries = () => {
     const { entries } = this.props;
-    const currentWeek = getCurrentWeekDates();
+    const currentWeek = this.getCurrentWeekDates();
 
     // Get only dated entries
     const datedEntries = entries.filter(entry => entry.type === 'dated');
@@ -59,7 +68,7 @@ class WeekView extends Component {
     const displayedEntries = currentWeek.map((day, index) => {
       const entryForTheDay = datedEntries.find(entry => moment(day).isSame(entry.header, 'day'));
       if (!entryForTheDay) {
-        return { _id: moment(day).toString(), header: day };
+        return { _id: moment(day).toString(), header: day, category: 'new' };
       }
       return entryForTheDay;
     });
@@ -69,6 +78,7 @@ class WeekView extends Component {
 
   render() {
     const { loading, classes, actions, entries } = this.props;
+    const { openAddDialog, selectedDate } = this.state;
     const displayedEntries = this.getCurrentWeekDatedEntries();
 
     return (
@@ -78,6 +88,11 @@ class WeekView extends Component {
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
               <Paper className={classes.paper}>
+                <div className={classes.calendarHeader}>
+                  <Typography variant="h3" color="primary">
+                    CALENDAR
+                  </Typography>
+                </div>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
                   <DatePicker
                     variant="static"
@@ -85,8 +100,7 @@ class WeekView extends Component {
                     className={classes.textField}
                     format="DD/MM/YYYY"
                     value={new Date()}
-                    leftArrowIcon={null}
-                    rightArrowIcon={null}
+                    disableToolbar
                     shouldDisableDate={date => !moment(date).isSame(new Date(), 'week')}
                   />
                 </MuiPickersUtilsProvider>
@@ -105,6 +119,18 @@ class WeekView extends Component {
                 ))
               }
             </div>
+            {
+              openAddDialog
+                && (
+                  <AddDialog
+                    open={openAddDialog}
+                    type="dated"
+                    date={selectedDate}
+                    actions={actions}
+                    onClickCloseDialog={() => this.onClickCloseDialog()}
+                  />
+                )
+            }
           </div>
         )
     );
