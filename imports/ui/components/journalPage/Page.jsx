@@ -96,39 +96,53 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
-  filterEntriesByType = (arrayEntries, type) =>{
-    return arrayEntries.filter(entry => entry.type.includes(type));
-  }
+  // filterEntriesByType = (arrayEntries, type) => {
+  //   return arrayEntries.filter(entry => entry.type === type);
+  // }
 
   // sortEntriesByDate = (entries) => {
   //   return entries.
   // }
 
-  filterEntries = (entries) => {
-    const { mode } = this.props;
+  updatePageIndex = (entries) => {
+    const { actions, mode } = this.props;
 
-    if (mode === 'entries') {
-      const datedEntries = this.filterEntriesByType(entries, 'dated');
-      // actions.updateIndexPage({
-      //   page: this.getPrevEntryId(),
-      //   mode,
-      // });
-      // return this.sortEntriesByDate(datedEntries);
-      return datedEntries;
-    }
-    if (mode === 'collections') {
-      return this.filterEntriesByType(entries, 'collection');
+    actions.updateIndexPage({
+      page: entries[0]._id,
+      mode,
+    });
+  }
+
+  // filterEntries = (entries) => {
+  //   const { mode } = this.props;
+  //   if (mode === 'entries') {
+  //     const datedEntries = this.filterEntriesByType(entries, 'dated');
+  //     this.updatePageIndex(datedEntries);
+  //     // return this.sortEntriesByDate(datedEntries);
+  //     return datedEntries;
+  //   }
+  //   if (mode === 'collections') {
+  //     const collectionEntries = this.filterEntriesByType(entries, 'collection');
+  //     // this.updatePageIndex(collectionEntries);
+  //     return collectionEntries;
+  //   }
+  //   return entries;
+  // }
+
+  checkFilteredEntries = () => {
+    const { entries, filteredEntries } = this.props;
+    if (filteredEntries !== undefined) {
+      return filteredEntries;
     }
     return entries;
   }
 
 
   render() {
-    const { entryId, actions, entries, mode } = this.props;
+    const { entryId, actions, entries, mode, filteredEntries } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
-    const filteredEntries = this.filterEntries(entries);
-    // console.log(filteredEntries);
+    // const filteredEntries = this.filterEntries(entries);
 
     if (!displayedEntryId) {
       return <div className={this.getStyling()} />;
@@ -142,7 +156,7 @@ class Page extends Component {
           headerType={this.getHeaderType()}
           actions={actions}
           entryId={displayedEntryId}
-          entries={filteredEntries}
+          entries={this.checkFilteredEntries()} // Add method that checks if entries are being passed from parent. if not entries are passed from parent, return entries from Page
           mode={mode}
         />
       </div>
@@ -154,7 +168,7 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
+    entries: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
   };
 };
 

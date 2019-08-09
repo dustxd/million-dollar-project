@@ -71,11 +71,19 @@ class Results extends Component {
     }
   }
 
-  onClickRedirect = (id) => {
-    const { history, actions, mode } = this.props;
+  returnMode = (type) => {
+    if (type === 'dated') {
+      return 'entries';
+    }
+    return 'collections';
+  }
+
+  onClickRedirect = (id, type) => {
+    const { history, actions } = this.props;
+    // console.log(type);
     actions.updateIndexPage({
       page: id,
-      mode,
+      mode: this.returnMode(type),
     });
     history.push('/singlePage');
   }
@@ -128,7 +136,7 @@ class Results extends Component {
   renderActions = (row) => {
     const { classes } = this.props;
     const { selectedLineItem } = this.state;
-    const { _id: id, lineItems } = row;
+    const { _id: id, type, lineItems } = row;
     const isCurrentLineItemOpen = id === selectedLineItem;
 
     return (
@@ -142,7 +150,7 @@ class Results extends Component {
           </IconButton>
         </Tooltip>
         <Tooltip title="Go To Page">
-          <IconButton onClick={() => this.onClickRedirect(id)}>
+          <IconButton onClick={() => this.onClickRedirect(id, type)}>
             <Icon>link</Icon>
           </IconButton>
         </Tooltip>

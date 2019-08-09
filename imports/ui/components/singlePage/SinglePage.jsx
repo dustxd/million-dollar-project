@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Grid, LinearProgress, Paper, Icon, IconButton, Button } from '@material-ui/core';
-import { withRouter } from 'react-router';
+// import { withRouter } from 'react-router';
+import { withTracker } from 'meteor/react-meteor-data';
 import { withStyles, emphasize } from '@material-ui/core/styles';
-import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Chip from '@material-ui/core/Chip';
-import Fab from '@material-ui/core/Fab';
+import { Entries } from '../../../api/entries';
+import { Meteor } from 'meteor/meteor';
+// import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+// import Chip from '@material-ui/core/Chip';
+// import Fab from '@material-ui/core/Fab';
 
 import Page from '../journalPage/Page';
 // import StyledBreadCrumb from './StyledBreadCrumb';
@@ -22,21 +25,21 @@ const styles = {
   },
 };
 
-const StyledBreadCrumb = withStyles(theme => ({
-  root: {
-    backgroundColor: theme.palette.grey[100],
-    height: 24,
-    color: theme.palette.grey[800],
-    fontWeight: theme.typography.fontWeightRegular,
-    '&:hover, &:focus': {
-      backgroundColor: theme.palette.grey[300],
-    },
-    '&:active': {
-      boxShadow: theme.shadows[1],
-      backgroundColor: emphasize(theme.palette.grey[300], 0.12),
-    },
-  },
-}))(Chip);
+// const StyledBreadCrumb = withStyles(theme => ({
+//   root: {
+//     backgroundColor: theme.palette.grey[100],
+//     height: 24,
+//     color: theme.palette.grey[800],
+//     fontWeight: theme.typography.fontWeightRegular,
+//     '&:hover, &:focus': {
+//       backgroundColor: theme.palette.grey[300],
+//     },
+//     '&:active': {
+//       boxShadow: theme.shadows[1],
+//       backgroundColor: emphasize(theme.palette.grey[300], 0.12),
+//     },
+//   },
+// }))(Chip);
 
 class SinglePage extends Component {
   constructor(props) {
@@ -45,14 +48,18 @@ class SinglePage extends Component {
 
     };
   }
+  
 
   changeMode = (modeString) => {
     const { actions, index } = this.props;
+    // console.log(filteredEntries);
 
     actions.updateIndexPage({
       page: index.page,
       mode: modeString,
     });
+
+    // this.updatePageIndex(filteredEntries);
   }
 
   // entriesModeButtonColor = () => {
@@ -79,11 +86,43 @@ class SinglePage extends Component {
     return 'default';
   }
 
-  
+  filterEntriesByType = (arrayEntries, type) => {
+    return arrayEntries.filter(entry => entry.type === type);
+  }
 
+  // sortEntriesByDate = (entries) => {
+  //   return entries.
+  // }
+
+  // updatePageIndex = (filteredEntries) => {
+  //   const { actions, index } = this.props;
+
+  //   actions.updateIndexPage({
+  //     page: filteredEntries[0]._id,
+  //     mode: index.mode,
+  //   });
+  // }
+
+  filterEntries = (entries) => {
+    const { index } = this.props;
+    if (index.mode === 'entries') {
+      const datedEntries = this.filterEntriesByType(entries, 'dated');
+      // this.updatePageIndex(datedEntries);
+      // return this.sortEntriesByDate(datedEntries);
+      return datedEntries;
+    }
+    if (index.mode === 'collections') {
+      const collectionEntries = this.filterEntriesByType(entries, 'collection');
+      // this.updatePageIndex(collectionEntries);
+      return collectionEntries;
+    }
+    return undefined;
+  }
 
   render() {
-    const { loading, classes, actions, index } = this.props;
+    const { loading, classes, actions, index, entries } = this.props;
+    const filteredEntries = this.filterEntries(entries);
+    // console.log(filteredEntries);
 
     return (
       loading
@@ -123,7 +162,7 @@ class SinglePage extends Component {
                 <Grid item xs={12} sm={8}>
                   <Button size="small" variant="contained" color={this.modeButtonColor('entries')} className={classes.button} onClick={() => this.changeMode('entries')}>
                     <Icon>date_range</Icon>
-                    Entries              
+                    Entries            
                   </Button>
                   <Button size="small" variant="contained" color={this.modeButtonColor('collections')} className={classes.button} onClick={() => this.changeMode('collections')}>
                     <Icon>list_alt</Icon>
@@ -134,7 +173,7 @@ class SinglePage extends Component {
                     Created At              
                   </Button>
                   <Paper className={classes.paper}>
-                    <Page type="DATED_SINGLE_PAGE" entryId={index.page} mode={index.mode} actions={actions} />
+                    <Page type="DATED_SINGLE_PAGE" entryId={index.page} mode={index.mode} actions={actions} filteredEntries={filteredEntries} />
                   </Paper>
                 </Grid>
               </Grid>
@@ -145,4 +184,16 @@ class SinglePage extends Component {
   }
 }
 
-export default withRouter(withStyles(styles)(SinglePage));
+const dataSource = (props) => {
+  Meteor.subscribe('entries');
+
+  return {
+    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
+  };
+};
+
+Page.defaultProps = {
+  position: 'center',
+};
+
+export default withTracker(dataSource)(withStyles(styles)(SinglePage));
