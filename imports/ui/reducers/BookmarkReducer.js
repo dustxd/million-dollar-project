@@ -1,27 +1,32 @@
 import * as types from '../actions/ActionTypes';
 
-const BookmarkReducer = (index = 0, action) => {
+const initialState = {
+  index: 0,
+  mode: 'createdAt',
+};
+
+const BookmarkReducer = (state = initialState, action) => {
   const { type, resourcePath, response } = action;
   switch (type) {
     case types.ADD_RESOURCE_SUCCESS:
       if (resourcePath === 'entries') {
-        return response._id;
+        return Object.assign({}, state, { index: response._id });
       }
-      return index;
+      return state;
     case types.DELETE_RESOURCE_SUCCESS:
       if (resourcePath === 'entries') {
-        return 0;
+        return Object.assign({}, state, { index: 0 });
       }
-      return index;
+      return state;
     case types.LOGOUT_USER:
-      return 0;
+      return initialState;
     case types.INDEX_PAGE:
       return {
         page: action.index.page,
         mode: action.index.mode,
       };
     default:
-      return index;
+      return state;
   }
 };
 
