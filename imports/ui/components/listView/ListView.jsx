@@ -18,11 +18,11 @@ class ListView extends React.Component {
   }
 
   render() {
-    const { classes, actions, mode } = this.props;
+    const { classes, actions } = this.props;
 
     return (
       <div className={classes.listViewContainer}>
-        <Results actions={actions} mode={mode}/>
+        <Results actions={actions} />
       </div>
     );
   }
