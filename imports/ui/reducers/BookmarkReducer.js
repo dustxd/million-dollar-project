@@ -1,6 +1,6 @@
 import * as types from '../actions/ActionTypes';
 
-const PageIndexReducer = (index = 0, action) => {
+const BookmarkReducer = (index = 0, action) => {
   const { type, resourcePath, response } = action;
   switch (type) {
     case types.ADD_RESOURCE_SUCCESS:
@@ -25,4 +25,4 @@ const PageIndexReducer = (index = 0, action) => {
   }
 };
 
-export default PageIndexReducer;
+export default BookmarkReducer;
