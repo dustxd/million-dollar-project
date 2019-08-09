@@ -12,6 +12,7 @@ import Overview from './components/overviewPage/Overview';
 import ListView from './components/listView/ListView';
 import Spread from './components/journalPage/Spread';
 import SinglePage from './components/singlePage/SinglePage';
+import WeekView from './components/weekView/WeekView';
 
 const App = props => (
   <MuiThemeProvider theme={createMuiTheme(appTheme)}>
@@ -22,6 +23,7 @@ const App = props => (
         <CoreRoute exact path="/list" name="list" coreProps={props} render={() => <ListView {...props} />} />
         <CoreRoute exact path="/singlePage" name="singlePage" coreProps={props} render={() => <SinglePage {...props} />} />
         <CoreRoute exact path="/spread" name="spread" coreProps={props} render={() => <Spread {...props} />} />
+        <CoreRoute exact path="/week" name="week" coreProps={props} render={() => <WeekView {...props} />} />
       </Switch>
     </BrowserRouter>
   </MuiThemeProvider>
