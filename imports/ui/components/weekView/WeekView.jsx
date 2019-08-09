@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { LinearProgress, Paper, Typography } from '@material-ui/core';
+import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
@@ -42,6 +43,12 @@ class WeekView extends Component {
       openAddDialog: true,
       selectedDate: new Date(dateString),
     });
+  }
+
+  onClickRedirect = (id) => {
+    const { history, actions } = this.props;
+    actions.updateIndexPage(id);
+    history.push('/singlePage');
   }
 
   onClickCloseDialog = () => {
@@ -124,6 +131,7 @@ class WeekView extends Component {
                       weekViewProps={{
                         noEntriesForDate: entry.noEntriesForDate,
                         onClickOpenDialog: dateString => this.onClickOpenDialog(dateString),
+                        onClickRedirect: id => this.onClickRedirect(id),
                       }}
                     />
                   </Paper>
@@ -156,4 +164,4 @@ const dataSource = (props) => {
   };
 };
 
-export default withTracker(dataSource)(withStyles(styles)(WeekView));
+export default withRouter(withTracker(dataSource)(withStyles(styles)(WeekView)));

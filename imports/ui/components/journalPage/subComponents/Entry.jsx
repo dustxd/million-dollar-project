@@ -26,7 +26,7 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  headertext: {
+  headerText: {
     width: '40%',
     display: 'flex',
     justifyContent: 'center',
@@ -35,9 +35,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  headerTextWeekView: {
-    padding: '12px',
   },
 };
 
@@ -173,7 +170,7 @@ class Entry extends Component {
         <IconButton disabled={this.isPrevDisabled()} onClick={() => this.onClickPreviousEntry()}>
           <Icon>arrow_back</Icon>
         </IconButton>
-        <div className={classes.headertext}>
+        <div className={classes.headerText}>
           <Typography variant="h5">{header}</Typography>
         </div>
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
@@ -191,16 +188,11 @@ class Entry extends Component {
 
   renderDatedHeaderWeekView = () => {
     const { classes, header, entryId, weekViewProps } = this.props;
-    const { noEntriesForDate, onClickOpenDialog } = weekViewProps;
+    const { noEntriesForDate, onClickOpenDialog, onClickRedirect } = weekViewProps;
 
     return (
       <div className={classes.headerWeekView}>
-        <Typography
-          variant="h5"
-          className={noEntriesForDate ? null : classes.headerTextWeekView}
-        >
-          {header}
-        </Typography>
+        <Typography variant="h5">{header}</Typography>
         {
           noEntriesForDate
             ? (
@@ -208,7 +200,11 @@ class Entry extends Component {
                 <Icon>add_box</Icon>
               </IconButton>
             )
-            : null
+            : (
+              <IconButton onClick={() => onClickRedirect(entryId)}>
+                <Icon>edit</Icon>
+              </IconButton>
+            )
         }
       </div>
     );
