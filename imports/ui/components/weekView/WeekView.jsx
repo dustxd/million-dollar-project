@@ -38,6 +38,12 @@ class WeekView extends Component {
     };
   }
 
+  onChangeDateField = (date) => {
+    this.setState({
+      selectedDate: date,
+    });
+  }
+
   onClickOpenDialog = (dateString) => {
     this.setState({
       openAddDialog: true,
@@ -55,11 +61,11 @@ class WeekView extends Component {
     this.setState({ openAddDialog: false });
   }
 
-  getCurrentWeekDates = () => {
-    const today = moment();
-    const startOfWeek = today.startOf('week').clone();
-    const endOfWeek = today.endOf('week').clone();
-    let day = startOfWeek;
+  getCurrentWeekDates = (givenDate) => {
+    const date = moment(givenDate) || moment();
+    const startOfWeek = date.startOf('week').clone();
+    const endOfWeek = date.endOf('week').clone();
+    const day = startOfWeek;
     const currentWeek = [];
 
     while (day <= endOfWeek) {
@@ -72,14 +78,15 @@ class WeekView extends Component {
 
   getCurrentWeekDatedEntries = () => {
     const { entries } = this.props;
-    const currentWeek = this.getCurrentWeekDates();
+    const { selectedDate } = this.state;
+    const currentWeek = this.getCurrentWeekDates(selectedDate);
 
     // Get only dated entries
     const datedEntries = entries.filter(entry => entry.type === 'dated');
 
     // If no entries exist for a particular day in the week, pass in an empty
     // object with just the date to render
-    const displayedEntries = currentWeek.map((day, index) => {
+    const displayedEntries = currentWeek.map((day) => {
       const entryForTheDay = datedEntries.find(entry => moment(day).isSame(entry.header, 'day'));
       if (!entryForTheDay) {
         return { _id: moment(day).toString(), header: day, noEntriesForDate: true };
@@ -113,9 +120,9 @@ class WeekView extends Component {
                     inputVariant="outlined"
                     className={classes.textField}
                     format="DD/MM/YYYY"
-                    value={new Date()}
+                    value={selectedDate}
+                    onChange={date => this.onChangeDateField(date)}
                     disableToolbar
-                    shouldDisableDate={date => !moment(date).isSame(new Date(), 'week')}
                   />
                 </MuiPickersUtilsProvider>
               </Paper>
