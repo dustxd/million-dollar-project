@@ -54,10 +54,10 @@ Meteor.methods({
 
     Entries.remove(entryId);
   },
-  // 'entries.setHeader'(entryId, newHeader) {
-  //   check(entryId, String);
-  //   check(newHeader, String);
+  'entries.update': (entryId, updatedEntry) => {
+    check(entryId, String);
+    check(updatedEntry, Object);
 
-  //   Entries.update(entryId, { $set: { header: newHeader } });
-  // },
+    return Entries.update(entryId, updatedEntry);
+  },
 });
