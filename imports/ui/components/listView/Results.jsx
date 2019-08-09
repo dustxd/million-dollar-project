@@ -46,10 +46,6 @@ class Results extends Component {
         {
           title: 'Actions',
           sorting: false,
-          headerStyle: {
-            display: 'flex',
-            justifyContent: 'center',
-          },
           cellStyle: {
             width: '84px',
             padding: '0 5px',
