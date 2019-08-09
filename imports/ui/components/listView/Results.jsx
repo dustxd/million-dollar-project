@@ -67,20 +67,9 @@ class Results extends Component {
     }
   }
 
-  returnMode = (type) => {
-    if (type === 'dated') {
-      return 'entries';
-    }
-    return 'collections';
-  }
-
   onClickRedirect = (id, type) => {
     const { history, actions } = this.props;
-    // console.log(type);
-    actions.updateIndexPage({
-      page: id,
-      mode: this.returnMode(type),
-    });
+    actions.updateBookmarkIndex(id);
     history.push('/singlePage');
   }
 
@@ -132,7 +121,7 @@ class Results extends Component {
   renderActions = (row) => {
     const { classes } = this.props;
     const { selectedLineItem } = this.state;
-    const { _id: id, type, lineItems } = row;
+    const { _id: id, lineItems } = row;
     const isCurrentLineItemOpen = id === selectedLineItem;
 
     return (
@@ -148,8 +137,8 @@ class Results extends Component {
           </div>
         </Tooltip>
         <Tooltip title="Go To Page">
-          <IconButton onClick={() => this.onClickRedirect(id, type)}>
-            <Icon>link</Icon>
+          <IconButton onClick={() => this.onClickRedirect(id)}>
+            <Icon color="primary">link</Icon>
           </IconButton>
         </Tooltip>
       </div>
