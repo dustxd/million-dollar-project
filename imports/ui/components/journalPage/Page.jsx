@@ -32,13 +32,14 @@ class Page extends Component {
 
     this.state = {
       openEditDialog: false,
-      type: '',
+      selectedEntryId: '',
     };
   }
 
   onClickEditHeader = (entryId) => {
-    const { defaultEntries } = this.props;
-    const selectedEntry = defaultEntries.find(entry => entry._id === entryId);
+    const { entries, defaultEntries } = this.props;
+    const inputEntries = entries || defaultEntries;
+    const selectedEntry = inputEntries.find(entry => entry._id === entryId);
 
     if (!selectedEntry) {
       return;
@@ -46,14 +47,14 @@ class Page extends Component {
 
     this.setState({
       openEditDialog: true,
-      type: selectedEntry.type,
+      selectedEntryId: entryId,
     });
   }
 
   onClickCloseDialog = () => {
     this.setState({
       openEditDialog: false,
-      type: '',
+      selectedEntryId: '',
     });
   }
 
@@ -131,9 +132,23 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+  getEntryType = () => {
+    const { type, entries, defaultEntries } = this.props;
+    const { selectedEntryId } = this.state;
+    const inputEntries = entries || defaultEntries;
+
+    const selectedEntry = inputEntries.find(entry => entry._id === selectedEntryId);
+
+    if (selectedEntry) {
+      return selectedEntry.type;
+    }
+
+    return '';
+  }
+
   render() {
     const { entryId, actions, entries, defaultEntries, weekViewProps } = this.props;
-    const { openEditDialog, type } = this.state;
+    const { openEditDialog, selectedEntryId } = this.state;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -159,7 +174,8 @@ class Page extends Component {
               <EditDialog
                 open={openEditDialog}
                 mode="edit"
-                type={type}
+                entryId={selectedEntryId}
+                type={this.getEntryType()}
                 actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}
               />
@@ -180,7 +196,6 @@ const dataSource = (props) => {
 
 Page.defaultProps = {
   position: 'center',
-  mode: 'add',
 };
 
 export default withTracker(dataSource)(withStyles(styles)(Page));
