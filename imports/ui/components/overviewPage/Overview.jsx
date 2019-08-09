@@ -17,6 +17,7 @@ const styles = {
     padding: '20px',
   },
   overviewContainer: {
+    padding: '20px',
     paddingTop: '20%',
     paddingBottom: '20%',
     height: '-webkit-fill-available',
@@ -64,7 +65,7 @@ class Overview extends React.Component {
               <TranslucentPaper>
                 <div className={classes.overviewContainer}>
                 <Typography variant="h1">
-                    {moment().format('h:mm')}
+                    {moment().format('HH:mm')}
                 </Typography>
                 <Typography variant="h5">
                   {`${greeting} ${firstName}.`}
