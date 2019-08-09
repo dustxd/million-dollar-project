@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { Box, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
@@ -17,9 +17,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  searchIcon: {
-    color: '#868735',
   },
 };
 
@@ -161,13 +158,15 @@ class Results extends Component {
         data={formattedEntries}
         icons={{
           Search: React.forwardRef((props, ref) => (
-            <Icon
-              {...props}
-              ref={ref}
-              color="primary"
-            >
-              search
-            </Icon>
+            <Box color="primary.main">
+              <Icon
+                {...props}
+                ref={ref}
+                color="primary"
+              >
+                search
+              </Icon>
+            </Box>
           )),
         }}
       />
