@@ -62,6 +62,6 @@ Meteor.methods({
       throw new Meteor.Error('not-authorized');
     }
 
-    return Entries.update(entryId, { $set: { updatedEntry } });
+    return Entries.update(entryId, { $set: { ...updatedEntry, updatedAt: new Date() } });
   },
 });
