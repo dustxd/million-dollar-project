@@ -222,7 +222,7 @@ class Entry extends Component {
   }
 
   render() {
-    const { lineItems } = this.props;
+    const { lineItems, disabled } = this.props;
     const { openNewLineItem, selectedLineItem } = this.state;
 
     return (
@@ -239,6 +239,7 @@ class Entry extends Component {
                     key={_id}
                     id={_id}
                     selectedLineItem={selectedLineItem}
+                    disabled={disabled}
                     onClickLineItem={id => this.onClickLineItem(id)}
                     onClickAddOrUpdateLineItem={(lineItemInfo, id) => this.onClickAddOrUpdateLineItem(lineItemInfo, id)}
                     onClickRemoveLineItem={id => this.onClickRemoveLineItem(id)}

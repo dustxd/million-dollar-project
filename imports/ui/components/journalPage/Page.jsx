@@ -20,6 +20,9 @@ const styles = {
   center: {
     padding: '2em',
   },
+  week: {
+    padding: '2em 1em',
+  },
 };
 
 class Page extends Component {
@@ -40,6 +43,10 @@ class Page extends Component {
 
     if (position === 'right') {
       return classes.rightPage;
+    }
+
+    if (position === 'week') {
+      return classes.week;
     }
 
     return classes.center;
@@ -104,7 +111,7 @@ class Page extends Component {
 
 
   render() {
-    const { entryId, actions, entries, defaultEntries } = this.props;
+    const { entryId, actions, entries, defaultEntries, type } = this.props;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -121,6 +128,7 @@ class Page extends Component {
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries}
+          disabled={type === PAGE_LAYOUT_TYPES.DATED_WEEK_VIEW}
         />
       </div>
     );

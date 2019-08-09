@@ -7,6 +7,7 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   TextField,
+  Typography,
 } from '@material-ui/core';
 
 import {
@@ -18,6 +19,14 @@ import {
 const styles = {
   itemTextField: {
 
+  },
+  disabledLineItem: {
+    display: 'flex',
+    flexDirection: 'row',
+    padding: '0.5em',
+  },
+  disabledLineItemText: {
+    paddingLeft: '1em',
   },
   listItemSecondaryAction: {
     paddingRight: '120px',
@@ -114,54 +123,73 @@ class LineItem extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, disabled } = this.props;
     const { bullet, text } = this.state;
     const isSelected = this.isLineItemSelected();
 
     return (
       <div>
-        <ListItem
-          selected={isSelected}
-          onClick={() => this.handleClickLineItem()}
-          classes={{
-            secondaryAction: classes.listItemSecondaryAction,
-          }}
-        >
-          <ListItemIcon onClick={() => this.onClickBullet()}>
-            <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
-          </ListItemIcon>
-          <TextField
-            multiline
-            fullWidth
-            autoFocus={isSelected}
-            className={classes.itemTextField}
-            value={text}
-            InputProps={{
-              disableUnderline: true,
-            }}
-            onChange={e => this.onChangeContent(e)}
-            onKeyPress={e => this.onKeyPress(e)}
-          />
-          {
-            isSelected
-              ? (
-                <ListItemSecondaryAction>
-                  <IconButton
-                    disabled={!text}
-                    onClick={() => this.handleAddOrUpdateLineItem()}
-                  >
-                    <Icon color="secondary">save</Icon>
-                  </IconButton>
-                  <IconButton
-                    onClick={() => this.handleRemoveLineItem()}
-                  >
-                    <Icon color="secondary">close</Icon>
-                  </IconButton>
-                </ListItemSecondaryAction>
-              )
-              : null
-          }
-        </ListItem>
+        {
+          disabled
+            ? (
+              <div className={classes.disabledLineItem}>
+                <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
+                <Typography className={classes.disabledLineItemText}>{text}</Typography>
+              </div>
+            )
+            : (
+              <ListItem
+                selected={isSelected}
+                onClick={() => this.handleClickLineItem()}
+                classes={{
+                  secondaryAction: classes.listItemSecondaryAction,
+                }}
+              >
+                <ListItemIcon onClick={() => this.onClickBullet()}>
+                  <Icon color="primary">{this.getBulletIcon(bullet)}</Icon>
+                </ListItemIcon>
+                {
+                  disabled
+                    ? (
+                      <Typography>{text}</Typography>
+                    )
+                    : (
+                      <TextField
+                        multiline
+                        fullWidth
+                        autoFocus={isSelected}
+                        className={classes.itemTextField}
+                        value={text}
+                        InputProps={{
+                          disableUnderline: true,
+                        }}
+                        onChange={e => this.onChangeContent(e)}
+                        onKeyPress={e => this.onKeyPress(e)}
+                      />
+                    )
+                }
+                {
+                  isSelected
+                    ? (
+                      <ListItemSecondaryAction>
+                        <IconButton
+                          disabled={!text}
+                          onClick={() => this.handleAddOrUpdateLineItem()}
+                        >
+                          <Icon color="secondary">save</Icon>
+                        </IconButton>
+                        <IconButton
+                          onClick={() => this.handleRemoveLineItem()}
+                        >
+                          <Icon color="secondary">close</Icon>
+                        </IconButton>
+                      </ListItemSecondaryAction>
+                    )
+                    : null
+                }
+              </ListItem>
+            )
+        }
       </div>
     );
   }
