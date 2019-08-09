@@ -20,11 +20,10 @@ const BookmarkReducer = (state = initialState, action) => {
       return state;
     case types.LOGOUT_USER:
       return initialState;
-    case types.INDEX_PAGE:
-      return {
-        page: action.index.page,
-        mode: action.index.mode,
-      };
+    case types.UPDATE_BOOKMARK_INDEX:
+      return Object.assign({}, state, { index: action.index });
+    case types.UPDATE_BOOKMARK_MODE:
+      return Object.assign({}, state, { mode: action.mode });
     default:
       return state;
   }

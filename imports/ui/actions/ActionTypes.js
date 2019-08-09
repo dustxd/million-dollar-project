@@ -1,7 +1,7 @@
 // non api calls
 export const LOGOUT_USER = 'LOGOUT_USER';
-export const INDEX_PAGE = 'INDEX_PAGE';
-export const INDEX_TYPE = 'INDEX_TYPE';
+export const UPDATE_BOOKMARK_INDEX = 'UPDATE_BOOKMARK_INDEX';
+export const UPDATE_BOOKMARK_MODE = 'UPDATE_BOOKMARK_MODE';
 
 // api calls - request
 export const SIGNUP_USER_REQUEST = 'SIGNUP_USER_REQUEST';

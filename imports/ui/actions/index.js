@@ -182,14 +182,16 @@ export function updateResource(resource, resourcePath, resourceId) {
   };
 }
 
-export const indexPage = (index) => {
+export function updateBookmarkIndex(index) {
   return {
-    type: types.INDEX_PAGE, index,
+    type: types.UPDATE_BOOKMARK_INDEX,
+    index,
   };
-};
+}
 
-export function updateIndexPage(index) {
-  return (dispatch) => {
-    dispatch(indexPage(index));
+export function updateBookmarkMode(mode) {
+  return {
+    type: types.UPDATE_BOOKMARK_MODE,
+    mode,
   };
 }
