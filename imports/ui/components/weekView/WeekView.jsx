@@ -53,7 +53,7 @@ class WeekView extends Component {
 
   onClickRedirect = (id) => {
     const { history, actions } = this.props;
-    actions.updateIndexPage(id);
+    actions.updateBookmarkIndex(id);
     history.push('/singlePage');
   }
 
