@@ -116,13 +116,17 @@ function addResourceFailure(error) {
 export function addResource(resource, resourcePath) {
   return (dispatch) => {
     dispatch(updateLoadingState(types.ADD_RESOURCE_REQUEST));
-    Meteor.call(`${resourcePath}.insert`, resource, (error, result) => {
-      if (error) {
-        dispatch(addResourceFailure(error));
-      } else {
-        dispatch(addResourceSuccess(resource, result, resourcePath));
-      }
-    });
+    return new Promise((resolve, reject) => (
+      Meteor.call(`${resourcePath}.insert`, resource, (error, result) => {
+        if (error) {
+          dispatch(addResourceFailure(error));
+          reject(error);
+        } else {
+          dispatch(addResourceSuccess(resource, result, resourcePath));
+          resolve(result);
+        }
+      })
+    ));
   };
 }
 
