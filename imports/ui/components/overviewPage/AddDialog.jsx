@@ -61,11 +61,15 @@ class AddDialog extends Component {
   constructor(props) {
     super(props);
 
-    const { type, date } = props;
+    const { mode, type, date, header: editHeader } = props;
     let header = '';
 
-    if (type === 'dated') {
+    if (mode === 'add' && type === 'dated') {
       header = date || new Date();
+    }
+
+    if (mode === 'edit') {
+      header = editHeader;
     }
 
     this.state = {
@@ -166,6 +170,7 @@ class AddDialog extends Component {
           variant="outlined"
           className={classes.textField}
           label={title}
+          value={header}
           onChange={e => this.onChangeTextField(key, e)}
           onKeyPress={e => this.onKeyPress(e)}
           InputProps={{

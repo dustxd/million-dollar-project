@@ -33,10 +33,11 @@ class Page extends Component {
     this.state = {
       openEditDialog: false,
       selectedEntryId: '',
+      selectedEntryHeader: '',
     };
   }
 
-  onClickEditHeader = (entryId) => {
+  onClickEditHeader = (entryId, header) => {
     const { entries, defaultEntries } = this.props;
     const inputEntries = entries || defaultEntries;
     const selectedEntry = inputEntries.find(entry => entry._id === entryId);
@@ -48,6 +49,7 @@ class Page extends Component {
     this.setState({
       openEditDialog: true,
       selectedEntryId: entryId,
+      selectedEntryHeader: header,
     });
   }
 
@@ -55,6 +57,7 @@ class Page extends Component {
     this.setState({
       openEditDialog: false,
       selectedEntryId: '',
+      selectedEntryHeader: '',
     });
   }
 
@@ -155,7 +158,7 @@ class Page extends Component {
       defaultEntries,
       weekViewProps,
     } = this.props;
-    const { openEditDialog, selectedEntryId } = this.state;
+    const { openEditDialog, selectedEntryId, selectedEntryHeader } = this.state;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -169,7 +172,7 @@ class Page extends Component {
           key={displayedEntryId}
           header={this.getHeader(displayedEntryId)}
           headerType={this.getHeaderType()}
-          onClickEditHeader={id => this.onClickEditHeader(id)}
+          onClickEditHeader={(id, header) => this.onClickEditHeader(id, header)}
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries} // if no entries are passed from parent, return defaultEntries from Page
@@ -182,6 +185,7 @@ class Page extends Component {
                 open={openEditDialog}
                 mode="edit"
                 entryId={selectedEntryId}
+                header={selectedEntryHeader}
                 type={this.getEntryType()}
                 actions={actions}
                 onClickCloseDialog={() => this.onClickCloseDialog()}
