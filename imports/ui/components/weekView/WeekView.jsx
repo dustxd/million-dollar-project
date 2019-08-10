@@ -11,6 +11,7 @@ import MomentUtils from '@date-io/moment';
 import Page from '../journalPage/Page';
 import { Entries } from '../../../api/entries';
 import AddDialog from '../overviewPage/AddDialog';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   spreadContainer: {
@@ -26,6 +27,7 @@ const styles = {
   },
   calendarHeader: {
     padding: '1.75em',
+    textAlign: 'center'
   },
 };
 
@@ -108,7 +110,7 @@ class WeekView extends Component {
         : (
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
-              <Paper className={classes.paper}>
+              <TranslucentPaper className={classes.paper}>
                 <div className={classes.calendarHeader}>
                   <Typography variant="h3" color="primary">
                     CALENDAR
@@ -125,10 +127,10 @@ class WeekView extends Component {
                     disableToolbar
                   />
                 </MuiPickersUtilsProvider>
-              </Paper>
+              </TranslucentPaper>
               {
                 displayedEntries.map(entry => (
-                  <Paper key={entry._id} className={classes.paper}>
+                  <TranslucentPaper key={entry._id} className={classes.paper}>
                     <Page
                       type="DATED_WEEK_VIEW"
                       actions={actions}
@@ -141,7 +143,7 @@ class WeekView extends Component {
                         onClickRedirect: id => this.onClickRedirect(id),
                       }}
                     />
-                  </Paper>
+                  </TranslucentPaper>
                 ))
               }
             </div>
