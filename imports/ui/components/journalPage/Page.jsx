@@ -7,6 +7,7 @@ import moment from 'moment';
 import { Entries } from '../../../api/entries';
 import Entry from './subComponents/Entry';
 import { PAGE_LAYOUT_TYPES, PAGE_LAYOUT } from '../../constants/ResourceConstants';
+import EditDialog from '../overviewPage/AddDialog';
 
 const styles = {
   leftPage: {
@@ -30,8 +31,31 @@ class Page extends Component {
     super(props);
 
     this.state = {
-
+      openEditDialog: false,
+      selectedEntryId: '',
     };
+  }
+
+  onClickEditHeader = (entryId) => {
+    const { entries, defaultEntries } = this.props;
+    const inputEntries = entries || defaultEntries;
+    const selectedEntry = inputEntries.find(entry => entry._id === entryId);
+
+    if (!selectedEntry) {
+      return;
+    }
+
+    this.setState({
+      openEditDialog: true,
+      selectedEntryId: entryId,
+    });
+  }
+
+  onClickCloseDialog = () => {
+    this.setState({
+      openEditDialog: false,
+      selectedEntryId: '',
+    });
   }
 
   getStyling = () => {
@@ -108,8 +132,23 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
+  getEntryType = () => {
+    const { type, entries, defaultEntries } = this.props;
+    const { selectedEntryId } = this.state;
+    const inputEntries = entries || defaultEntries;
+
+    const selectedEntry = inputEntries.find(entry => entry._id === selectedEntryId);
+
+    if (selectedEntry) {
+      return selectedEntry.type;
+    }
+
+    return '';
+  }
+
   render() {
     const { entryId, actions, entries, defaultEntries, weekViewProps } = this.props;
+    const { openEditDialog, selectedEntryId } = this.state;
 
     const displayedEntryId = this.getDisplayedEntryId(entryId);
 
@@ -123,11 +162,25 @@ class Page extends Component {
           key={displayedEntryId}
           header={this.getHeader(displayedEntryId)}
           headerType={this.getHeaderType()}
+          onClickEditHeader={id => this.onClickEditHeader(id)}
           actions={actions}
           entryId={displayedEntryId}
           entries={entries || defaultEntries}
           weekViewProps={weekViewProps}
         />
+        {
+          openEditDialog
+            && (
+              <EditDialog
+                open={openEditDialog}
+                mode="edit"
+                entryId={selectedEntryId}
+                type={this.getEntryType()}
+                actions={actions}
+                onClickCloseDialog={() => this.onClickCloseDialog()}
+              />
+            )
+        }
       </div>
     );
   }

@@ -39,13 +39,12 @@ Meteor.methods({
     const {
       header,
       type,
-      createdAt,
     } = newEntry;
 
     return Entries.insert({
       header,
       type,
-      createdAt,
+      createdAt: new Date(),
       owner: Meteor.userId(),
     });
   },
@@ -54,10 +53,15 @@ Meteor.methods({
 
     Entries.remove(entryId);
   },
-  // 'entries.setHeader'(entryId, newHeader) {
-  //   check(entryId, String);
-  //   check(newHeader, String);
+  'entries.update': (entryId, updatedEntry) => {
+    check(entryId, String);
+    check(updatedEntry, Object);
 
-  //   Entries.update(entryId, { $set: { header: newHeader } });
-  // },
+    // Make sure the user is logged in before updating a task
+    if (!Meteor.userId()) {
+      throw new Meteor.Error('not-authorized');
+    }
+
+    return Entries.update(entryId, { $set: { ...updatedEntry, updatedAt: new Date() } });
+  },
 });

@@ -150,6 +150,7 @@ class WeekView extends Component {
                 && (
                   <AddDialog
                     open={openAddDialog}
+                    mode="add"
                     type="dated"
                     date={selectedDate}
                     actions={actions}
