@@ -4,22 +4,20 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Box, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import { LineItems } from '../../../api/lineItems';
 import { SEARCH_CONSTRAINTS } from '../../constants/ResourceConstants';
 import DetailView from './subComponents/DetailView';
+import customMuiStyles from '../../css/customMuiStyles';
 
 const styles = {
   actionsContainer: {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-  },
-  searchIcon: {
-    color: '#868735',
   },
 };
 
@@ -28,6 +26,7 @@ class Results extends Component {
     super(props);
 
     this.state = {
+      selectedRow: null,
       tableColumns: [
         {
           title: 'Date Created',
@@ -56,6 +55,25 @@ class Results extends Component {
       ],
       selectedLineItem: '',
     };
+
+    this.theme = createMuiTheme({
+      palette: {
+        primary: {
+          main: customMuiStyles.PRIMARY,
+        },
+        secondary: {
+          main: customMuiStyles.SECONDARY,
+        },
+      },
+      overrides: {
+        MuiPaper: {
+          root: {
+            backgroundColor: customMuiStyles.TRANSLUCENT_PAPER,
+          },
+        },
+      },
+
+    });
   }
 
   onClickDetails = (rowId, isCurrentLineItemSelected) => {
@@ -151,22 +169,32 @@ class Results extends Component {
     const formattedEntries = this.getParsedEntries();
 
     return (
-      <MaterialTable
-        title="Journal Entries"
-        columns={tableColumns}
-        data={formattedEntries}
-        icons={{
-          Search: React.forwardRef((props, ref) => (
-            <Icon
-              {...props}
-              ref={ref}
-              color="primary"
-            >
-              search
-            </Icon>
-          )),
-        }}
-      />
+      <MuiThemeProvider theme={this.theme}>
+        <MaterialTable
+          title="Journal Entries"
+          columns={tableColumns}
+          data={formattedEntries}
+          icons={{
+            Search: React.forwardRef((props, ref) => (
+              <Box color="primary.main">
+                <Icon
+                  {...props}
+                  ref={ref}
+                  color="primary"
+                >
+                  search
+                </Icon>
+              </Box>
+            )),
+          }}
+          options={{
+          headerStyle: {
+            backgroundColor: 'rgba(255,255,255,0)',
+            color: customMuiStyles.PRIMARY,
+          },
+          }}
+        />
+    </MuiThemeProvider>
     );
   }
 }

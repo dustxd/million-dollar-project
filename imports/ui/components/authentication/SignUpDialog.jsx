@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogContent,
@@ -32,32 +33,17 @@ const styles = {
   textField: {
     width: '400px',
     margin: '10px',
-    '& label.Mui-focused': {
-      color: '#868735',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#bec358',
-      },
-      '&:hover fieldset': {
-        borderColor: '#868735',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#868735',
-      },
-    },
   },
   textFieldInput: {
     height: '15px',
   },
   inputLabelRoot: {
-    color: '#bec358',
+
   },
   createButton: {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
-    backgroundColor: '#868735',
     color: '#ffffff',
     padding: '14px',
     marginTop: '20px',
@@ -178,31 +164,33 @@ class SignUpDialog extends Component {
     const { classes, open, onClickCloseDialog } = this.props;
 
     return (
-      <Dialog
-        open={open}
-        onClose={onClickCloseDialog}
-      >
-        <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
-          <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
-            <Icon>close</Icon>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent classes={{ root: classes.dialogContentRoot }}>
-          <img src="/images/million-dollar-logo.png" alt="logo" className={classes.logo} />
-          {
-            signUpInfoFields.map(infoField => (
-              this.renderInputComponent(infoField)
-            ))
-          }
-          <Button
-            variant="contained"
-            className={classes.createButton}
-            onClick={() => this.onClickSignUp()}
-          >
-            CREATE ACCOUNT
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <Box color="primary.main">
+        <Dialog
+          open={open}
+          onClose={onClickCloseDialog}
+        >
+          <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
+            <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
+              <Icon>close</Icon>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent classes={{ root: classes.dialogContentRoot }}>
+            <img src="/images/million-dollar-logo.png" alt="logo" className={classes.logo} />
+            {
+              signUpInfoFields.map(infoField => (
+                this.renderInputComponent(infoField)
+              ))
+            }
+            <Button
+              variant="contained"
+              className={classes.createButton}
+              onClick={() => this.onClickSignUp()}
+            >
+              CREATE ACCOUNT
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </Box>
     );
   }
 }

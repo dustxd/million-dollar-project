@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, TextField, Typography } from '@material-ui/core';
+import { Box, Button, TextField, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 import { Redirect, withRouter } from 'react-router';
 
@@ -56,7 +56,6 @@ const styles = {
     fontSize: '12px',
   },
   signUpButton: {
-    color: '#bec358',
     fontSize: '12px',
     marginLeft: '10px',
     cursor: 'pointer',
@@ -117,6 +116,7 @@ class LoginPage extends Component {
         {
           textFields.map(textField => (
             <div key={textField.key} className={classes.textFieldContainer}>
+            
               <Typography className={classes.textFieldTitle}>
                 {textField.title}
               </Typography>
@@ -143,12 +143,14 @@ class LoginPage extends Component {
           >
             DON&apos;T HAVE AN ACCOUNT YET?
           </Typography>
-          <Typography
-            className={classes.signUpButton}
-            onClick={() => this.onClickSignUp()}
-          >
-            SIGN UP
-          </Typography>
+          <Box color="primary.main">
+            <Typography
+              className={classes.signUpButton}
+              onClick={() => this.onClickSignUp()}
+            >
+              SIGN UP
+            </Typography>
+          </Box>
         </div>
         {
           openSignUpDialog

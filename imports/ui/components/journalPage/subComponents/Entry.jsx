@@ -4,6 +4,8 @@ import {
   Icon,
   IconButton,
   List,
+  Toolbar,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -173,18 +175,27 @@ class Entry extends Component {
         <div className={classes.headerText}>
           <Typography variant="h5">{header}</Typography>
         </div>
+        
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
           <Icon>arrow_forward</Icon>
         </IconButton>
-        <IconButton onClick={() => onClickEditHeader(entryId)}>
-          <Icon>edit</Icon>
-        </IconButton>
-        <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
-          <Icon>delete</Icon>
-        </IconButton>
-        <IconButton onClick={() => this.onClickOpenNewLineItem()}>
-          <Icon>add</Icon>
-        </IconButton>
+        <Toolbar disableGutters>
+          <IconButton onClick={() => onClickEditHeader(entryId)}>
+            <Tooltip title="Edit Header" aria-label="Edit Header">
+              <Icon>edit</Icon>
+            </Tooltip>
+          </IconButton>
+          <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
+            <Tooltip title="Delete Entry" aria-label="Delete Entry">
+              <Icon>delete</Icon>
+            </Tooltip>
+          </IconButton>
+          <IconButton onClick={() => this.onClickOpenNewLineItem()}>
+            <Tooltip title="Add Line" aria-label="Add Line">
+              <Icon>add</Icon>
+            </Tooltip>
+          </IconButton>
+        </Toolbar>
       </div>
     );
   }
