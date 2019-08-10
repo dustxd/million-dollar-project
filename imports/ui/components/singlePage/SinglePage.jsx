@@ -59,6 +59,30 @@ class SinglePage extends Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { bookmark, entriesSortedByDate, actions } = this.props;
+    const { index, mode } = bookmark;
+
+    // This handles the case where Meteor's data was not back yet
+    if (!prevProps.entriesSortedByDate || prevProps.entriesSortedByDate.length === 0) {
+      if (entriesSortedByDate && entriesSortedByDate.length > 0) {
+        if (mode === 'createdAt') {
+          return;
+        }
+
+        const displayedEntry = entriesSortedByDate.find(entry => entry._id === index);
+
+        if (displayedEntry) {
+          const { type } = displayedEntry;
+
+          if (type !== mode) {
+            actions.updateBookmarkMode(type);
+          }
+        }
+      }
+    }
+  }
+
   checkModeReturnArray = (bookmark, entries, modeString) => {
     if (modeString === 'createdAt') {
       return bookmark.index;
@@ -105,6 +129,7 @@ class SinglePage extends Component {
   render() {
     const {
       loading,
+      retrievingData,
       classes,
       actions,
       bookmark,
@@ -113,7 +138,7 @@ class SinglePage extends Component {
     const filteredEntries = this.getEntriesForMode(mode);
 
     return (
-      loading
+      loading || retrievingData
         ? <LinearProgress />
         : (
           <div className={classes.singleContainer}>
@@ -156,9 +181,11 @@ class SinglePage extends Component {
 }
 
 const dataSource = (props) => {
-  Meteor.subscribe('entries');
+  const entriesHandler = Meteor.subscribe('entries');
+  const isReady = entriesHandler.ready();
 
   return {
+    retrievingData: !isReady,
     entriesSortedByDate: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
     entriesSortedByHeader: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
