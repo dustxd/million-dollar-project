@@ -13,11 +13,6 @@ const BookmarkReducer = (state = initialState, action) => {
         return Object.assign({}, state, { index: response._id });
       }
       return state;
-    case types.DELETE_RESOURCE_SUCCESS:
-      if (resourcePath === 'entries') {
-        return Object.assign({}, state, { index: 0 });
-      }
-      return state;
     case types.LOGOUT_USER:
       return initialState;
     case types.UPDATE_BOOKMARK_INDEX:
