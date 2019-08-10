@@ -12,7 +12,7 @@ export default ABOUT_APP = {
       name: "Nerine Law",
       title: "3rd Year BCS Student",
       linkedin: "https://www.linkedin.com/in/nerine-law-3a3885188/",
-      photo: "",
+      photo: "https://res.cloudinary.com/sng/image/upload/c_scale,w_626/v1565394687/N3A_5017_cnjhai.jpg",
     },
     {
       name: "Sarah Ng",
