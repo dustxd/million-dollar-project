@@ -10,7 +10,9 @@ if (Meteor.isServer) {
   // Meteor combines the results of different queries on the same collection,
   // but we don't want to return all the documents to the client side because
   // it is a security breach. Hence, we are duplicating the queries for now.
-  Meteor.publish('lineItems', entryId => LineItems.find({ entryId }));
+  Meteor.publish('lineItems', function lineItemsPublication(entryId) {
+    return LineItems.find({ $and: [{ entryId }, { owner: this.userId }] });
+  });
 }
 
 /* Restrict user's actions (i.e. write permission to database and business logic in api) */
