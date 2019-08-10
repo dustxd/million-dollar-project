@@ -99,7 +99,7 @@ class AddDialog extends Component {
   }
 
   onClickAdd = async () => {
-    const { type, actions, onClickCloseDialog, history } = this.props;
+    const { type, actions, history } = this.props;
     const { header } = this.state;
 
     const newEntry = {
@@ -109,8 +109,6 @@ class AddDialog extends Component {
     };
 
     await actions.addResource(newEntry, 'entries');
-
-    onClickCloseDialog();
 
     history.push('/singlePage');
   }
