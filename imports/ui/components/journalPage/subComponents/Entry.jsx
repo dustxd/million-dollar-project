@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  CircularProgress,
   ClickAwayListener,
   Icon,
   IconButton,
@@ -17,6 +18,12 @@ import LineItem from './LineItem';
 import { HEADER_TYPES } from '../../../constants/ResourceConstants';
 
 const styles = {
+  loadingContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   header: {
     display: 'flex',
     flexDirection: 'row',
@@ -175,7 +182,6 @@ class Entry extends Component {
         <div className={classes.headerText}>
           <Typography variant="h5">{header}</Typography>
         </div>
-        
         <IconButton disabled={this.isNextDisabled()} onClick={() => this.onClickNextEntry()}>
           <Icon>arrow_forward</Icon>
         </IconButton>
@@ -249,8 +255,16 @@ class Entry extends Component {
   }
 
   render() {
-    const { lineItems, headerType } = this.props;
+    const { retrievingData, classes, lineItems, headerType } = this.props;
     const { openNewLineItem, selectedLineItem } = this.state;
+
+    if (retrievingData) {
+      return (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      );
+    }
 
     return (
       <ClickAwayListener onClickAway={() => this.onBlurLineItem()}>
@@ -299,9 +313,11 @@ class Entry extends Component {
 const dataSource = (props) => {
   const { entryId } = props;
 
-  Meteor.subscribe('lineItems', entryId);
+  const lineItemsHandler = Meteor.subscribe('lineItems', entryId);
+  const isReady = lineItemsHandler.ready();
 
   return {
+    retrievingData: !isReady,
     lineItems: LineItems.find({ entryId }).fetch(),
   };
 };
