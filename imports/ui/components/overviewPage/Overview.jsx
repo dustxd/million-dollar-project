@@ -4,28 +4,27 @@ import moment from 'moment';
 import { withStyles } from '@material-ui/core/styles';
 
 import OverviewActions from './OverviewActions';
-import SearchBar from './SearchBar';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   pageContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
+    width: '60%',
+    minHeight: '-webkit-fill-available',
     margin: 'auto',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-  },
-  overviewContainer: {
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: '60%',
-    height: '50%',
+    padding: '20px',
+  },
+  overviewContainer: {
+    padding: '20px',
+    paddingTop: '20%',
+    paddingBottom: '20%',
+    height: '-webkit-fill-available',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-between',    
   },
 };
 
@@ -63,14 +62,18 @@ class Overview extends React.Component {
         ? <LinearProgress />
         : (
           <div className={classes.pageContainer}>
-            <div className={classes.overviewContainer}>
-              <Typography variant="h4">
-                {`${greeting} ${firstName}.`}
-              </Typography>
-              <SearchBar user={user} />
-              <OverviewActions actions={actions} />
-              <Typography variant="overline">{quote}</Typography>
-            </div>
+              <TranslucentPaper>
+                <div className={classes.overviewContainer}>
+                <Typography variant="h1">
+                    {moment().format('HH:mm')}
+                </Typography>
+                <Typography variant="h5">
+                  {`${greeting} ${firstName}.`}
+                </Typography>
+                  <OverviewActions actions={actions} />
+                  <Typography variant="overline">"{quote}"</Typography>  
+                  </div>
+              </TranslucentPaper>
           </div>
         )
     );

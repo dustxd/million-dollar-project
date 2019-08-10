@@ -4,16 +4,11 @@ import { Redirect, withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
-  Button,
-  Icon,
-  IconButton,
-  Menu,
-  MenuItem,
   Tabs,
   Tab,
-  Tooltip,
-  Typography,
 } from '@material-ui/core';
+
+import AccountDrawer from './AccountDrawer';
 
 // Component constants
 const NAVIGATION_OPTIONS = [
@@ -67,7 +62,6 @@ class CoreView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null,
       currentTab: 0,
     };
   }
@@ -79,18 +73,6 @@ class CoreView extends React.Component {
     history.push('/login');
   }
 
-  onClickOpenMenu = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    });
-  }
-
-  onClickCloseMenu = () => {
-    this.setState({
-      anchorEl: null,
-    });
-  }
-
   onClickChangeTab = (event, updatedTab) => {
     this.setState({
       currentTab: updatedTab,
@@ -99,7 +81,7 @@ class CoreView extends React.Component {
 
   renderAppBar = () => {
     const { path, classes, history } = this.props;
-    const { currentTab, anchorEl } = this.state;
+    const { currentTab } = this.state;
 
     let tabIndex = currentTab;
 
@@ -129,23 +111,7 @@ class CoreView extends React.Component {
             ))
           }
         </Tabs>
-        <div>
-          <Tooltip title="Account" aria-label="Account">
-            <IconButton onClick={e => this.onClickOpenMenu(e)}>
-              <Icon color="secondary">account_circle</Icon>
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={() => this.onClickCloseMenu()}
-          >
-            <MenuItem onClick={() => this.onClickCloseMenu()}>My account</MenuItem>
-            <MenuItem onClick={() => this.onClickSignout()}>Logout</MenuItem>
-          </Menu>
-        </div>
+        <AccountDrawer onClickLogout={() => this.onClickSignout()}/>
       </AppBar>
     );
   }

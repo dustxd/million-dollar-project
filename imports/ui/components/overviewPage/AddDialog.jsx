@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogContent,
@@ -38,26 +39,12 @@ const styles = {
   textField: {
     width: '400px',
     margin: '10px',
-    '& label.Mui-focused': {
-      color: '#868735',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#bec358',
-      },
-      '&:hover fieldset': {
-        borderColor: '#868735',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#868735',
-      },
-    },
   },
   textFieldInput: {
     height: '15px',
   },
   inputLabelRoot: {
-    color: '#bec358',
+  
   },
   addButton: {
     boxShadow: 'none',
@@ -204,38 +191,40 @@ class AddDialog extends Component {
     } = dialog;
 
     return (
-      <Dialog
-        open={open}
-        onClose={onClickCloseDialog}
-      >
-        <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
-          {title}
-          <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
-            <Icon>close</Icon>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent classes={{ root: classes.dialogContentRoot }}>
-          <DialogContentText>
-            {subtitle}
-          </DialogContentText>
-          {
-            fields.map(infoField => (
-              <div key={infoField.key}>
-                { this.renderInputComponent(infoField) }
-              </div>
-            ))
-          }
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.addButton}
-            disabled={this.isDisabled()}
-            onClick={() => this.onClickAdd()}
-          >
-            {actions.addButton}
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <Box color="primary.main">
+        <Dialog
+          open={open}
+          onClose={onClickCloseDialog}
+        >
+          <DialogTitle classes={{ root: classes.dialogTitleRoot }}>
+            {title}
+            <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
+              <Icon>close</Icon>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent classes={{ root: classes.dialogContentRoot }}>
+            <DialogContentText>
+              {subtitle}
+            </DialogContentText>
+            {
+              fields.map(infoField => (
+                <div key={infoField.key}>
+                  { this.renderInputComponent(infoField) }
+                </div>
+              ))
+            }
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.addButton}
+              disabled={this.isDisabled()}
+              onClick={() => this.onClickAdd()}
+            >
+              {actions.addButton}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </Box>
     );
   }
 }

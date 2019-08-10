@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinearProgress, Paper, Typography } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -11,6 +11,7 @@ import MomentUtils from '@date-io/moment';
 import Page from '../journalPage/Page';
 import { Entries } from '../../../api/entries';
 import AddDialog from '../overviewPage/AddDialog';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   spreadContainer: {
@@ -26,7 +27,14 @@ const styles = {
   },
   calendarHeader: {
     padding: '1.75em',
+    textAlign: 'center'
   },
+  centerWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: 30,
+  }
 };
 
 class WeekView extends Component {
@@ -108,13 +116,15 @@ class WeekView extends Component {
         : (
           <div className={classes.spreadContainer}>
             <div className={classes.root}>
-              <Paper className={classes.paper}>
+              <TranslucentPaper className={classes.paper}>
                 <div className={classes.calendarHeader}>
-                  <Typography variant="h3" color="primary">
+                  <Typography variant="h5" color="primary">
                     CALENDAR
                   </Typography>
                 </div>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
+                  
+                  <div className={classes.centerWrapper}>
                   <DatePicker
                     variant="static"
                     inputVariant="outlined"
@@ -124,11 +134,13 @@ class WeekView extends Component {
                     onChange={date => this.onChangeDateField(date)}
                     disableToolbar
                   />
+                  </div>
+                  
                 </MuiPickersUtilsProvider>
-              </Paper>
+              </TranslucentPaper>
               {
                 displayedEntries.map(entry => (
-                  <Paper key={entry._id} className={classes.paper}>
+                  <TranslucentPaper key={entry._id} className={classes.paper}>
                     <Page
                       type="DATED_WEEK_VIEW"
                       actions={actions}
@@ -141,7 +153,7 @@ class WeekView extends Component {
                         onClickRedirect: id => this.onClickRedirect(id),
                       }}
                     />
-                  </Paper>
+                  </TranslucentPaper>
                 ))
               }
             </div>

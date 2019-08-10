@@ -2,22 +2,24 @@
  * Custom base theme for material-ui components.
  */
 
-const appTheme = {
+export const PRIMARY = '#829f9d';
+export const SECONDARY = '#ffffff';
+export const TRANSLUCENT_PAPER = 'rgba(255,255,255,0.75)';
+export const appTheme = {
   palette: {
     primary: {
-      main: '#bec358',
+      main: PRIMARY,
       contrastText: '#ffffff',
     },
     secondary: {
-      main: '#868735',
+      main: SECONDARY,
     },
   },
   typography: {
-    fontFamily: 'Roboto, sans-serif',
+    fontFamily: 'Lexend Deca, sans-serif',
   },
   overrides: {
 
   },
 };
 
-export default appTheme;
