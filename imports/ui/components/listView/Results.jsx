@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Icon, IconButton, LinearProgress, Tooltip, Typography } from '@material-ui/core';
+import { Icon, IconButton, CircularProgress, Tooltip, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
@@ -13,6 +13,18 @@ import { SEARCH_CONSTRAINTS } from '../../constants/ResourceConstants';
 import DetailView from './subComponents/DetailView';
 
 const styles = {
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
   actionsContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -151,7 +163,11 @@ class Results extends Component {
     const formattedEntries = this.getParsedEntries();
 
     if (retrievingData) {
-      return <LinearProgress />;
+      return (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      );
     }
 
     return (
