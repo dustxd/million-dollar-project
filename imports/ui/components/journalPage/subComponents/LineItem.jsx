@@ -96,7 +96,7 @@ class LineItem extends Component {
     const isTask = TASK_STATUS.some(taskStatus => taskStatus === bullet);
     const newLineItem = {
       type: isTask ? LINE_ITEM_TYPES.TASK : bullet,
-      status: isTask ? bullet : undefined,
+      status: isTask ? bullet : null,
       content: text,
     };
 
