@@ -34,7 +34,7 @@ const styles = {
     margin: 10,
     width: 60,
     height: 60,
-    color: '#fff',
+    color: '#ffffff',
   },
   devProfile: {
     display: 'flex',
