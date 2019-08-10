@@ -2,7 +2,15 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import {
+  Avatar,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
   Divider,
+  Grid,
   Icon,
   IconButton,
   List,
@@ -11,10 +19,9 @@ import {
   ListItemText,
   ListSubheader,
   Tooltip,
+  Typography,
 } from '@material-ui/core';
-
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import ABOUT from '../../constants/About';
 
 const styles = {
   list: {
@@ -23,6 +30,22 @@ const styles = {
   fullList: {
     width: 'auto',
   },
+  bigAvatar: {
+    margin: 10,
+    width: 60,
+    height: 60,
+    color: '#fff',
+  },
+  devProfile: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: 15,
+  },
+  button: {
+    marginTop: 10,
+    fontSize: '0.8em',
+  }
 };
 
 class AccountDrawer extends React.Component {
@@ -31,7 +54,16 @@ class AccountDrawer extends React.Component {
     this.state = {
       left: false,
       right: false,
+      aboutOpen: false,
     };
+  }
+
+  handleAboutClickOpen = () => {
+    this.setState({aboutOpen: true});
+  }
+
+  handleAboutClose = () => {
+    this.setState({aboutOpen: false});
   }
 
   toggleDrawer = (side, open) => (event) => {
@@ -43,6 +75,7 @@ class AccountDrawer extends React.Component {
   
   render() {
     const { onClickLogout, classes } = this.props;
+    
     const sideList = (side) => (
       <div
         className={classes.list}
@@ -50,26 +83,53 @@ class AccountDrawer extends React.Component {
         onClick={this.toggleDrawer(side, false)}
         onKeyDown={this.toggleDrawer(side, false)}
       >
-      <List subheader={<ListSubheader>Account</ListSubheader>} className={classes.root}>
-        
-          {['My Account', 'Logout'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon onClick={onClickLogout}>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+      <List subheader={<ListSubheader>My Account</ListSubheader>} className={classes.root}>
+
+            <ListItem button key="Logout">
+              <ListItemIcon onClick={onClickLogout}>
+                <Icon>power_settings_new</Icon>
+              </ListItemIcon>
+              <ListItemText primary="Logout" />
             </ListItem>
-          ))}
+      
         </List>
         <Divider />
         <List subheader={<ListSubheader>This App</ListSubheader>} className={classes.root}>
-          {['About'].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-              <ListItemText primary={text} />
+          
+            <ListItem button key="about" onClick={this.handleAboutClickOpen}>
+              <ListItemIcon>
+              <Icon>info</Icon>
+              </ListItemIcon>
+              <ListItemText primary="About App" />
             </ListItem>
-          ))}
         </List>
       </div>
     );
+
+    const devList = ABOUT.devs.map((dev) => {
+      if (dev.photo !== "") {
+        return(
+          <div id={dev.name} className={classes.devProfile}>
+            <Avatar alt={dev.name} src={dev.photo} className={classes.bigAvatar} />
+            <Typography variant="button">{dev.name}</Typography>
+            <Typography variant="overline">{dev.title}</Typography>
+            <Button variant="outlined" color="primary" className={classes.root} href={dev.linkedin}>LinkedIn</Button>
+          </div>
+        )
+      } else {
+        let initial = dev.name.charAt(0);
+        return(
+          <div id={dev.name} className={classes.devProfile}>
+            <Avatar alt={dev.name} className={classes.bigAvatar}>
+            {initial}
+            </Avatar>
+            <Typography variant="button">{dev.name}</Typography>
+            <Typography variant="overline">{dev.title}</Typography>
+            <Button variant="outlined" color="primary" className={classes.root} href={dev.linkedin}>LinkedIn</Button>
+          </div>
+        )
+      }
+    });
 
     return (
       <div>
@@ -81,6 +141,29 @@ class AccountDrawer extends React.Component {
         <Drawer anchor="right" open={this.state.right} onClose={this.toggleDrawer('right', false)}>
           {sideList('right')}
         </Drawer>
+        <div>
+          <Dialog
+            open={this.state.aboutOpen}
+            onClose={this.handleAboutClose}
+            aria-labelledby="about-app"
+            aria-describedby="about-app"
+          >
+            <DialogTitle id="about-title">{ABOUT.title}</DialogTitle>
+            <DialogContent>
+              <DialogContentText id="about-description">
+              {ABOUT.description}
+              </DialogContentText>
+              <Grid container justify="center" alignItems="center">
+                {devList}
+              </Grid>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={this.handleAboutClose} color="primary" autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
       </div>
     
       );
