@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LinearProgress, Paper, Typography } from '@material-ui/core';
+import { LinearProgress, Typography } from '@material-ui/core';
 import { withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import { withTracker } from 'meteor/react-meteor-data';
@@ -29,6 +29,12 @@ const styles = {
     padding: '1.75em',
     textAlign: 'center'
   },
+  centerWrapper: {
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    marginBottom: 30,
+  }
 };
 
 class WeekView extends Component {
@@ -112,11 +118,13 @@ class WeekView extends Component {
             <div className={classes.root}>
               <TranslucentPaper className={classes.paper}>
                 <div className={classes.calendarHeader}>
-                  <Typography variant="h3" color="primary">
+                  <Typography variant="h5" color="primary">
                     CALENDAR
                   </Typography>
                 </div>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
+                  
+                  <div className={classes.centerWrapper}>
                   <DatePicker
                     variant="static"
                     inputVariant="outlined"
@@ -126,6 +134,8 @@ class WeekView extends Component {
                     onChange={date => this.onChangeDateField(date)}
                     disableToolbar
                   />
+                  </div>
+                  
                 </MuiPickersUtilsProvider>
               </TranslucentPaper>
               {
