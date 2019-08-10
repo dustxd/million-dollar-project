@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import { Icon, IconButton, LinearProgress, Tooltip, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
@@ -146,9 +146,13 @@ class Results extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { retrievingData, classes } = this.props;
     const { tableColumns } = this.state;
     const formattedEntries = this.getParsedEntries();
+
+    if (retrievingData) {
+      return <LinearProgress />;
+    }
 
     return (
       <MaterialTable
@@ -173,6 +177,7 @@ class Results extends Component {
 
 const dataSource = (props) => {
   const entriesHandler = Meteor.subscribe('entriesWithLineItems');
+  const isReady = entriesHandler.ready();
 
   let entriesWithLineItems = [];
   if (entriesHandler.ready()) {
@@ -184,6 +189,7 @@ const dataSource = (props) => {
   }
 
   return {
+    retrievingData: !isReady,
     entries: entriesWithLineItems,
   };
 };

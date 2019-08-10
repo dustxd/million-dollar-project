@@ -98,12 +98,18 @@ class WeekView extends Component {
   }
 
   render() {
-    const { loading, classes, actions, entries } = this.props;
+    const {
+      loading,
+      retrievingData,
+      classes,
+      actions,
+      entries,
+    } = this.props;
     const { openAddDialog, selectedDate } = this.state;
     const displayedEntries = this.getCurrentWeekDatedEntries();
 
     return (
-      loading
+      loading || retrievingData
         ? <LinearProgress />
         : (
           <div className={classes.spreadContainer}>
@@ -164,9 +170,11 @@ class WeekView extends Component {
 }
 
 const dataSource = (props) => {
-  Meteor.subscribe('entries');
+  const entriesHandler = Meteor.subscribe('entries');
+  const isReady = entriesHandler.ready();
 
   return {
+    retrievingData: !isReady,
     entries: Entries.find({}, { sort: { header: 1 } }).fetch(),
   };
 };
