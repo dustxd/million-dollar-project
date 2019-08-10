@@ -84,6 +84,9 @@ class Results extends Component {
           main: customMuiStyles.SECONDARY,
         },
       },
+      typography: {
+        fontFamily: 'Lexend Deca, sans-serif',
+      },
       overrides: {
         MuiPaper: {
           root: {
