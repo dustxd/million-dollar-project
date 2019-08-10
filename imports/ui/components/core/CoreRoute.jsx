@@ -4,13 +4,8 @@ import { Redirect, withRouter } from 'react-router';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
-  Icon,
-  IconButton,
-  Menu,
-  MenuItem,
   Tabs,
   Tab,
-  Tooltip,
 } from '@material-ui/core';
 
 import AccountDrawer from './AccountDrawer';
@@ -67,7 +62,6 @@ class CoreView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      anchorEl: null,
       currentTab: 0,
     };
   }
@@ -79,18 +73,6 @@ class CoreView extends React.Component {
     history.push('/login');
   }
 
-  onClickOpenMenu = (event) => {
-    this.setState({
-      anchorEl: event.currentTarget,
-    });
-  }
-
-  onClickCloseMenu = () => {
-    this.setState({
-      anchorEl: null,
-    });
-  }
-
   onClickChangeTab = (event, updatedTab) => {
     this.setState({
       currentTab: updatedTab,
@@ -99,7 +81,7 @@ class CoreView extends React.Component {
 
   renderAppBar = () => {
     const { path, classes, history } = this.props;
-    const { currentTab, anchorEl } = this.state;
+    const { currentTab } = this.state;
 
     let tabIndex = currentTab;
 
