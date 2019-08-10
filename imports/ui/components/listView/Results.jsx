@@ -4,7 +4,14 @@ import { Meteor } from 'meteor/meteor';
 import { withRouter } from 'react-router';
 import { withTracker } from 'meteor/react-meteor-data';
 import moment from 'moment';
-import { Box, Icon, IconButton, Tooltip, Typography } from '@material-ui/core';
+import {
+  Box,
+  Icon,
+  IconButton,
+  CircularProgress,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { MuiThemeProvider, createMuiTheme, withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
@@ -14,6 +21,18 @@ import DetailView from './subComponents/DetailView';
 import customMuiStyles from '../../css/customMuiStyles';
 
 const styles = {
+  loadingContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 'auto',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
   actionsContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -85,9 +104,9 @@ class Results extends Component {
     }
   }
 
-  onClickRedirect = (id) => {
+  onClickRedirect = (id, type) => {
     const { history, actions } = this.props;
-    actions.updateIndexPage(id);
+    actions.updateBookmarkIndex(id);
     history.push('/singlePage');
   }
 
@@ -164,9 +183,17 @@ class Results extends Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { retrievingData, classes } = this.props;
     const { tableColumns } = this.state;
     const formattedEntries = this.getParsedEntries();
+
+    if (retrievingData) {
+      return (
+        <div className={classes.loadingContainer}>
+          <CircularProgress />
+        </div>
+      );
+    }
 
     return (
       <MuiThemeProvider theme={this.theme}>
@@ -201,6 +228,7 @@ class Results extends Component {
 
 const dataSource = (props) => {
   const entriesHandler = Meteor.subscribe('entriesWithLineItems');
+  const isReady = entriesHandler.ready();
 
   let entriesWithLineItems = [];
   if (entriesHandler.ready()) {
@@ -212,6 +240,7 @@ const dataSource = (props) => {
   }
 
   return {
+    retrievingData: !isReady,
     entries: entriesWithLineItems,
   };
 };

@@ -44,7 +44,7 @@ const styles = {
     height: '15px',
   },
   inputLabelRoot: {
-  
+
   },
   actionButton: {
     boxShadow: 'none',
@@ -85,7 +85,7 @@ class AddDialog extends Component {
     });
   }
 
-  onClickAddOrUpdate = () => {
+  onClickAddOrUpdate = async () => {
     const {
       type,
       mode,
@@ -102,12 +102,10 @@ class AddDialog extends Component {
     };
 
     if (mode === 'add') {
-      actions.addResource(newEntry, 'entries');
+      await actions.addResource(newEntry, 'entries');
     } else {
       actions.updateResource(newEntry, 'entries', entryId);
     }
-
-    onClickCloseDialog();
 
     history.push('/singlePage');
   }

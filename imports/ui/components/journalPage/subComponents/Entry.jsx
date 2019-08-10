@@ -61,7 +61,7 @@ class Entry extends Component {
     });
   }
 
-  onClickAddOrUpdateLineItem = (lineItemInfo, lineItemId) => {
+  onClickAddOrUpdateLineItem = async (lineItemInfo, lineItemId) => {
     const { entryId, actions } = this.props;
 
     const newLineItem = {
@@ -70,7 +70,7 @@ class Entry extends Component {
     };
 
     if (lineItemId === 'NEW') {
-      actions.addResource(newLineItem, 'lineItems');
+      await actions.addResource(newLineItem, 'lineItems');
     } else {
       actions.updateResource(newLineItem, 'lineItems', lineItemId);
     }
@@ -127,21 +127,21 @@ class Entry extends Component {
   onClickPreviousEntry = () => {
     const { actions } = this.props;
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
-      actions.updateIndexPage(this.getPrevEntryId());
+      actions.updateBookmarkIndex(this.getPrevEntryId());
     }
   }
 
   onClickNextEntry = () => {
     const { actions } = this.props;
     if (this.getEntryIndex() > 0) {
-      actions.updateIndexPage(this.getNextEntryId());
+      actions.updateBookmarkIndex(this.getNextEntryId());
     }
   }
 
   onClickGetPrevAndDeleteEntry = (entryId) => {
     const { actions } = this.props;
     if (this.getEntryIndex() < this.getNumEntries() - 1) {
-      actions.updateIndexPage(this.getPrevEntryId());
+      actions.updateBookmarkIndex(this.getPrevEntryId());
       this.onClickDeleteEntry(entryId);
     } else {
       this.onClickDeleteEntry(entryId);
