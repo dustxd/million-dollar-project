@@ -186,7 +186,7 @@ class Entry extends Component {
           <Icon>arrow_forward</Icon>
         </IconButton>
         <Toolbar disableGutters>
-          <IconButton onClick={() => onClickEditHeader(entryId)}>
+          <IconButton onClick={() => onClickEditHeader(entryId, header)}>
             <Tooltip title="Edit Header" aria-label="Edit Header">
               <Icon>edit</Icon>
             </Tooltip>
