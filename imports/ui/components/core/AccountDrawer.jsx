@@ -109,7 +109,7 @@ class AccountDrawer extends React.Component {
     const devList = ABOUT.devs.map((dev) => {
       if (dev.photo !== "") {
         return(
-          <div id={dev.name} className={classes.devProfile}>
+          <div key={dev.name} className={classes.devProfile}>
             <Avatar alt={dev.name} src={dev.photo} className={classes.bigAvatar} />
             <Typography variant="button">{dev.name}</Typography>
             <Typography variant="overline">{dev.title}</Typography>
@@ -119,7 +119,7 @@ class AccountDrawer extends React.Component {
       } else {
         let initial = dev.name.charAt(0);
         return(
-          <div id={dev.name} className={classes.devProfile}>
+          <div key={dev.name} className={classes.devProfile}>
             <Avatar alt={dev.name} className={classes.bigAvatar}>
             {initial}
             </Avatar>
