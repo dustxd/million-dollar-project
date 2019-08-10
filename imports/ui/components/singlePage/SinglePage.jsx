@@ -12,6 +12,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import { Entries } from '../../../api/entries';
 import Page from '../journalPage/Page';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   singleContainer: {
@@ -163,14 +164,14 @@ class SinglePage extends Component {
                       );
                     })
                   }
-                  <Paper className={classes.paper}>
+                  <TranslucentPaper className={classes.paper}>
                     <Page
                       type="DATED_SINGLE_PAGE"
                       entryId={index}
                       actions={actions}
                       entries={filteredEntries}
                     />
-                  </Paper>
+                  </TranslucentPaper>
                 </Grid>
               </Grid>
             </div>

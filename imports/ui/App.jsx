@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 
-import appTheme from './css/customMuiStyles';
+import customMuiStyles from './css/customMuiStyles';
 import * as Actions from './actions/index';
 import CoreRoute from './components/core/CoreRoute';
 import LoginPage from './components/authentication/LoginPage';
@@ -15,7 +15,7 @@ import SinglePage from './components/singlePage/SinglePage';
 import WeekView from './components/weekView/WeekView';
 
 const App = props => (
-  <MuiThemeProvider theme={createMuiTheme(appTheme)}>
+  <MuiThemeProvider theme={createMuiTheme(customMuiStyles.appTheme)}>
     <BrowserRouter>
       <Switch>
         <Route exact path="/login" name="login" render={() => <LoginPage {...props} />} />

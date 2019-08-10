@@ -6,6 +6,7 @@ import { Meteor } from 'meteor/meteor';
 
 import Page from './Page';
 import { Entries } from '../../../api/entries';
+import TranslucentPaper from '../../constants/TranslucentPaper';
 
 const styles = {
   spreadContainer: {
@@ -52,14 +53,14 @@ class Spread extends Component {
             <div className={classes.root}>
               <Grid container spacing={0}>
                 <Grid item xs={12} sm={6}>
-                  <Paper className={classes.paper}>
+                  <TranslucentPaper className={classes.paper}>
                     <Page actions={actions} position="left" entryId={leftEntryId} />
-                  </Paper>
+                    </TranslucentPaper>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Paper className={classes.paper}>
+                  <TranslucentPaper className={classes.paper}>
                     <Page actions={actions} position="right" entryId={rightEntryId} />
-                  </Paper>
+                  </TranslucentPaper>
                 </Grid>
               </Grid>
             </div>

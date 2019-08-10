@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {
+  Box,
   Button,
   Dialog,
   DialogContent,
@@ -16,8 +17,8 @@ import moment from 'moment';
 import { withRouter } from 'react-router';
 
 import {
-  ADD_DATED_ENTRY_DIALOG,
-  ADD_COLLECTION_DIALOG,
+  DATED_ENTRY_DIALOG,
+  COLLECTION_DIALOG,
   DATE_CONSTRAINTS,
 } from '../../constants/ResourceConstants';
 
@@ -38,28 +39,14 @@ const styles = {
   textField: {
     width: '400px',
     margin: '10px',
-    '& label.Mui-focused': {
-      color: '#868735',
-    },
-    '& .MuiOutlinedInput-root': {
-      '& fieldset': {
-        borderColor: '#bec358',
-      },
-      '&:hover fieldset': {
-        borderColor: '#868735',
-      },
-      '&.Mui-focused fieldset': {
-        borderColor: '#868735',
-      },
-    },
   },
   textFieldInput: {
     height: '15px',
   },
   inputLabelRoot: {
-    color: '#bec358',
+
   },
-  addButton: {
+  actionButton: {
     boxShadow: 'none',
     width: '400px',
     height: '50px',
@@ -98,17 +85,27 @@ class AddDialog extends Component {
     });
   }
 
-  onClickAdd = async () => {
-    const { type, actions, history } = this.props;
+  onClickAddOrUpdate = async () => {
+    const {
+      type,
+      mode,
+      entryId,
+      actions,
+      onClickCloseDialog,
+      history,
+    } = this.props;
     const { header } = this.state;
 
     const newEntry = {
       header: type === 'dated' ? moment(header).toDate() : header,
       type,
-      createdAt: new Date(),
     };
 
-    await actions.addResource(newEntry, 'entries');
+    if (mode === 'add') {
+      await actions.addResource(newEntry, 'entries');
+    } else {
+      actions.updateResource(newEntry, 'entries', entryId);
+    }
 
     history.push('/singlePage');
   }
@@ -117,7 +114,7 @@ class AddDialog extends Component {
     if (event.key === 'Enter') {
       event.preventDefault();
       if (this.isDisabled()) return;
-      this.onClickAdd();
+      this.onClickAddOrUpdate();
     }
   }
 
@@ -125,11 +122,24 @@ class AddDialog extends Component {
     const { type } = this.props;
 
     if (type === 'dated') {
-      return ADD_DATED_ENTRY_DIALOG;
+      return DATED_ENTRY_DIALOG;
     }
 
     // By default, the dialog should be for adding collection
-    return ADD_COLLECTION_DIALOG;
+    return COLLECTION_DIALOG;
+  }
+
+  getDialogInfoForMode = () => {
+    const { mode } = this.props;
+
+    const dialog = this.getDialogInfo();
+    const { addTitle, editTitle, actions, ...dialogProps } = dialog;
+
+
+    const title = dialog[`${mode}Title`] || '';
+    const button = actions[`${mode}Button`] || '';
+
+    return { title, button, ...dialogProps };
   }
 
   isDisabled = () => {
@@ -193,47 +203,49 @@ class AddDialog extends Component {
   render() {
     const { open, onClickCloseDialog, classes } = this.props;
     const { header } = this.state;
-    const dialog = this.getDialogInfo();
+    const dialog = this.getDialogInfoForMode();
     const {
       title,
       subtitle,
       fields,
-      actions,
+      button,
     } = dialog;
 
     return (
-      <Dialog
-        open={open}
-        onClose={onClickCloseDialog}
-      >
-        <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
-          {title}
-          <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
-            <Icon>close</Icon>
-          </IconButton>
-        </DialogTitle>
-        <DialogContent classes={{ root: classes.dialogContentRoot }}>
-          <DialogContentText>
-            {subtitle}
-          </DialogContentText>
-          {
-            fields.map(infoField => (
-              <div key={infoField.key}>
-                { this.renderInputComponent(infoField) }
-              </div>
-            ))
-          }
-          <Button
-            variant="contained"
-            color="primary"
-            className={classes.addButton}
-            disabled={this.isDisabled()}
-            onClick={() => this.onClickAdd()}
-          >
-            {actions.addButton}
-          </Button>
-        </DialogContent>
-      </Dialog>
+      <Box color="primary.main">
+        <Dialog
+          open={open}
+          onClose={onClickCloseDialog}
+        >
+          <DialogTitle disableTypography classes={{ root: classes.dialogTitleRoot }}>
+            {title}
+            <IconButton className={classes.closeButton} onClick={onClickCloseDialog}>
+              <Icon>close</Icon>
+            </IconButton>
+          </DialogTitle>
+          <DialogContent classes={{ root: classes.dialogContentRoot }}>
+            <DialogContentText>
+              {subtitle}
+            </DialogContentText>
+            {
+              fields.map(infoField => (
+                <div key={infoField.key}>
+                  { this.renderInputComponent(infoField) }
+                </div>
+              ))
+            }
+            <Button
+              variant="contained"
+              color="primary"
+              className={classes.actionButton}
+              disabled={this.isDisabled()}
+              onClick={() => this.onClickAddOrUpdate()}
+            >
+              {button}
+            </Button>
+          </DialogContent>
+        </Dialog>
+      </Box>
     );
   }
 }
