@@ -129,19 +129,17 @@ class WeekView extends Component {
                   </Typography>
                 </div>
                 <MuiPickersUtilsProvider utils={MomentUtils}>
-                  
                   <div className={classes.centerWrapper}>
-                  <DatePicker
-                    variant="static"
-                    inputVariant="outlined"
-                    className={classes.textField}
-                    format="DD/MM/YYYY"
-                    value={selectedDate}
-                    onChange={date => this.onChangeDateField(date)}
-                    disableToolbar
-                  />
+                    <DatePicker
+                      variant="static"
+                      inputVariant="outlined"
+                      className={classes.textField}
+                      format="DD/MM/YYYY"
+                      value={selectedDate}
+                      onChange={date => this.onChangeDateField(date)}
+                      disableToolbar
+                    />
                   </div>
-                  
                 </MuiPickersUtilsProvider>
               </TranslucentPaper>
               {
