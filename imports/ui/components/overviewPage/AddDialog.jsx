@@ -98,7 +98,7 @@ class AddDialog extends Component {
     });
   }
 
-  onClickAdd = () => {
+  onClickAdd = async () => {
     const { type, actions, onClickCloseDialog, history } = this.props;
     const { header } = this.state;
 
@@ -108,7 +108,7 @@ class AddDialog extends Component {
       createdAt: new Date(),
     };
 
-    actions.addResource(newEntry, 'entries');
+    await actions.addResource(newEntry, 'entries');
 
     onClickCloseDialog();
 

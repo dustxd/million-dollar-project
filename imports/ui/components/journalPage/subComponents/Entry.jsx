@@ -59,7 +59,7 @@ class Entry extends Component {
     });
   }
 
-  onClickAddOrUpdateLineItem = (lineItemInfo, lineItemId) => {
+  onClickAddOrUpdateLineItem = async (lineItemInfo, lineItemId) => {
     const { entryId, actions } = this.props;
 
     const newLineItem = {
@@ -68,7 +68,7 @@ class Entry extends Component {
     };
 
     if (lineItemId === 'NEW') {
-      actions.addResource(newLineItem, 'lineItems');
+      await actions.addResource(newLineItem, 'lineItems');
     } else {
       actions.updateResource(newLineItem, 'lineItems', lineItemId);
     }
