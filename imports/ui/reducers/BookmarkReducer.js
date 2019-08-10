@@ -2,7 +2,7 @@ import * as types from '../actions/ActionTypes';
 
 const initialState = {
   index: 0,
-  mode: 'createdAt',
+  mode: 'dated',
 };
 
 const BookmarkReducer = (state = initialState, action) => {
