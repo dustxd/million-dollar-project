@@ -108,12 +108,6 @@ class Page extends Component {
     return PAGE_LAYOUT[0].headerType;
   }
 
-  updatePageIndex = (entries) => {
-    const { actions, mode } = this.props;
-
-    actions.updateBookmarkIndex(entries[0]._id);
-  }
-
   render() {
     const {
       entryId,
