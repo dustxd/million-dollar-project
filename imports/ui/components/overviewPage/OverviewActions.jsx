@@ -19,7 +19,7 @@ const styles = {
 const overviewActionButtons = [
   { key: 'dated', title: 'Add daily entry', icon: 'calendar_today' },
   { key: 'collection', title: 'Add collection', icon: 'list_alt' },
-  { key: 'recent', title: 'Last entry', icon: 'access_time' },
+  // { key: 'recent', title: 'Last entry', icon: 'access_time' },
 ];
 
 class OverviewActions extends React.Component {
@@ -64,7 +64,7 @@ class OverviewActions extends React.Component {
               size="large"
               onClick={() => this.onClickActionButton(button.key)}
             >
-              {button.title} 
+              {button.title}
               <Icon className={classes.rightIcon}>{button.icon.toString()}</Icon>
             </Button>
           ))

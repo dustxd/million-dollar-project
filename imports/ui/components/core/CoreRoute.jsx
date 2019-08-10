@@ -18,9 +18,9 @@ const NAVIGATION_OPTIONS = [
   {
     key: 'week', title: 'Week View', path: '/week', icon: 'calendar',
   },
-  {
-    key: 'spread', title: 'Spread View', path: '/spread', icon: 'chrome_reader_mode',
-  },
+  // {
+  //   key: 'spread', title: 'Spread View', path: '/spread', icon: 'chrome_reader_mode',
+  // },
   {
     key: 'singlePage', title: 'Page View', path: '/singlePage', icon: 'insert_drive_file',
   },
