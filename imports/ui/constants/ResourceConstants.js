@@ -53,25 +53,29 @@ export const PAGE_LAYOUT = [
   { type: DATED_WEEK_VIEW, headerType: WEEK_VIEW },
 ];
 
-export const ADD_DATED_ENTRY_DIALOG = {
-  title: 'Create a Dated Entry',
+export const DATED_ENTRY_DIALOG = {
+  addTitle: 'Create a Dated Entry',
+  editTitle: 'Edit Dated Entry',
   subtitle: 'Please select a date.',
   fields: [
     { key: 'header', title: 'Date', type: 'date' },
   ],
   actions: {
     addButton: 'ADD',
+    editButton: 'EDIT',
   },
 };
 
-export const ADD_COLLECTION_DIALOG = {
-  title: 'Create a Collection',
+export const COLLECTION_DIALOG = {
+  addTitle: 'Create a Collection',
+  editTitle: 'Edit Collection',
   subtitle: 'Please enter a header.',
   fields: [
     { key: 'header', title: 'Header', type: 'textField' },
   ],
   actions: {
     addButton: 'ADD',
+    editButton: 'EDIT',
   },
 };
 

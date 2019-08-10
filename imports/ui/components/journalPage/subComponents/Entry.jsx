@@ -165,7 +165,7 @@ class Entry extends Component {
   }
 
   renderDatedHeaderWithNav = () => {
-    const { classes, header, entryId } = this.props;
+    const { classes, header, entryId, onClickEditHeader } = this.props;
 
     return (
       <div className={classes.headerWithNav}>
@@ -180,15 +180,19 @@ class Entry extends Component {
           <Icon>arrow_forward</Icon>
         </IconButton>
         <Toolbar disableGutters>
-          <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
-            <Tooltip title="Delete Entry" aria-label="Delete Entry">
-            <Icon>delete</Icon>
+          <IconButton onClick={() => onClickEditHeader(entryId)}>
+            <Tooltip title="Edit Header" aria-label="Edit Header">
+              <Icon>edit</Icon>
             </Tooltip>
           </IconButton>
-          
+          <IconButton onClick={() => this.onClickGetPrevAndDeleteEntry(entryId)}>
+            <Tooltip title="Delete Entry" aria-label="Delete Entry">
+              <Icon>delete</Icon>
+            </Tooltip>
+          </IconButton>
           <IconButton onClick={() => this.onClickOpenNewLineItem()}>
-          <Tooltip title="Add Line" aria-label="Add Line">
-            <Icon>add</Icon>
+            <Tooltip title="Add Line" aria-label="Add Line">
+              <Icon>add</Icon>
             </Tooltip>
           </IconButton>
         </Toolbar>
