@@ -85,8 +85,8 @@ class AccountDrawer extends React.Component {
       >
       <List subheader={<ListSubheader>My Account</ListSubheader>} className={classes.root}>
 
-            <ListItem button key="Logout">
-              <ListItemIcon onClick={onClickLogout}>
+            <ListItem button key="Logout" onClick={onClickLogout}>
+              <ListItemIcon>
                 <Icon>power_settings_new</Icon>
               </ListItemIcon>
               <ListItemText primary="Logout" />
