@@ -26,6 +26,12 @@ const styles = {
   },
 };
 
+const modeControls = [
+  { key: 'dated', title: 'Dated Entries', icon: 'date_range' },
+  { key: 'collection', title: 'Collections', icon: 'list_alt' },
+  { key: 'createdAt', title: 'Created At', icon: 'access_time' },
+];
+
 class SinglePage extends Component {
   constructor(props) {
     super(props);
@@ -34,30 +40,46 @@ class SinglePage extends Component {
     };
   }
 
-  changeModeToType = (modeString) => {
-    if (modeString === 'entries') {
-      return 'dated';
+  componentDidMount() {
+    const { bookmark, entriesSortedByDate, actions } = this.props;
+    const { index, mode } = bookmark;
+
+    if (mode === 'createdAt') {
+      return;
     }
-    return 'collection';
+
+    const displayedEntry = entriesSortedByDate.find(entry => entry._id === index);
+
+    if (displayedEntry) {
+      const { type } = displayedEntry;
+
+      if (type !== mode) {
+        actions.updateBookmarkMode(type);
+      }
+    }
   }
 
   checkModeReturnArray = (bookmark, entries, modeString) => {
     if (modeString === 'createdAt') {
-      return bookmark.page;
+      return bookmark.index;
     }
     return this.filterEntriesByType(entries, this.changeModeToType(modeString));
   }
 
-  changeMode = (modeString, entries) => {
+  onClickChangeMode = (mode) => {
     const { actions, bookmark } = this.props;
+    const entriesForSelectedMode = this.getEntriesForMode(mode);
+    let entryId = '';
 
-    actions.updateIndexPage({
-      index: this.checkModeReturnArray(bookmark, entries, modeString)[0]._id,
-      mode: modeString,
-    });
+    if (entriesForSelectedMode && entriesForSelectedMode.length > 0) {
+      entryId = entriesForSelectedMode[0]._id;
+    }
+
+    actions.updateBookmarkIndex(entryId);
+    actions.updateBookmarkMode(mode);
   }
 
-  modeButtonColor = (mode) => {
+  getModeControlColor = (mode) => {
     const { bookmark } = this.props;
     if (bookmark.mode === mode) {
       return 'primary';
@@ -65,23 +87,20 @@ class SinglePage extends Component {
     return 'default';
   }
 
-  filterEntriesByType = (arrayEntries, type) => {
-    return arrayEntries.filter(entry => entry.type === type);
-  }
+  getEntriesForMode = (mode) => {
+    const { entriesSortedByDate, entriesSortedByHeader } = this.props;
 
-  filterEntries = (entries) => {
-    const { bookmark } = this.props;
-    if (bookmark.mode === 'entries') {
-      const datedEntries = this.filterEntriesByType(entries, 'dated');
-      return datedEntries;
+    if (mode === 'dated') {
+      return entriesSortedByHeader.filter(entry => entry.type === mode);
     }
-    if (bookmark.mode === 'collections') {
-      const collectionEntries = this.filterEntriesByType(entries, 'collection');
-      return collectionEntries;
-    }
-    return undefined;
-  }
 
+    if (mode === 'collection') {
+      return entriesSortedByHeader.filter(entry => entry.type === mode);
+    }
+
+    // By default, return all entries sorted by createdAt in desc order
+    return entriesSortedByDate;
+  }
 
   render() {
     const {
@@ -89,9 +108,9 @@ class SinglePage extends Component {
       classes,
       actions,
       bookmark,
-      entries,
     } = this.props;
-    const filteredEntries = this.filterEntries(entries);
+    const { mode, index } = bookmark;
+    const filteredEntries = this.getEntriesForMode(mode);
 
     return (
       loading
@@ -101,20 +120,31 @@ class SinglePage extends Component {
             <div className={classes.root}>
               <Grid container spacing={0} justify="center">
                 <Grid item xs={12} sm={8}>
-                  <Button size="small" variant="contained" color={this.modeButtonColor('entries')} className={classes.button} onClick={() => this.changeMode('entries', entries)}>
-                    <Icon>date_range</Icon>
-                    Entries
-                  </Button>
-                  <Button size="small" variant="contained" color={this.modeButtonColor('collections')} className={classes.button} onClick={() => this.changeMode('collections', entries)}>
-                    <Icon>list_alt</Icon>
-                    Collections
-                  </Button>
-                  <Button size="small" variant="contained" color={this.modeButtonColor('createdAt')} className={classes.button} onClick={() => this.changeMode('createdAt', entries)}>
-                    <Icon>access_time</Icon>
-                    Created At
-                  </Button>
+                  {
+                    modeControls.map((control) => {
+                      const { key, title, icon } = control;
+                      return (
+                        <Button
+                          key={control.key}
+                          size="small"
+                          variant="contained"
+                          color={this.getModeControlColor(key)}
+                          className={classes.button}
+                          onClick={() => this.onClickChangeMode(key)}
+                        >
+                          <Icon>{icon}</Icon>
+                          {title}
+                        </Button>
+                      );
+                    })
+                  }
                   <Paper className={classes.paper}>
-                    <Page type="DATED_SINGLE_PAGE" entryId={bookmark.index} mode={bookmark.mode} actions={actions} filteredEntries={filteredEntries} />
+                    <Page
+                      type="DATED_SINGLE_PAGE"
+                      entryId={index}
+                      actions={actions}
+                      entries={filteredEntries}
+                    />
                   </Paper>
                 </Grid>
               </Grid>
@@ -129,7 +159,8 @@ const dataSource = (props) => {
   Meteor.subscribe('entries');
 
   return {
-    entries: Entries.find({}, { sort: { header: -1 } }).fetch(),
+    entriesSortedByDate: Entries.find({}, { sort: { createdAt: -1 } }).fetch(),
+    entriesSortedByHeader: Entries.find({}, { sort: { header: -1 } }).fetch(),
   };
 };
 
