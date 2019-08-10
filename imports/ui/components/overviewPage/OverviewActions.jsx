@@ -9,7 +9,7 @@ import AddDialog from './AddDialog';
 
 const buttonStyles = makeStyles(theme => ({
   rightIcon: {
-    margin: theme.spacing(5),
+    marginLeft: theme.spacing(1),
   },
   button: {
     margin: theme.spacing(1),
