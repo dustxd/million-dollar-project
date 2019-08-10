@@ -45,10 +45,6 @@ class Results extends Component {
         {
           title: 'Actions',
           sorting: false,
-          headerStyle: {
-            display: 'flex',
-            justifyContent: 'center',
-          },
           cellStyle: {
             width: '84px',
             padding: '0 5px',
@@ -208,7 +204,7 @@ const dataSource = (props) => {
 
   let entriesWithLineItems = [];
   if (entriesHandler.ready()) {
-    entriesWithLineItems = Entries.find().fetch().map((entry) => {
+    entriesWithLineItems = Entries.find({}, { sort: { createdAt: -1 } }).fetch().map((entry) => {
       const lineItemsForEntry = LineItems.find({ entryId: entry._id }).fetch();
       const mutableEntry = Object.assign({}, entry, { lineItems: lineItemsForEntry });
       return mutableEntry;
