@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
+import customMuiStyles from '../css/customMuiStyles';
+
 const styles = {
   root: {
     flexGrow: 1,
-    backgroundColor: 'rgba(255,255,255,0.75)',
+    backgroundColor: customMuiStyles.TRANSLUCENT_PAPER,
   },
 };
 
