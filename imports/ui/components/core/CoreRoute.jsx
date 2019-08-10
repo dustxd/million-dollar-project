@@ -130,23 +130,6 @@ class CoreView extends React.Component {
           }
         </Tabs>
         <AccountDrawer onClickLogout={() => this.onClickSignout()}/>
-        <div>
-          <Tooltip title="Account" aria-label="Account">
-            <IconButton onClick={e => this.onClickOpenMenu(e)}>
-              <Icon color="secondary">account_circle</Icon>
-            </IconButton>
-          </Tooltip>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={() => this.onClickCloseMenu()}
-          >
-            <MenuItem onClick={() => this.onClickCloseMenu()}>My account</MenuItem>
-            <MenuItem onClick={() => this.onClickSignout()}>Logout</MenuItem>
-          </Menu>
-        </div>
       </AppBar>
     );
   }
