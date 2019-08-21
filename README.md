@@ -58,14 +58,14 @@ Add actions for sending a PUT request to the backend to save the updated message
    * Add actions to clear the redux state upon logout
    
 ## Prototype
-**Login Page**
+* **Login Page**
 ![Login Page](https://user-images.githubusercontent.com/10677430/58365568-37937a80-7e7b-11e9-8c27-7a84189b4bca.png)
 
-**Overview Page**
+* **Overview Page**
 ![mockup_Page_3](https://user-images.githubusercontent.com/10677430/58365624-e9cb4200-7e7b-11e9-8a3f-853a2652529d.png)
 
-**Spread View** _(Later on evolved to Page View displaying only one entry at a time)_
+* **Spread View** _(Later on evolved to Page View displaying only one entry at a time)_
 ![mockup_Page_1](https://user-images.githubusercontent.com/10677430/58365620-d8823580-7e7b-11e9-9634-be336e600455.png)
 
-**Week View**
+* **Week View**
 ![mockup_Page_2](https://user-images.githubusercontent.com/10677430/58365622-e2a43400-7e7b-11e9-8767-7337a69151ba.png)
