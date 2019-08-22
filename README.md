@@ -108,24 +108,25 @@ We mainly used Meteor as a means to read from and write to the database and made
 
 ### Unit 4 NoSQL and MongoDB
 
-*   We used MongoDB as our database and made use of query selectors to read and write data. The database is remotely hosted on Atlas cluster.
+*   We used MongoDB as our database and made use of query selectors that we learnt in class to read and write data
+*   The database is remotely hosted on Atlas as a cluster with read-and-write access limited to only our team
 
 ### Unit 5 Release engineering
 
 *   The application is deployed on Herokuapp: [https://themilliondollarproject.herokuapp.com](https://themilliondollarproject.herokuapp.com)
-*   We set up deployment environment variables on Herokuapp and enabled continuous deployment for master branch. During the sprint, we made our own branches to develop features and created pull requests to review each other’s changes. At the end of each sprint, we reviewed the overall changes and tested the new changes with the most updated version of master branch before actually merging our changes for the sprint into master. Hence, master is typically built and deployed once at the end of each sprint. 
+*   We set up deployment environment variables on Herokuapp and enabled continuous deployment for master branch. During the sprint, we made our own branches to develop features and created pull requests to review each other’s changes. At the end of each sprint, we reviewed the overall changes and tested the new changes with the most updated version of master branch before actually merging our changes for the sprint into master. Hence, master is typically built and deployed once at the end of each sprint.
 
 
 ## Basic Contribution Requirements
 
-*   Candice’s contributions to this project were mostly on the overall architecture. This includes designing the underlying project structure, connecting the different parts of the application together (front-end to back-end and back-end with the database) components interact with each other
+*   Candice’s contributions to this project were mostly on laying out the overall architecture and leading the implementation of the functional requirements. This includes translating user requirements into specific structural goals, setting up project configurations, designing the underlying project structure, connecting the different parts of the application together (front-end to back-end and back-end with the database), and determining how React components should interact with each other, etc. She also focused on ensuring that the web application is functional at all times, keeping the development process to be on par with industry standards, and improving the code quality by enforcing object oriented design principles.
 *   Nerine's contributions to this project focuses on implementing features to improve user experience. This includes implementing the page redirect features and page flip features, utilizing redux to bookmark the user's current page. Nerine also created the skeleton for the overview page and search page by researching and utilizing components from Material UI. On the administration side, Nerine partook in project management, organizing meeting dates and assisting with project documents. 
 *   Sarah’s contributions to this project include UI/UX design, providing user stories, and ensure consistent branding throughout the app. She led the visual experience of the app, from sharing her love for bullet journaling, to sketching the product prototype, to applying Material UI to the app. Specifically, she used Adobe XD to prototype user experience, created the hierarchy of the various React components of the journal page, integrated Material UI React components and user interactions (tabs, app drawer, translucent page container, buttons), curated background images and inspirational quotes, and managed the app’s overall theme. She also helped with meeting minutes, documentation, and some manual testing.
 
 
 ## Basic Functionality Requirements
 
-The Bullet Journaling App is a digital implementation of Ryder Caroll's Bullet Journal Method. The target audience of this app is existing bullet journalists who want to focus more on journaling rather than making their journal look presentable. Our app solves some main problems that paper journals have. Though our app is not made for non-bullet-journalists, they  can still use the app as an agenda and to-do list manager with search functionality.
+The Bullet Journaling App is a digital implementation of Ryder Caroll's Bullet Journal Method. The target audience of this app is existing bullet journalists who want to focus more on journaling rather than making their journal look presentable. Our app solves some main problems that paper journals have (see below). Although our app is not made for non-bullet-journalists, they can still use the app as an agenda and to-do list manager with search functionality to manage their tasks more efficiently.
 
 
 ### **Search**
@@ -171,6 +172,7 @@ Generally, things are sorted by the time they were created. However, since we al
 *   Solution process: Researched on how Meteor uses MiniMongo and read a lot of the related official documentation and tutorials. Then as a team, we mapped out our understanding about the process and flow to pinpoint issues. Also seeked for help from TAs and classmates.
 *   Final resolution: Restored changes and did things one at a time. We made sure that everything is working before proceeding to the next step.
 *   Satisfaction: We saw the importance of having good commits, which helped us restore the changes easily. Scoping down changes reduced variability and made the process a lot smoother.
+*   Lesson learned: When tackling a complicated task, we should stay focused in one goal at a time. It is important to reduce variability by defining the scope of changes and outline the steps needed to achieve a goal.
 
 ### Future Directions
 
@@ -193,11 +195,13 @@ Generally, things are sorted by the time they were created. However, since we al
 ### Implemented our own login and sign up interface
 
 *   Maintained consistent branding across the application by using Material UI for authentication instead of using the default accounts-password interface
+*   Did extensive research on understanding the different requirements about secure authorization to handle the Meteor authentication connection to our own customized components
 
 ### Adopted industry practice by using the Agile methodology
 
-*   Kept track of issues and individual tasks
-*   Created pull requests, performed code review before merging into master
+*   Planned and kept track of issues and individual tasks for each sprint
+*   Created pull requests and performed code reviews
+*   Only merged into master after carefully testing changes with the latest version of master each sprint
 
 ### Set up eslint using airbnb style and used redux dev tools to inspect state
 
