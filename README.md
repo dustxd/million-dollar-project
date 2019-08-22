@@ -1,9 +1,10 @@
 # A Million Dollar Project
 
+A Bullet Journaling App created by [Candice Pang](https://github.com/dustxd), [Nerine Law](https://github.com/nerinelaw), [Sarah Ng](https://github.com/sarahngg)
+
 ## Project Description
 
-The project aims to resolve some of the common issues faced by bullet journalists: time-consuming styling, difficulty to look up an item, inflexibility in adding, editing, or deleting pages, etc. Bullet journals are known for its systematic approach to help planning and prioritization. By digitizing bullet journals, we are striving for improvements in usability and flexibility. Most data will be in the form of text and date/time. The system would require users to register and sign in before using. Users can primarily filter, search, view, add, edit, and delete the entries. 
-Additional functionalities may include displaying page number like, uploading images, allowing users to publicize or share their bullet journals, etc.
+The project aims to resolve some of the common issues faced by bullet journalists: time-consuming styling, difficulty to look up an item, inflexibility in adding, editing, or deleting pages, etc. Bullet journals are known for its systematic approach to help planning and prioritization. By digitizing bullet journals, we are striving for improvements in usability and flexibility. Most data will be in the form of text and date/time. The system would require users to register and sign in before using. Users can primarily filter, search, view, add, edit, and delete the entries. Additional functionalities may include displaying page number like, uploading images, allowing users to publicize or share their bullet journals, etc.
 
 ## Project Task Requirements
 
@@ -89,27 +90,27 @@ We mainly used Meteor as a means to read from and write to the database and made
 
 ## Basic Technology Requirements
 
-Unit 1 HTML5/CSS/JavaScript intro 
+### Unit 1 HTML5/CSS/JavaScript intro 
 
 *   Used CSS in JS for Material UI and Javascript ES6 (originally used pure CSS but replaced with Material UI later in the project)
 *   Integrated different libraries that are highly customizable for complex functionalities into our web application
     *   moment for handling date locales and material-ui-pickers
     *   material-table for organizing, searching, and filtering data dynamically
 
-Unit 2 React, Redux, Meteor front-end
+### Unit 2 React, Redux, Meteor front-end
 
 *   Used redux to keep track of loading, user, and page index states
 *   Meteor’s subscribe method for displaying entries and lineItems in the front end
 
-Unit 3 NodeJS and Meteor back-end
+### Unit 3 NodeJS and Meteor back-end
 
 *   Used Meteor’s publish and publishComposite to push data to the client
 
-Unit 4 NoSQL and MongoDB
+### Unit 4 NoSQL and MongoDB
 
 *   We used MongoDB as our database and made use of query selectors to read and write data. The database is remotely hosted on Atlas cluster.
 
-Unit 5 Release engineering
+### Unit 5 Release engineering
 
 *   The application is deployed on Herokuapp: [https://themilliondollarproject.herokuapp.com](https://themilliondollarproject.herokuapp.com)
 *   We set up deployment environment variables on Herokuapp and enabled continuous deployment for master branch. During the sprint, we made our own branches to develop features and created pull requests to review each other’s changes. At the end of each sprint, we reviewed the overall changes and tested the new changes with the most updated version of master branch before actually merging our changes for the sprint into master. Hence, master is typically built and deployed once at the end of each sprint. 
@@ -146,12 +147,11 @@ Traditionally, paper bullet journalists would need to set up their journal by dr
 
 Since journal entries can contain sensitive information, we require users to create accounts and login before they can start adding entries. And each account can only see entries that were created using that specific account.
 
-
 ## Challenges, learning, and future directions
 
-Challenges and learning
+### Challenges and learning
 
-Challenge 1: Sorting dated entries by display date and sorting collections by date created
+#### Challenge 1: Sorting dated entries by display date and sorting collections by date created
 
 Generally, things are sorted by the time they were created. However, since we allow users to journal about a different date, the created date of the entry and the display date (the date the entry is about) may be different. If a user create an entry about last Monday, the entry would be sorted by the created date (today) rather than using the display date. 
 
@@ -162,7 +162,7 @@ Generally, things are sorted by the time they were created. However, since we al
 *   Satisfaction: Allows for users to sort through entries more intuitively and efficiently
 *   Lesson learned: We learned to develop a more extensive user story and to ask for potential user feedback when developing features for a user-centered application.
 
-Challenge 2: Connecting Meteor application to remote MongoDB server
+#### Challenge 2: Connecting Meteor application to remote MongoDB server
 
 *   Significance: Without the connection, the app could only display dummy data and lacked user interaction.
 *   Cause:
@@ -172,7 +172,7 @@ Challenge 2: Connecting Meteor application to remote MongoDB server
 *   Final resolution: Restored changes and did things one at a time. We made sure that everything is working before proceeding to the next step.
 *   Satisfaction: We saw the importance of having good commits, which helped us restore the changes easily. Scoping down changes reduced variability and made the process a lot smoother.
 
-Future Directions
+### Future Directions
 
 *   Aesthetic customization abilities: We hope to add functionalities such as changing the app color themes and allowing image insertions in journal entries. 
 *   Pagination: As scaling user growth was not explicitly addressed in the course, we would like to explore approaches to most effectively paginate the user entries.
@@ -184,24 +184,22 @@ Future Directions
 
 ## Initiative and additional contributions
 
-_The documentation highlights how the team’s contributions go above and beyond simply incorporating each learned technology, and that additional contribution is reflected in the project. This may be in excelling in one or more technologies we did learn, in integrating these into a particularly impactful project, or in integrating with additional technologies the team explored over the term._
-
-Integrated Material UI and using CSS in JS to style app rather than pure CSS
+### Integrated Material UI and using CSS in JS to style app rather than pure CSS
 
 *   Used Material UI for greater UI consistency by making use of themes
 *   Read additional documentation and example code to learn how to implement Material UI
 *   Created additional components/integrated existing components with Material UI components
 
-Implemented our own login and sign up interface
+### Implemented our own login and sign up interface
 
 *   Maintained consistent branding across the application by using Material UI for authentication instead of using the default accounts-password interface
 
-Adopted industry practice by using the Agile methodology
+### Adopted industry practice by using the Agile methodology
 
 *   Kept track of issues and individual tasks
 *   Created pull requests, performed code review before merging into master
 
-Set up eslint using airbnb style and used redux dev tools to inspect state
+### Set up eslint using airbnb style and used redux dev tools to inspect state
 
 *   Learned proper Javascript ES6 syntax
 *   Maintained consistent code style for better readability, which made the debugging process more efficient
