@@ -2,13 +2,8 @@
 
 ## Project Description
 
-The project aims to resolve some of the common issues faced by bullet journalists: time-consuming styling, difficult 
-to look up for an item, inflexibility in adding, editing, or deleting pages, etc. Bullet journals are known for its 
-systematic approach to help planning and prioritization. By digitizing bullet journals, we are striving for improvements 
-in usability and flexibility. Most data will be in the form of text and date/time. The system would require users to 
-register and sign in before using. Users can primarily filter, search, view, add, edit, and delete the entries. 
-Additional functionalities may include pagination, uploading images, allowing users to publicize or share their bullet 
-journals, etc.
+The project aims to resolve some of the common issues faced by bullet journalists: time-consuming styling, difficulty to look up an item, inflexibility in adding, editing, or deleting pages, etc. Bullet journals are known for its systematic approach to help planning and prioritization. By digitizing bullet journals, we are striving for improvements in usability and flexibility. Most data will be in the form of text and date/time. The system would require users to register and sign in before using. Users can primarily filter, search, view, add, edit, and delete the entries. 
+Additional functionalities may include displaying page number like, uploading images, allowing users to publicize or share their bullet journals, etc.
 
 ## Project Task Requirements
 
@@ -30,7 +25,7 @@ journals, etc.
 | **Stretch Requirements** |
 | --- |
 | Allow for images to be uploaded and inserted |
-| Allow for user sharing and viewing | 
+| Allow for user sharing and viewing |
 
 ## Task Breakdown
 
@@ -56,7 +51,7 @@ Add actions for sending a PUT request to the backend to save the updated message
    * Add buttons to control different parts of the page (Need to finalize design first)
    * Add logout button
    * Add actions to clear the redux state upon logout
-   
+
 ## Prototype
 * **Login Page**
 ![Login Page](https://user-images.githubusercontent.com/10677430/58365568-37937a80-7e7b-11e9-8c27-7a84189b4bca.png)
@@ -69,3 +64,144 @@ Add actions for sending a PUT request to the backend to save the updated message
 
 * **Week View**
 ![mockup_Page_2](https://user-images.githubusercontent.com/10677430/58365622-e2a43400-7e7b-11e9-8767-7337a69151ba.png)
+
+## Glossary
+
+*   The Bullet Journal Method - A rapid-logging technique that pairs short sentences and symbols (bullets) for journaling and list-making.
+*   Entry - A container that holds the header, the bullets, and the line items that represent a list. Entries can be dated (i.e dated entry) or undated (i.e. collection).
+*   Dated entry - A date sensitive entry representing a journal entry or diary entry about a certain date. User can add a dated entry for a date that is not today.
+*   Collection - An entry that is generally not date sensitive, representing a to-do list or bulleted notes about a certain topic. For example, one could make a grocery list, bucket list, notes about React etc.
+*   Header - The title of an entry. For dated entries, the header is the date the entry is written about. For undated entries, or collections, the header is the topic of the entry.
+*   Created date - The create date is the time when an entry is created by the user. 
+*   Display date - The display date of a dated entry is the date that the entry is written about, which is shown in the header of the dated entry. The display date can be different from the created date. For example, if a user created an entry today but wrote about yesterday, the display date of the entry is yesterday but the created date is today.
+*   Bullet - A symbol in front of a short sentence representing the status of the text.
+*   Line item - A subitem of an entry, containing a bullet and a short sentence.
+*   Overview - A greeting page following the login screen. It contains the current time, a greeting message addressing the name of the user, an inspirational quote, and buttons to create new entries of various types.
+*   Week view - A view containing all the dated entries of a specific week from Monday to Sunday. User can add new dated entries to a date with no entries yet. Collections, or undated entries, are not shown in weekly view.
+*   Page view - A view displaying one entry at a time. It has full functionality such as add, edit, delete, and navigate to the next entry. It can display dated entries and collections.
+*   List view - A concise view of all entries in a list form. List items display is limited to three items but user can expand the view, or even redirect to the entry in page view for editing. Search functionality is implemented in the search bar in this view. 
+
+
+## Code Style
+
+We mainly used Meteor as a means to read from and write to the database and made use of optimistic UI by using the withTracker function to reflect real time changes and apply query options/selectors on the client side. The client side methods are centralized in ui/actions/index.js. We use redux as a means to keep track of other information: loading, user, and page index states. We have our reducers organized and exported as a RootReducer from ui/reducers/index.js, which is persisted throughout the storage session, so that the information is not lost on page refresh. We used the connect function to map the Redux state to props in App.jsx, which is where we handle the routing for navigation and passed the relevant props to the children components (the different pages that we have in the app). Our components are organized based on different pages except for core, which is meant for any components that appear on multiple pages such as the AppBar and AccountDrawer. Next, on the backend side, we publish data to the client side whenever the user is logged in and actually has the permission to perform whatever action request that they sent to the backend. We used publishComposite when we needed to link two collections together for organizing the data into a set of useful and relevant information for the client subscribers. Again, we made use of MongoDB’s query selectors for finding and filtering information requested by the client, so that we only publish what the client needs, not everything all at once. 
+
+
+## Basic Technology Requirements
+
+Unit 1 HTML5/CSS/JavaScript intro 
+
+*   Used CSS in JS for Material UI and Javascript ES6 (originally used pure CSS but replaced with Material UI later in the project)
+*   Integrated different libraries that are highly customizable for complex functionalities into our web application
+    *   moment for handling date locales and material-ui-pickers
+    *   material-table for organizing, searching, and filtering data dynamically
+
+Unit 2 React, Redux, Meteor front-end
+
+*   Used redux to keep track of loading, user, and page index states
+*   Meteor’s subscribe method for displaying entries and lineItems in the front end
+
+Unit 3 NodeJS and Meteor back-end
+
+*   Used Meteor’s publish and publishComposite to push data to the client
+
+Unit 4 NoSQL and MongoDB
+
+*   We used MongoDB as our database and made use of query selectors to read and write data. The database is remotely hosted on Atlas cluster.
+
+Unit 5 Release engineering
+
+*   The application is deployed on Herokuapp: [https://themilliondollarproject.herokuapp.com](https://themilliondollarproject.herokuapp.com)
+*   We set up deployment environment variables on Herokuapp and enabled continuous deployment for master branch. During the sprint, we made our own branches to develop features and created pull requests to review each other’s changes. At the end of each sprint, we reviewed the overall changes and tested the new changes with the most updated version of master branch before actually merging our changes for the sprint into master. Hence, master is typically built and deployed once at the end of each sprint. 
+
+
+## Basic Contribution Requirements
+
+*   Candice’s contributions to this project were mostly on the overall architecture. This includes designing the underlying project structure, connecting the different parts of the application together (front-end to back-end and back-end with the database) components interact with each other
+*   Nerine's contributions to this project focuses on implementing features to improve user experience. This includes implementing the page redirect features and page flip features, utilizing redux to bookmark the user's current page. Nerine also created the skeleton for the overview page and search page by researching and utilizing components from Material UI. On the administration side, Nerine partook in project management, organizing meeting dates and assisting with project documents. 
+*   Sarah’s contributions to this project include UI/UX design, providing user stories, and ensure consistent branding throughout the app. She led the visual experience of the app, from sharing her love for bullet journaling, to sketching the product prototype, to applying Material UI to the app. Specifically, she used Adobe XD to prototype user experience, created the hierarchy of the various React components of the journal page, integrated Material UI React components and user interactions (tabs, app drawer, translucent page container, buttons), curated background images and inspirational quotes, and managed the app’s overall theme. She also helped with meeting minutes, documentation, and some manual testing.
+
+
+## Basic Functionality Requirements
+
+The Bullet Journaling App is a digital implementation of Ryder Caroll's Bullet Journal Method. The target audience of this app is existing bullet journalists who want to focus more on journaling rather than making their journal look presentable. Our app solves some main problems that paper journals have. Though our app is not made for non-bullet-journalists, they  can still use the app as an agenda and to-do list manager with search functionality.
+
+
+### **Search**
+
+It is no doubt that searching for a specific keyword in a paper journal is a tedious job. With our app, searching is quick and simple. User can search for any keyword or dates they used in their journal entries in the List View search bar.
+
+
+### Fixing Mistakes and Aesthetic Presentation
+
+For many people, setting up a paper bullet journal takes a lot of focus and can easily cause [mistakes](https://i1.wp.com/www.bohoberry.com/wp-content/uploads/2017/02/IMG_5442.png?w=1280) if not done properly. Since bullet journalists generally love to have presentable journals and tend to have low tolerance for aesthetic errors, they would spend more time covering up and fixing these mistakes. Some common fixes include starting over on a new page, covering the mistakes with another piece of paper or decorative tape, or even gluing two pages together to get rid of the eye sore. Our app would allow the users to correct mistakes instantly while adopting a minimalist and presentable aesthetic, using Material UI and consistent branding. 
+
+
+### Various Views
+
+Traditionally, paper bullet journalists would need to set up their journal by drawing the various standardized pages (index, monthly, daily view) in their journals specified in the Bullet Journal Method, which could be automated in its digital form. Effortlessly, our app displays the journal entries in multiple views (weekly, daily, list) and replaces the index page with our search functionality in List View. It automates the set up according to the Bullet Journal Method, which involves using different views to keep track of habits and goals effectively.
+
+
+### Personal Information
+
+Since journal entries can contain sensitive information, we require users to create accounts and login before they can start adding entries. And each account can only see entries that were created using that specific account.
+
+
+## Challenges, learning, and future directions
+
+Challenges and learning
+
+Challenge 1: Sorting dated entries by display date and sorting collections by date created
+
+Generally, things are sorted by the time they were created. However, since we allow users to journal about a different date, the created date of the entry and the display date (the date the entry is about) may be different. If a user create an entry about last Monday, the entry would be sorted by the created date (today) rather than using the display date. 
+
+*   Significance: If users created a dated entry to journal about a previous or future date, the entry would not be displayed in the date order it was written about.
+*   Cause: Having two different types of entries - entries and collections which were being sorted by the time the entry was created at
+*   Solution process: Surveyed our code review section to determine how dated entries should be sorted 
+*   Final resolution: Modified the data structure: sort dated entries by date (header) and collections by date created 
+*   Satisfaction: Allows for users to sort through entries more intuitively and efficiently
+*   Lesson learned: We learned to develop a more extensive user story and to ask for potential user feedback when developing features for a user-centered application.
+
+Challenge 2: Connecting Meteor application to remote MongoDB server
+
+*   Significance: Without the connection, the app could only display dummy data and lacked user interaction.
+*   Cause:
+    *   Turned off `autopublish` and insecure packages too early on - we could not figure out why the data wasn’t returning
+    *   Meteor has local instance of MongoDB integrated, so there were not a lot of tutorials out there specifically for connecting a Meteor react app to a remote MongoDB server like Atlas
+*   Solution process: Researched on how Meteor uses MiniMongo and read a lot of the related official documentation and tutorials. Then as a team, we mapped out our understanding about the process and flow to pinpoint issues. Also seeked for help from TAs and classmates.
+*   Final resolution: Restored changes and did things one at a time. We made sure that everything is working before proceeding to the next step.
+*   Satisfaction: We saw the importance of having good commits, which helped us restore the changes easily. Scoping down changes reduced variability and made the process a lot smoother.
+
+Future Directions
+
+*   Aesthetic customization abilities: We hope to add functionalities such as changing the app color themes and allowing image insertions in journal entries. 
+*   Pagination: As scaling user growth was not explicitly addressed in the course, we would like to explore approaches to most effectively paginate the user entries.
+*   Adding all editing functionalities to all views: We hope to allow add, edit, and delete entries and items in views other than the Page View. Currently, other views have some of the functionalities but not all.
+*   Sharing lists: Some users have requested the ability to share entries with others or to email themselves certain page, and we would love to address that as well.
+*   Mobile friendliness: We want to allow users to use the app on their mobile devices more effectively by adding mobile responsiveness to the various views of the app.
+*   Adding product landing page: We hope to add a product landing page to better describe what our app has to offer and display some use cases like a commercial app. Currently, user must make an account before being able to use the functionalities of our app. 
+
+
+## Initiative and additional contributions
+
+_The documentation highlights how the team’s contributions go above and beyond simply incorporating each learned technology, and that additional contribution is reflected in the project. This may be in excelling in one or more technologies we did learn, in integrating these into a particularly impactful project, or in integrating with additional technologies the team explored over the term._
+
+Integrated Material UI and using CSS in JS to style app rather than pure CSS
+
+*   Used Material UI for greater UI consistency by making use of themes
+*   Read additional documentation and example code to learn how to implement Material UI
+*   Created additional components/integrated existing components with Material UI components
+
+Implemented our own login and sign up interface
+
+*   Maintained consistent branding across the application by using Material UI for authentication instead of using the default accounts-password interface
+
+Adopted industry practice by using the Agile methodology
+
+*   Kept track of issues and individual tasks
+*   Created pull requests, performed code review before merging into master
+
+Set up eslint using airbnb style and used redux dev tools to inspect state
+
+*   Learned proper Javascript ES6 syntax
+*   Maintained consistent code style for better readability, which made the debugging process more efficient
